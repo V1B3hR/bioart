@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Refactored DNA Programming Language Demo
+Refactored Bioartlan Programming Language Demo
 Demonstrates the improved modular architecture and new features
 """
 
@@ -11,7 +11,7 @@ import time
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from dna_language import DNALanguage, create_dna_language
+from bioartlan_language import BioartlanLanguage, create_bioartlan_language
 from core.encoding import DNAEncoder
 from vm.instruction_set import DNAInstructionSet, InstructionType
 from vm.virtual_machine import VMState
@@ -28,7 +28,7 @@ def demo_version_info():
     print("📋 System Information")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     stats = dna_lang.get_system_statistics()
     
     print(f"Version: {stats['language_info']['version']}")
@@ -95,7 +95,7 @@ def demo_advanced_programs():
     print("🧪 Advanced DNA Programs")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     
     # Complex program examples
     programs = {
@@ -131,7 +131,7 @@ def demo_debugging_features():
     print("🐛 Debugging Features")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     
     # Enable debug mode
     dna_lang.set_debug_mode(True)
@@ -166,7 +166,7 @@ def demo_file_management():
     print("📁 File Management")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     
     # Save a sample program
     sample_program = "AAAU UACA AAUG AAGA"  # Hello World
@@ -206,7 +206,7 @@ def demo_performance_benchmarks():
     print("⚡ Performance Benchmarks")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     
     # Test different data sizes
     test_sizes = [100, 1000, 10000]
@@ -232,7 +232,7 @@ def demo_validation_features():
     print("✅ Validation Features")
     print("-" * 30)
     
-    dna_lang = create_dna_language()
+    dna_lang = create_bioartlan_language()
     
     # Test various DNA sequences
     test_sequences = [

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Advanced DNA Programming Language Test Suite
+Advanced Bioartlan Programming Language Test Suite
 Comprehensive testing including edge cases, stress tests, and validation
 """
 
@@ -8,14 +8,17 @@ import sys
 import os
 import random
 import time
-from dna_lang import DNALang
+
+# Add src to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+from bioartlan import Bioartlan
 
 def test_edge_cases():
     """Test edge cases and boundary conditions"""
     print("🔬 Advanced Test Suite - Edge Cases")
     print("=" * 50)
     
-    dna = DNALang()
+    dna = Bioartlan()
     
     # Test 1: All possible byte values
     print("1. Testing all 256 possible byte values...")
@@ -98,7 +101,7 @@ def test_programming_features():
     print("\n🧬 Programming Features Test")
     print("=" * 50)
     
-    dna = DNALang()
+    dna = Bioartlan()
     
     # Test 1: Complex mathematical program
     print("1. Complex mathematical program test...")
@@ -161,7 +164,7 @@ def test_interoperability():
     print("\n🔗 Interoperability Tests")
     print("=" * 50)
     
-    dna = DNALang()
+    dna = Bioartlan()
     
     # Test 1: Different text encodings
     print("1. Text encoding compatibility...")
@@ -232,7 +235,7 @@ def test_performance():
     print("\n⚡ Performance Tests")
     print("=" * 50)
     
-    dna = DNALang()
+    dna = Bioartlan()
     
     # Test 1: Encoding speed
     print("1. Encoding speed test...")

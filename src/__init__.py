@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-DNA Programming Language - Refactored Version 2.0
-High-performance modular DNA programming language implementation
+Bioartlan Programming Language - Refactored Version 2.0
+High-performance modular bioartlan programming language implementation
 """
 
 __version__ = "2.0.0-refactored"
-__author__ = "DNA Programming Language Project"
+__author__ = "Bioartlan Programming Language Project"
 __license__ = "MIT"
 
 # Import main components for easy access
-from .dna_language import DNALanguage, create_dna_language, quick_execute, quick_encode, quick_decode
+from .bioartlan_language import BioartlanLanguage, create_bioartlan_language, quick_execute, quick_encode, quick_decode
 from .core.encoding import DNAEncoder, encode_bytes, decode_dna, encode_string, decode_to_string
 from .vm.virtual_machine import DNAVirtualMachine, create_vm, VMState
 from .vm.instruction_set import DNAInstructionSet, get_instruction, is_valid_instruction
@@ -44,8 +44,8 @@ def get_version_info():
     return VERSION_INFO.copy()
 
 def create_default_system():
-    """Create a default DNA language system with standard configuration"""
-    return DNALanguage(memory_size=256, register_count=4)
+    """Create a default bioartlan language system with standard configuration"""
+    return BioartlanLanguage(memory_size=256, register_count=4)
 
 # Package-level convenience functions
 def encode_text_to_dna(text: str) -> str:
@@ -63,7 +63,7 @@ def run_dna_program(dna_code: str) -> dict:
 # Export all public components
 __all__ = [
     # Main classes
-    'DNALanguage',
+    'BioartlanLanguage',
     'DNAEncoder', 
     'DNAVirtualMachine',
     'DNAInstructionSet',
@@ -74,7 +74,7 @@ __all__ = [
     'VMState',
     
     # Factory functions
-    'create_dna_language',
+    'create_bioartlan_language',
     'create_vm',
     'create_default_system',
     

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Repository Test Script
-Verifies that the DNA Programming Language repository is set up correctly
+Verifies that the Bioartlan Programming Language repository is set up correctly
 """
 
 import sys
@@ -9,7 +9,7 @@ import os
 
 def test_repository_structure():
     """Test that all required files and directories exist"""
-    print("🧬 DNA Programming Language - Repository Test")
+    print("🧬 Bioartlan Programming Language - Repository Test")
     print("=" * 50)
     
     required_files = [
@@ -17,7 +17,7 @@ def test_repository_structure():
         "LICENSE", 
         ".gitignore",
         "requirements.txt",
-        "src/dna_lang.py",
+        "src/bioartlan.py",
         "examples/dna_demo.py",
         "examples/program.dna",
         "tests/advanced_tests.py",
@@ -49,11 +49,11 @@ def test_imports():
     
     try:
         sys.path.insert(0, 'src')
-        from dna_lang import DNALang
-        print("   ✓ DNALang imported successfully")
+        from bioartlan import Bioartlan
+        print("   ✓ Bioartlan imported successfully")
         
         # Test basic functionality
-        dna = DNALang()
+        dna = Bioartlan()
         test_seq = dna.byte_to_dna(72)  # 'H'
         restored = dna.dna_to_byte(test_seq)
         
@@ -78,7 +78,7 @@ def test_examples():
     try:
         # Test demo script
         sys.path.insert(0, 'examples')
-        from dna_demo import dna_encode_demo
+        from dna_demo import bioartlan_encode_demo
         print("   ✓ Demo script imports successfully")
         return True
         
@@ -118,7 +118,7 @@ def test_documentation():
 
 def run_repository_tests():
     """Run all repository tests"""
-    print("Testing DNA Programming Language repository setup...\n")
+    print("Testing Bioartlan Programming Language repository setup...\n")
     
     tests = [
         ("Repository Structure", test_repository_structure),
@@ -141,10 +141,10 @@ def run_repository_tests():
     
     if passed == total:
         print("✅ REPOSITORY SETUP SUCCESSFUL")
-        print("\nThe DNA Programming Language repository is ready to use!")
+        print("\nThe Bioartlan Programming Language repository is ready to use!")
         print("\nQuick start:")
         print("  python examples/dna_demo.py")
-        print("  python src/dna_lang.py")
+        print("  python src/bioartlan.py")
         return True
     else:
         print("❌ REPOSITORY SETUP ISSUES DETECTED")
