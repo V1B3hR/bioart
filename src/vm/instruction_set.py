@@ -1,0 +1,240 @@
+#!/usr/bin/env python3
+"""
+DNA Virtual Machine Instruction Set
+Refactored instruction architecture with extensibility and performance
+"""
+
+from enum import Enum, auto
+from dataclasses import dataclass
+from typing import Dict, Callable, Any, Optional
+import struct
+
+class InstructionType(Enum):
+    """Instruction type enumeration"""
+    CONTROL = auto()
+    ARITHMETIC = auto()
+    MEMORY = auto()
+    IO = auto()
+    LOGIC = auto()
+
+@dataclass(frozen=True)
+class Instruction:
+    """Immutable instruction definition"""
+    opcode: int
+    name: str
+    dna_sequence: str
+    instruction_type: InstructionType
+    description: str
+    operand_count: int = 0
+    cycles: int = 1
+
+class DNAInstructionSet:
+    """
+    Refactored DNA instruction set with improved architecture
+    """
+    
+    # Core instruction definitions
+    INSTRUCTIONS = {
+        # Control Instructions
+        0x00: Instruction(0x00, "NOP", "AAAA", InstructionType.CONTROL, "No Operation", 0, 1),
+        0x09: Instruction(0x09, "JMP", "AACU", InstructionType.CONTROL, "Jump", 1, 2),
+        0x0A: Instruction(0x0A, "JEQ", "AACC", InstructionType.CONTROL, "Jump if Equal", 2, 2),
+        0x0B: Instruction(0x0B, "JNE", "AACG", InstructionType.CONTROL, "Jump if Not Equal", 2, 2),
+        0x0C: Instruction(0x0C, "HALT", "AAGA", InstructionType.CONTROL, "Halt Program", 0, 1),
+        
+        # Memory Instructions  
+        0x01: Instruction(0x01, "LOAD", "AAAU", InstructionType.MEMORY, "Load Value", 1, 2),
+        0x02: Instruction(0x02, "STORE", "AAAC", InstructionType.MEMORY, "Store Value", 1, 2),
+        0x0D: Instruction(0x0D, "LOADR", "AAGU", InstructionType.MEMORY, "Load from Register", 1, 1),
+        0x0E: Instruction(0x0E, "STORER", "AAGC", InstructionType.MEMORY, "Store to Register", 1, 1),
+        
+        # Arithmetic Instructions
+        0x03: Instruction(0x03, "ADD", "AAAG", InstructionType.ARITHMETIC, "Add", 1, 1),
+        0x04: Instruction(0x04, "SUB", "AAUA", InstructionType.ARITHMETIC, "Subtract", 1, 1),
+        0x05: Instruction(0x05, "MUL", "AAUU", InstructionType.ARITHMETIC, "Multiply", 1, 3),
+        0x06: Instruction(0x06, "DIV", "AAUC", InstructionType.ARITHMETIC, "Divide", 1, 4),
+        0x0F: Instruction(0x0F, "MOD", "AAGG", InstructionType.ARITHMETIC, "Modulo", 1, 4),
+        0x10: Instruction(0x10, "INC", "AUCA", InstructionType.ARITHMETIC, "Increment", 0, 1),
+        0x11: Instruction(0x11, "DEC", "AUCU", InstructionType.ARITHMETIC, "Decrement", 0, 1),
+        
+        # Logic Instructions
+        0x12: Instruction(0x12, "AND", "AUCG", InstructionType.LOGIC, "Bitwise AND", 1, 1),
+        0x13: Instruction(0x13, "OR", "AUGG", InstructionType.LOGIC, "Bitwise OR", 1, 1),
+        0x14: Instruction(0x14, "XOR", "ACAA", InstructionType.LOGIC, "Bitwise XOR", 1, 1),
+        0x15: Instruction(0x15, "NOT", "ACAU", InstructionType.LOGIC, "Bitwise NOT", 0, 1),
+        
+        # I/O Instructions
+        0x07: Instruction(0x07, "PRINT", "AAUG", InstructionType.IO, "Print Output", 0, 5),
+        0x08: Instruction(0x08, "INPUT", "AACA", InstructionType.IO, "Input", 0, 10),
+        0x16: Instruction(0x16, "PRINTC", "ACAC", InstructionType.IO, "Print Character", 0, 5),
+        0x17: Instruction(0x17, "PRINTS", "ACAG", InstructionType.IO, "Print String", 1, 10),
+    }
+    
+    def __init__(self):
+        """Initialize instruction set with optimized lookup tables"""
+        self._opcode_to_instruction = self.INSTRUCTIONS.copy()
+        self._dna_to_instruction = {instr.dna_sequence: instr for instr in self.INSTRUCTIONS.values()}
+        self._name_to_instruction = {instr.name: instr for instr in self.INSTRUCTIONS.values()}
+        
+        # Performance optimization: cache frequently used lookups
+        self._dna_to_opcode_cache = {instr.dna_sequence: instr.opcode for instr in self.INSTRUCTIONS.values()}
+        self._opcode_to_dna_cache = {instr.opcode: instr.dna_sequence for instr in self.INSTRUCTIONS.values()}
+    
+    def get_instruction_by_opcode(self, opcode: int) -> Optional[Instruction]:
+        """Get instruction by opcode"""
+        return self._opcode_to_instruction.get(opcode)
+    
+    def get_instruction_by_dna(self, dna_sequence: str) -> Optional[Instruction]:
+        """Get instruction by DNA sequence"""
+        return self._dna_to_instruction.get(dna_sequence.upper())
+    
+    def get_instruction_by_name(self, name: str) -> Optional[Instruction]:
+        """Get instruction by name"""
+        return self._name_to_instruction.get(name.upper())
+    
+    def dna_to_opcode(self, dna_sequence: str) -> Optional[int]:
+        """Convert DNA sequence to opcode (optimized)"""
+        return self._dna_to_opcode_cache.get(dna_sequence.upper())
+    
+    def opcode_to_dna(self, opcode: int) -> Optional[str]:
+        """Convert opcode to DNA sequence (optimized)"""
+        return self._opcode_to_dna_cache.get(opcode)
+    
+    def is_valid_instruction(self, dna_sequence: str) -> bool:
+        """Check if DNA sequence is a valid instruction"""
+        return dna_sequence.upper() in self._dna_to_instruction
+    
+    def get_instructions_by_type(self, instruction_type: InstructionType) -> Dict[int, Instruction]:
+        """Get all instructions of a specific type"""
+        return {opcode: instr for opcode, instr in self.INSTRUCTIONS.items() 
+                if instr.instruction_type == instruction_type}
+    
+    def get_instruction_info(self, identifier: Any) -> Optional[dict]:
+        """Get comprehensive instruction information"""
+        instruction = None
+        
+        if isinstance(identifier, int):
+            instruction = self.get_instruction_by_opcode(identifier)
+        elif isinstance(identifier, str):
+            if len(identifier) == 4 and identifier.upper() in self._dna_to_instruction:
+                instruction = self.get_instruction_by_dna(identifier)
+            else:
+                instruction = self.get_instruction_by_name(identifier)
+        
+        if instruction:
+            return {
+                'opcode': instruction.opcode,
+                'name': instruction.name,
+                'dna_sequence': instruction.dna_sequence,
+                'type': instruction.instruction_type.name,
+                'description': instruction.description,
+                'operand_count': instruction.operand_count,
+                'cycles': instruction.cycles,
+                'binary': f'0x{instruction.opcode:02X}',
+                'binary_bits': f'{instruction.opcode:08b}'
+            }
+        return None
+    
+    def list_all_instructions(self) -> list:
+        """Get list of all instructions with details"""
+        return [self.get_instruction_info(opcode) for opcode in sorted(self.INSTRUCTIONS.keys())]
+    
+    def get_instruction_statistics(self) -> dict:
+        """Get instruction set statistics"""
+        type_counts = {}
+        total_cycles = 0
+        
+        for instruction in self.INSTRUCTIONS.values():
+            type_name = instruction.instruction_type.name
+            type_counts[type_name] = type_counts.get(type_name, 0) + 1
+            total_cycles += instruction.cycles
+        
+        return {
+            'total_instructions': len(self.INSTRUCTIONS),
+            'instruction_types': type_counts,
+            'average_cycles': total_cycles / len(self.INSTRUCTIONS),
+            'opcode_range': f'0x{min(self.INSTRUCTIONS.keys()):02X} - 0x{max(self.INSTRUCTIONS.keys()):02X}',
+            'coverage': f'{len(self.INSTRUCTIONS)}/256 ({len(self.INSTRUCTIONS)/256*100:.1f}%)'
+        }
+    
+    def validate_program(self, dna_program: str) -> tuple[bool, list]:
+        """Validate a DNA program against the instruction set"""
+        errors = []
+        sequences = dna_program.replace(' ', '').replace('\n', '')
+        
+        if len(sequences) % 4 != 0:
+            return False, [f"Program length {len(sequences)} is not multiple of 4"]
+        
+        for i in range(0, len(sequences), 4):
+            dna_seq = sequences[i:i+4]
+            if not self.is_valid_instruction(dna_seq):
+                errors.append(f"Invalid instruction at position {i//4}: {dna_seq}")
+        
+        return len(errors) == 0, errors
+    
+    def encode_instruction(self, name: str, *operands) -> bytes:
+        """Encode instruction with operands to bytecode"""
+        instruction = self.get_instruction_by_name(name)
+        if not instruction:
+            raise ValueError(f"Unknown instruction: {name}")
+        
+        if len(operands) != instruction.operand_count:
+            raise ValueError(f"Instruction {name} expects {instruction.operand_count} operands, got {len(operands)}")
+        
+        # Pack instruction and operands
+        bytecode = [instruction.opcode]
+        for operand in operands:
+            if isinstance(operand, int) and 0 <= operand <= 255:
+                bytecode.append(operand)
+            else:
+                raise ValueError(f"Invalid operand: {operand}")
+        
+        return bytes(bytecode)
+    
+    def disassemble_instruction(self, bytecode: bytes, offset: int = 0) -> tuple[Optional[str], int]:
+        """Disassemble single instruction from bytecode"""
+        if offset >= len(bytecode):
+            return None, offset
+        
+        opcode = bytecode[offset]
+        instruction = self.get_instruction_by_opcode(opcode)
+        
+        if not instruction:
+            return f"UNKNOWN 0x{opcode:02X}", offset + 1
+        
+        operands = []
+        next_offset = offset + 1
+        
+        for _ in range(instruction.operand_count):
+            if next_offset < len(bytecode):
+                operands.append(bytecode[next_offset])
+                next_offset += 1
+            else:
+                operands.append('??')
+        
+        if operands:
+            operand_str = ' ' + ' '.join(str(op) for op in operands)
+        else:
+            operand_str = ''
+        
+        return f"{instruction.name}{operand_str}", next_offset
+
+
+# Singleton instance for global use
+instruction_set = DNAInstructionSet()
+
+# Convenience functions
+def get_instruction(identifier: Any) -> Optional[Instruction]:
+    """Get instruction by opcode, DNA sequence, or name"""
+    if isinstance(identifier, int):
+        return instruction_set.get_instruction_by_opcode(identifier)
+    elif isinstance(identifier, str):
+        if len(identifier) == 4:
+            return instruction_set.get_instruction_by_dna(identifier)
+        else:
+            return instruction_set.get_instruction_by_name(identifier)
+    return None
+
+def is_valid_instruction(dna_sequence: str) -> bool:
+    """Check if DNA sequence is valid instruction"""
+    return instruction_set.is_valid_instruction(dna_sequence) 
