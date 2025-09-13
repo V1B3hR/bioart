@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-DNA Programming Language Demo Script
+Bioartlan Programming Language Demo Script
 Demonstrates Option 1: 2-bit encoding with maximum efficiency
 """
 
-def dna_encode_demo():
-    """Demonstrate DNA encoding/decoding capabilities"""
+def bioartlan_encode_demo():
+    """Demonstrate bioartlan encoding/decoding capabilities"""
     
     # 2-bit DNA encoding
     dna_to_bits = {'A': '00', 'U': '01', 'C': '10', 'G': '11'}
@@ -21,7 +21,7 @@ def dna_encode_demo():
         binary = format(byte_val, '08b')
         return ''.join(bits_to_dna[binary[i:i+2]] for i in range(0, 8, 2))
     
-    print("🧬 DNA Programming Language - Option 1 Demo")
+    print("🧬 Bioartlan Programming Language - Option 1 Demo")
     print("=" * 50)
     
     # Basic encoding demo
@@ -93,10 +93,10 @@ def dna_encode_demo():
     print(f"   Ratio: {len(dna_file)/len(data)} nucleotides per byte")
     print("   → Maximum density: 4 nucleotides = 1 byte")
 
-def dna_programming_demo():
-    """Demonstrate DNA programming capabilities"""
+def bioartlan_programming_demo():
+    """Demonstrate bioartlan programming capabilities"""
     
-    print("\n🧬 DNA Programming Instructions:")
+    print("\n🧬 Bioartlan Programming Instructions:")
     print("=" * 50)
     
     # DNA instruction set
@@ -133,8 +133,8 @@ def dna_programming_demo():
 
 def main():
     """Main demonstration function"""
-    dna_encode_demo()
-    dna_programming_demo()
+    bioartlan_encode_demo()
+    bioartlan_programming_demo()
     
     print("\n🎯 Key Benefits of Option 1:")
     print("✓ Maximum efficiency: 4 nucleotides per byte")
