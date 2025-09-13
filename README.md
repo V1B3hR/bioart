@@ -31,9 +31,19 @@ cd dna-programming-language
 ```bash
 # Run the interactive demonstration
 python examples/dna_demo.py
+make demo
 
 # Use the full interpreter
 python src/bioartlan.py
+make interpreter
+
+# Run comprehensive tests
+python run_tests.py
+make test
+
+# Run full simulation
+python run_full_simulation.py
+make all
 ```
 
 ## 📁 Repository Structure
@@ -51,6 +61,9 @@ bioartlan/
 ├── docs/
 │   ├── readme.txt           # Detailed documentation
 │   └── *.txt               # Test results and analysis
+├── run_tests.py            # Automated test runner
+├── run_full_simulation.py  # Full simulation script
+├── Makefile                # Build automation
 └── README.md               # This file
 ```
 
@@ -99,16 +112,63 @@ The system has undergone comprehensive testing with outstanding results:
 - **Data Processed**: Over 500KB in test scenarios
 - **Accuracy**: 100% across all conversion scenarios
 
-### Run Tests
+### Automated Test Runner
+
+**New!** Use the dedicated test runner for comprehensive testing:
 ```bash
-# Basic functionality tests
+# Run all tests with detailed progress reporting
+python run_tests.py
+
+# Or use the Makefile
+make test
+```
+
+### Full Simulation Script
+
+**New!** Execute complete system validation in one command:
+```bash
+# Run full simulation (demo + interpreter + all tests)
+python run_full_simulation.py
+
+# Or use the Makefile
+make all
+```
+
+### Individual Test Suites
+
+```bash
+# Interactive demonstration
 python examples/dna_demo.py
+make demo
+
+# Virtual machine interpreter
+python src/bioartlan.py
+make interpreter
 
 # Advanced test suite
 python tests/advanced_tests.py
+make advanced
 
 # Stress tests
 python tests/stress_tests.py
+make stress
+
+# Test example DNA program
+make example
+```
+
+### Example DNA Program
+
+The reference implementation includes this example program:
+```
+DNA Program: AAAU ACCC AAAG AACA AAUG AAGA
+Instructions: Load 42, Add 8, Print 50, Halt
+Expected Output: 50
+```
+
+Test it with:
+```bash
+make example
 ```
 
 ## 📊 Performance Metrics
