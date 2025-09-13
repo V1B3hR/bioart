@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-DNA Programming Language - Refactored Main Module
-Integrated high-performance DNA programming language with modular architecture
+Bioartlan Programming Language - Refactored Main Module
+Integrated high-performance bioartlan programming language with modular architecture
 """
 
 import os
@@ -16,14 +16,14 @@ from .vm.virtual_machine import DNAVirtualMachine, VMState
 from .compiler.dna_compiler import DNACompiler
 from .utils.file_manager import DNAFileManager
 
-class DNALanguage:
+class BioartlanLanguage:
     """
-    Main DNA Programming Language interface
-    Provides high-level API for DNA programming operations
+    Main Bioartlan Programming Language interface
+    Provides high-level API for bioartlan programming operations
     """
     
     def __init__(self, memory_size: int = 256, register_count: int = 4):
-        """Initialize DNA Language system"""
+        """Initialize Bioartlan Language system"""
         # Core components
         self.encoder = DNAEncoder()
         self.instruction_set = DNAInstructionSet()
@@ -311,21 +311,21 @@ class DNALanguage:
 
 
 # Convenience functions for direct use
-def create_dna_language(memory_size: int = 256, registers: int = 4) -> DNALanguage:
-    """Create a new DNA Language instance"""
-    return DNALanguage(memory_size, registers)
+def create_bioartlan_language(memory_size: int = 256, registers: int = 4) -> BioartlanLanguage:
+    """Create a new Bioartlan Language instance"""
+    return BioartlanLanguage(memory_size, registers)
 
 def quick_execute(dna_program: str) -> Dict[str, Any]:
     """Quick execution of DNA program"""
-    dna_lang = DNALanguage()
+    dna_lang = BioartlanLanguage()
     return dna_lang.execute_dna_program(dna_program)
 
 def quick_encode(data: str) -> str:
     """Quick encoding of text to DNA"""
-    dna_lang = DNALanguage()
+    dna_lang = BioartlanLanguage()
     return dna_lang.encode_string(data)
 
 def quick_decode(dna_sequence: str) -> str:
     """Quick decoding of DNA to text"""
-    dna_lang = DNALanguage()
-    return dna_lang.decode_string(dna_sequence) 
+    dna_lang = BioartlanLanguage()
+    return dna_lang.decode_string(dna_sequence)

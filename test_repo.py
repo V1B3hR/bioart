@@ -17,7 +17,7 @@ def test_repository_structure():
         "LICENSE", 
         ".gitignore",
         "requirements.txt",
-        "src/dna_lang.py",
+        "src/bioartlan.py",
         "examples/dna_demo.py",
         "examples/program.dna",
         "tests/advanced_tests.py",
@@ -49,11 +49,11 @@ def test_imports():
     
     try:
         sys.path.insert(0, 'src')
-        from dna_lang import DNALang
-        print("   ✓ DNALang imported successfully")
+        from bioartlan import Bioartlan
+        print("   ✓ Bioartlan imported successfully")
         
         # Test basic functionality
-        dna = DNALang()
+        dna = Bioartlan()
         test_seq = dna.byte_to_dna(72)  # 'H'
         restored = dna.dna_to_byte(test_seq)
         
