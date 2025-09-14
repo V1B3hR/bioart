@@ -68,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automated testing guide (`docs/automated_testing_guide.md`)
   - Test result files and analysis
 - **Build System**: Makefile with automated build and test targets
-- **File Format Support**: 
+- **File Format Support**:
   - `.dna` files for DNA programs
   - Binary and text format conversion
   - Universal file compatibility

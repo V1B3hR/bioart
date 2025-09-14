@@ -4,8 +4,8 @@
 
 This document defines the container format specifications for Bioartlan DNA programs, covering the current implicit format (v1) and the planned future container format (v2) for enhanced metadata, error correction, and biological compatibility.
 
-**Current Version**: 1.0 (Implicit Format)  
-**Planned Version**: 2.0 (Container Format)  
+**Current Version**: 1.0 (Implicit Format)
+**Planned Version**: 2.0 (Container Format)
 **Target Migration**: Phase 2 Development (Q3-Q4 2025)
 
 ---
@@ -52,7 +52,7 @@ The current Bioartlan format uses a simple, implicit structure without explicit 
 ```
 Nucleotide Encoding:
 A = 00 (binary)
-U = 01 (binary)  
+U = 01 (binary)
 C = 10 (binary)
 G = 11 (binary)
 
@@ -108,7 +108,7 @@ ASCII:        "Bio" (when interpreted as modified ASCII)
 ```
 Format: XYZW
 X: Major version (0-3)
-Y: Minor version (0-3)  
+Y: Minor version (0-3)
 Z: Patch version (0-3)
 W: Extension flags (0-3)
 
@@ -137,7 +137,7 @@ Example: AAAUUCGGUUAACCGG = 0x1234ABCD5678EF90
 ```
 Format: XYZW
 X: ECC Type (0=None, 1=Hamming, 2=Reed-Solomon, 3=Custom)
-Y: ECC Strength (0=Disabled, 1=Low, 2=Medium, 3=High) 
+Y: ECC Strength (0=Disabled, 1=Low, 2=Medium, 3=High)
 Z: Block Size (0=64, 1=128, 2=256, 3=512 nucleotides)
 W: Reserved for future use
 
@@ -151,7 +151,7 @@ Entry:  [Type:4nt][Offset:8nt][Length:8nt][Checksum:8nt]
 
 Block Types:
 AAAA = Metadata Block
-AAAU = Instruction Block  
+AAAU = Instruction Block
 AAAC = Constants Block
 AAAG = Resources Block
 AAUA = Debug Information Block
@@ -175,7 +175,7 @@ Language Features:  Feature flags bitfield
 ```
 Author Information: Name, email, organization
 License:           License identifier and text
-Description:       Program purpose and functionality  
+Description:       Program purpose and functionality
 Usage:             Command-line arguments and options
 Examples:          Sample usage patterns
 Dependencies:      Required libraries and versions
@@ -191,7 +191,7 @@ ECC:     Applied per ECC configuration
 Compression: Optional (specified in header flags)
 ```
 
-#### Constants Block  
+#### Constants Block
 ```
 Content: Literal values, strings, lookup tables
 Format:  [Type:2nt][Length:4nt][Data:Variable]
@@ -255,7 +255,7 @@ Optional: Can be stripped for production releases
 
 #### Hamming Codes
 - **Use Case**: Single-bit error correction
-- **Overhead**: 12.5% (4 check nucleotides per 32 data nucleotides)  
+- **Overhead**: 12.5% (4 check nucleotides per 32 data nucleotides)
 - **Performance**: Fast encoding/decoding
 - **Biological**: Good for synthesis errors
 
@@ -278,10 +278,10 @@ Optional: Can be stripped for production releases
 class ECCProcessor:
     def encode_block(self, data: str, ecc_type: ECCType) -> str:
         """Add error correction to DNA block"""
-        
+
     def decode_block(self, encoded_data: str) -> Tuple[str, bool]:
         """Decode and correct errors, return (data, success)"""
-        
+
     def detect_errors(self, data: str) -> List[ErrorReport]:
         """Detect and report error locations"""
 ```
@@ -330,7 +330,7 @@ class ECCProcessor:
 - [ ] Performance benchmarking
 - [ ] Biological validation testing
 
-#### Q2 2025: Core Implementation  
+#### Q2 2025: Core Implementation
 - [ ] Header processing engine
 - [ ] Metadata management system
 - [ ] ECC framework integration
@@ -358,7 +358,7 @@ class ECCProcessor:
 ```python
 def detect_format_version(data: str) -> FormatVersion:
     """Automatically detect format version from DNA sequence"""
-    
+
 def validate_format(data: str, version: FormatVersion) -> ValidationResult:
     """Validate format compliance and integrity"""
 ```
@@ -368,16 +368,16 @@ def validate_format(data: str, version: FormatVersion) -> ValidationResult:
 class BioartlanContainer:
     def __init__(self, version: FormatVersion = FormatVersion.V2_0):
         """Create new container with specified format version"""
-        
+
     def add_metadata(self, key: str, value: Any) -> None:
         """Add metadata to container"""
-        
+
     def set_ecc_config(self, ecc_type: ECCType, strength: ECCStrength) -> None:
         """Configure error correction settings"""
-        
+
     def add_instructions(self, dna_sequence: str) -> None:
         """Add instruction block to container"""
-        
+
     def serialize(self) -> str:
         """Generate final DNA container sequence"""
 ```
@@ -386,7 +386,7 @@ class BioartlanContainer:
 ```python
 def migrate_v1_to_v2(v1_data: str, metadata: Dict[str, Any] = None) -> str:
     """Convert v1.0 format to v2.0 with optional metadata"""
-    
+
 def extract_v1_instructions(v2_data: str) -> str:
     """Extract pure instruction sequence compatible with v1.0"""
 ```
@@ -443,7 +443,7 @@ def extract_v1_instructions(v2_data: str) -> str:
 - **Profiling**: Runtime performance data collection
 - **Internationalization**: Multi-language metadata support
 
-### v3.0 Vision  
+### v3.0 Vision
 - **Distributed Programs**: Multi-container program distribution
 - **Hot Updates**: Runtime program modification capability
 - **Biological Integration**: Direct synthesis/sequencing integration
@@ -453,7 +453,7 @@ def extract_v1_instructions(v2_data: str) -> str:
 
 *This format specification serves as the authoritative reference for Bioartlan container formats and migration strategies.*
 
-**Specification Version**: 1.0  
-**Last Updated**: 2024  
-**Format Authority**: Bioartlan Architecture Team  
+**Specification Version**: 1.0
+**Last Updated**: 2024
+**Format Authority**: Bioartlan Architecture Team
 **Implementation Status**: v2.0 in development

@@ -4,10 +4,10 @@
 
 The Bioartlan DNA Programming Language implements a comprehensive instruction set architecture (ISA) with 52 instructions across 10 functional categories. Each instruction is encoded using a 4-nucleotide DNA sequence that corresponds to a unique binary opcode.
 
-**Version**: 1.0  
-**Total Instructions**: 52  
-**Encoding**: DNA 4-nucleotide sequences (A=00, U=01, C=10, G=11)  
-**Architecture**: Register-based virtual machine  
+**Version**: 1.0
+**Total Instructions**: 52
+**Encoding**: DNA 4-nucleotide sequences (A=00, U=01, C=10, G=11)
+**Architecture**: Register-based virtual machine
 
 ---
 
@@ -253,7 +253,7 @@ Data integrity and error correction for biological environments.
 - Interrupt management
 - Conditional execution
 
-#### Stack Operations (Reserved: 0x50-0x5F)  
+#### Stack Operations (Reserved: 0x50-0x5F)
 - Push/pop operations
 - Stack frame management
 - Local variable support
@@ -393,7 +393,7 @@ ASM: LOAD "ATCG"   ; Load DNA sequence
 
 *This instruction set specification is the authoritative reference for Bioartlan DNA programming language instruction behavior and encoding.*
 
-**Document Version**: 1.0  
-**Last Updated**: 2024  
-**Specification Authority**: Bioartlan Development Team  
+**Document Version**: 1.0
+**Last Updated**: 2024
+**Specification Authority**: Bioartlan Development Team
 **Next Review**: Q1 2025

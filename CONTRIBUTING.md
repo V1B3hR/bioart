@@ -38,10 +38,10 @@ Thank you for your interest in contributing to the Bioartlan DNA Programming Lan
    ```bash
    # Test repository setup
    python test_repo.py
-   
+
    # Run example demonstration
    python examples/dna_demo.py
-   
+
    # Run test suites
    python tests/advanced_tests.py
    python tests/stress_tests.py
@@ -132,37 +132,37 @@ import sys
 class DNAProcessor:
     """
     Processes DNA sequences for the Bioartlan language.
-    
+
     This class handles encoding, decoding, and validation of DNA sequences
     according to the Bioartlan 2-bit encoding specification.
     """
-    
+
     def __init__(self, encoding_version: str = "1.0") -> None:
         """
         Initialize DNA processor with specified encoding version.
-        
+
         Args:
             encoding_version: Version of DNA encoding to use
         """
         self.encoding_version = encoding_version
         self._validate_version()
-    
+
     def encode_sequence(self, data: bytes) -> str:
         """
         Encode binary data as DNA sequence.
-        
+
         Args:
             data: Binary data to encode
-            
+
         Returns:
             DNA sequence string (A, U, C, G nucleotides)
-            
+
         Raises:
             ValueError: If data is invalid or empty
         """
         if not data:
             raise ValueError("Cannot encode empty data")
-        
+
         # Implementation here
         return "AAUU"  # Example
 ```
@@ -232,7 +232,7 @@ Update `src/vm/instruction_set.py`:
 
 ```python
 # Add to INSTRUCTIONS dictionary
-0xXX: Instruction(0xXX, "NEWOP", "XYZW", InstructionType.CATEGORY, 
+0xXX: Instruction(0xXX, "NEWOP", "XYZW", InstructionType.CATEGORY,
                   "Description", operand_count, cycles),
 ```
 
@@ -311,27 +311,27 @@ from src.vm.virtual_machine import VirtualMachine
 
 class TestNewInstruction(unittest.TestCase):
     """Test suite for new instruction implementation."""
-    
+
     def setUp(self) -> None:
         """Set up test environment."""
         self.vm = VirtualMachine()
-    
+
     def test_basic_functionality(self) -> None:
         """Test basic instruction functionality."""
         # Arrange
         program = "XYZW"  # Your instruction DNA
-        
+
         # Act
         result = self.vm.execute_program(program)
-        
+
         # Assert
         self.assertEqual(result.status, "success")
-    
+
     def test_error_conditions(self) -> None:
         """Test error handling."""
         # Test invalid operands, boundary conditions, etc.
         pass
-    
+
     def test_performance(self) -> None:
         """Test instruction performance."""
         # Performance benchmarks

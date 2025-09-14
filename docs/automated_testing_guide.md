@@ -155,7 +155,7 @@ Bytecode: 01 2A 03 08 07 0C
 ### Instruction Breakdown
 - `AAAU` (01) - LOAD instruction
 - `ACCC` (2A) - Data value 42
-- `AAAG` (03) - ADD instruction  
+- `AAAG` (03) - ADD instruction
 - `AACA` (08) - Data value 8
 - `AAUG` (07) - PRINT instruction
 - `AAGA` (0C) - HALT instruction
@@ -184,7 +184,7 @@ The automated testing system validates these performance benchmarks:
 
 ### Speed Benchmarks
 - Small files (100 bytes): ~1.0M bytes/second
-- Medium files (1KB): ~4.0M bytes/second  
+- Medium files (1KB): ~4.0M bytes/second
 - Large files (10KB): ~40M+ bytes/second
 - Extreme files (100KB): Consistent performance maintained
 
