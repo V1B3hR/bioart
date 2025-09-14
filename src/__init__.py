@@ -9,12 +9,21 @@ __author__ = "Bioartlan Programming Language Project"
 __license__ = "MIT"
 
 # Import main components for easy access
-from .bioartlan_language import BioartlanLanguage, create_bioartlan_language, quick_execute, quick_encode, quick_decode
+from .bioartlan_language import BioartlanLanguage, create_bioartlan_system
 from .core.encoding import DNAEncoder, encode_bytes, decode_dna, encode_string, decode_to_string
 from .vm.virtual_machine import DNAVirtualMachine, create_vm, VMState
 from .vm.instruction_set import DNAInstructionSet, get_instruction, is_valid_instruction
 from .compiler.dna_compiler import DNACompiler
 from .utils.file_manager import DNAFileManager
+
+# New enhanced modules
+from .biological.synthesis_systems import DNASynthesisManager
+from .biological.storage_systems import BiologicalStorageManager  
+from .biological.genetic_tools import GeneticEngineeringInterface
+from .biological.error_correction import BiologicalErrorCorrection
+from .parallel.dna_threading import DNAThreadManager
+from .parallel.parallel_executor import ParallelDNAExecutor, ExecutionStrategy
+from .parallel.distributed_computing import DistributedDNAComputer, NodeType
 
 # Version information
 VERSION_INFO = {
@@ -23,19 +32,24 @@ VERSION_INFO = {
     'encoding': '2-bit DNA (A=00, U=01, C=10, G=11)',
     'features': [
         'High-performance encoding with lookup tables',
-        'Extended instruction set with 18+ instructions',
-        'Advanced virtual machine with debugging support',
-        'Optimizing compiler with multiple passes',
-        'File management with metadata and versioning',
-        'Comprehensive error handling and validation'
+        'Extended instruction set with 52+ instructions',
+        'Advanced virtual machine with biological simulation',
+        'Biological DNA synthesis and storage integration',
+        'CRISPR and genetic engineering tools interface',
+        'Multi-threading and parallel execution support',
+        'Distributed computing capabilities', 
+        'Advanced error correction for biological environments',
+        'Real-time biological constraint simulation'
     ],
     'improvements': [
-        'Modular architecture for better maintainability',
-        'Performance optimizations with lookup tables',
-        'Extended instruction set for more functionality',
-        'Debugging support with breakpoints and tracing',
-        'File management with automatic backups',
-        'Comprehensive testing and validation'
+        'Biological synthesis systems integration',
+        'Real DNA storage and retrieval mechanisms', 
+        'Error correction coding for biological environments',
+        'Multi-threading support for parallel DNA execution',
+        'Interface with genetic engineering tools',
+        'Extended instruction set for complex operations',
+        'Advanced biological constraint simulation',
+        'Distributed computing framework'
     ]
 }
 
@@ -45,20 +59,28 @@ def get_version_info():
 
 def create_default_system():
     """Create a default bioartlan language system with standard configuration"""
-    return BioartlanLanguage(memory_size=256, register_count=4)
+    return create_bioartlan_system(memory_size=256, enable_all_features=True)
 
 # Package-level convenience functions
 def encode_text_to_dna(text: str) -> str:
     """Quick function to encode text to DNA"""
-    return quick_encode(text)
+    encoder = DNAEncoder()
+    return encoder.encode_string(text)
 
 def decode_dna_to_text(dna_sequence: str) -> str:
     """Quick function to decode DNA to text"""
-    return quick_decode(dna_sequence)
+    encoder = DNAEncoder()
+    return encoder.decode_to_string(dna_sequence)
 
 def run_dna_program(dna_code: str) -> dict:
     """Quick function to run DNA program"""
-    return quick_execute(dna_code)
+    system = create_default_system()
+    try:
+        bytecode = system.compile_dna_program(dna_code)
+        result = system.execute_program(bytecode)
+        return result
+    except Exception as e:
+        return {'success': False, 'error': str(e)}
 
 # Export all public components
 __all__ = [
@@ -74,14 +96,11 @@ __all__ = [
     'VMState',
     
     # Factory functions
-    'create_bioartlan_language',
+    'create_bioartlan_system',
     'create_vm',
     'create_default_system',
     
     # Convenience functions
-    'quick_execute',
-    'quick_encode', 
-    'quick_decode',
     'encode_bytes',
     'decode_dna',
     'encode_string',
@@ -91,6 +110,19 @@ __all__ = [
     'run_dna_program',
     'get_instruction',
     'is_valid_instruction',
+    
+    # Enhanced biological components
+    'DNASynthesisManager',
+    'BiologicalStorageManager',
+    'GeneticEngineeringInterface', 
+    'BiologicalErrorCorrection',
+    
+    # Parallel processing components
+    'DNAThreadManager',
+    'ParallelDNAExecutor',
+    'ExecutionStrategy',
+    'DistributedDNAComputer',
+    'NodeType',
     
     # Utility functions
     'get_version_info',
