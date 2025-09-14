@@ -16,6 +16,12 @@ class InstructionType(Enum):
     MEMORY = auto()
     IO = auto()
     LOGIC = auto()
+    # New instruction types for complex operations
+    BIOLOGICAL = auto()
+    CRYPTOGRAPHIC = auto()
+    MATRIX = auto()
+    THREADING = auto()
+    ERROR_CORRECTION = auto()
 
 @dataclass(frozen=True)
 class Instruction:
@@ -68,6 +74,47 @@ class DNAInstructionSet:
         0x08: Instruction(0x08, "INPUT", "AACA", InstructionType.IO, "Input", 0, 10),
         0x16: Instruction(0x16, "PRINTC", "ACAC", InstructionType.IO, "Print Character", 0, 5),
         0x17: Instruction(0x17, "PRINTS", "ACAG", InstructionType.IO, "Print String", 1, 10),
+        
+        # Extended Complex Operations (NEW)
+        # Mathematical/Scientific Operations
+        0x18: Instruction(0x18, "POW", "ACUA", InstructionType.ARITHMETIC, "Power (A^B)", 2, 8),
+        0x19: Instruction(0x19, "SQRT", "ACUU", InstructionType.ARITHMETIC, "Square Root", 1, 6),
+        0x1A: Instruction(0x1A, "LOG", "ACUC", InstructionType.ARITHMETIC, "Logarithm", 1, 8),
+        0x1B: Instruction(0x1B, "SIN", "ACUG", InstructionType.ARITHMETIC, "Sine", 1, 10),
+        0x1C: Instruction(0x1C, "COS", "ACGA", InstructionType.ARITHMETIC, "Cosine", 1, 10), 
+        0x1D: Instruction(0x1D, "RAND", "ACGU", InstructionType.ARITHMETIC, "Random Number", 0, 5),
+        
+        # Matrix Operations
+        0x1E: Instruction(0x1E, "MATMUL", "ACGC", InstructionType.MATRIX, "Matrix Multiply", 3, 20),
+        0x1F: Instruction(0x1F, "MATINV", "ACGG", InstructionType.MATRIX, "Matrix Inverse", 2, 25),
+        0x20: Instruction(0x20, "MATTRANS", "AGAA", InstructionType.MATRIX, "Matrix Transpose", 2, 10),
+        
+        # Biological Operations (NEW)
+        0x21: Instruction(0x21, "DNACMP", "AGAU", InstructionType.BIOLOGICAL, "DNA Complement", 2, 8),
+        0x22: Instruction(0x22, "DNAREV", "AGAC", InstructionType.BIOLOGICAL, "DNA Reverse", 2, 6),
+        0x23: Instruction(0x23, "TRANSCRIBE", "AGAG", InstructionType.BIOLOGICAL, "DNA->RNA Transcription", 2, 12),
+        0x24: Instruction(0x24, "TRANSLATE", "AGUA", InstructionType.BIOLOGICAL, "RNA->Protein Translation", 2, 15),
+        0x25: Instruction(0x25, "MUTATE", "AGUU", InstructionType.BIOLOGICAL, "Simulate DNA Mutation", 3, 10),
+        0x26: Instruction(0x26, "SYNTHESIZE", "AGUC", InstructionType.BIOLOGICAL, "DNA Synthesis Simulation", 2, 20),
+        
+        # Cryptographic Operations
+        0x27: Instruction(0x27, "HASH", "AGUG", InstructionType.CRYPTOGRAPHIC, "Hash Function", 2, 15),
+        0x28: Instruction(0x28, "ENCRYPT", "AGGA", InstructionType.CRYPTOGRAPHIC, "Encrypt Data", 3, 20),
+        0x29: Instruction(0x29, "DECRYPT", "AGGU", InstructionType.CRYPTOGRAPHIC, "Decrypt Data", 3, 20),
+        0x2A: Instruction(0x2A, "CHECKSUM", "AGGC", InstructionType.CRYPTOGRAPHIC, "Calculate Checksum", 2, 8),
+        
+        # Error Correction Operations
+        0x2B: Instruction(0x2B, "ENCODE_RS", "AGGG", InstructionType.ERROR_CORRECTION, "Reed-Solomon Encode", 3, 25),
+        0x2C: Instruction(0x2C, "DECODE_RS", "UCAA", InstructionType.ERROR_CORRECTION, "Reed-Solomon Decode", 3, 30),
+        0x2D: Instruction(0x2D, "CORRECT", "UCAU", InstructionType.ERROR_CORRECTION, "Error Correction", 2, 15),
+        0x2E: Instruction(0x2E, "DETECT", "UCAC", InstructionType.ERROR_CORRECTION, "Error Detection", 2, 10),
+        
+        # Threading Operations
+        0x2F: Instruction(0x2F, "SPAWN", "UCAG", InstructionType.THREADING, "Spawn Thread", 1, 20),
+        0x30: Instruction(0x30, "JOIN", "UCUA", InstructionType.THREADING, "Join Thread", 1, 15),
+        0x31: Instruction(0x31, "LOCK", "UCUU", InstructionType.THREADING, "Acquire Lock", 1, 10),
+        0x32: Instruction(0x32, "UNLOCK", "UCUC", InstructionType.THREADING, "Release Lock", 1, 5),
+        0x33: Instruction(0x33, "SYNC", "UCUG", InstructionType.THREADING, "Synchronize Threads", 0, 12),
     }
     
     def __init__(self):
