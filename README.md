@@ -227,10 +227,25 @@ This project is for educational and research purposes, demonstrating the theoret
 
 ## 📚 Documentation
 
-Detailed documentation is available in the `docs/` directory:
-- `readme.txt` - Complete technical documentation
-- `comprehensive_test_summary.txt` - Full test analysis
-- Various test result files
+### Documentation Hub
+
+Comprehensive documentation is available to guide development, usage, and contribution:
+
+#### Core Documentation
+- **[Project Roadmap](docs/ROADMAP.md)** - Multi-phase development plan and future milestones
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - System design and component structure
+- **[Instruction Set Specification](docs/INSTRUCTION_SET.md)** - Complete instruction reference and encoding
+- **[Format Specification](docs/FORMAT_SPEC.md)** - File format details and container specifications
+
+#### Development Resources
+- **[Contributing Guidelines](CONTRIBUTING.md)** - How to contribute code, tests, and documentation
+- **[Changelog](CHANGELOG.md)** - Version history and release notes
+
+#### Technical Documentation
+- `docs/readme.txt` - Complete technical documentation
+- `docs/comprehensive_test_summary.txt` - Full test analysis and results
+- `docs/automated_testing_guide.md` - Testing framework documentation
+- Various test result files and performance metrics
 
 ## 🎯 Status
 
@@ -246,4 +261,4 @@ The DNA Programming Language has successfully passed all testing phases and is r
 
 **Version**: 1.0  
 **Status**: Proof of Concept - Fully Functional  
-**Last Updated**: 2024 
+**Last Updated**: 2024
