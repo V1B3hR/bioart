@@ -17,6 +17,12 @@ class ErrorType(Enum):
     DELETION = "deletion"
     INVERSION = "inversion"
     TRANSPOSITION = "transposition"
+    # Enhanced biological error types
+    UV_DAMAGE = "uv_damage"
+    OXIDATIVE_DAMAGE = "oxidative_damage"
+    THERMAL_DEGRADATION = "thermal_degradation"
+    HYDROLYSIS = "hydrolysis"
+    CROSSLINKING = "crosslinking"
 
 @dataclass
 class ErrorPattern:
@@ -48,7 +54,22 @@ class BiologicalErrorCorrection:
             ErrorType.INSERTION: 0.0005,     # Insertions
             ErrorType.DELETION: 0.0007,      # Deletions  
             ErrorType.INVERSION: 0.0001,     # Local inversions
-            ErrorType.TRANSPOSITION: 0.00005 # Transpositions
+            ErrorType.TRANSPOSITION: 0.00005, # Transpositions
+            # Enhanced biological errors with environmental factors
+            ErrorType.UV_DAMAGE: 0.003,      # UV-induced thymine dimers
+            ErrorType.OXIDATIVE_DAMAGE: 0.002, # Oxidative stress damage
+            ErrorType.THERMAL_DEGRADATION: 0.001, # Heat-induced damage
+            ErrorType.HYDROLYSIS: 0.0008,    # Water-induced hydrolysis
+            ErrorType.CROSSLINKING: 0.0002,  # Chemical crosslinking
+        }
+        
+        # Environmental factor multipliers
+        self.environmental_factors = {
+            'temperature': {'low': 0.5, 'normal': 1.0, 'high': 2.5},
+            'uv_exposure': {'none': 0.1, 'low': 1.0, 'high': 5.0},
+            'oxidative_stress': {'low': 0.3, 'normal': 1.0, 'high': 3.0},
+            'ph_level': {'acidic': 2.0, 'neutral': 1.0, 'basic': 1.5},
+            'storage_time': {'short': 0.1, 'medium': 1.0, 'long': 2.0}
         }
         
         # Context-specific error patterns
@@ -61,6 +82,37 @@ class BiologicalErrorCorrection:
         
         # Correction matrices for common errors
         self.correction_matrices = self._build_correction_matrices()
+        
+        # Hamming code parameters for biological storage
+        self.hamming_enabled = True
+        self.hamming_data_bits = 4
+        self.hamming_parity_bits = 3
+        
+        # Error monitoring system
+        self.error_history = []
+        self.error_statistics = {error_type: 0 for error_type in ErrorType}
+        
+    def set_environmental_conditions(self, conditions: Dict[str, str]) -> None:
+        """
+        Set environmental conditions that affect error rates
+        
+        Args:
+            conditions: Dictionary of environmental factors
+        """
+        self.current_conditions = conditions
+        
+        # Update error rates based on conditions
+        for error_type in self.biological_error_rates:
+            base_rate = self.biological_error_rates[error_type]
+            multiplier = 1.0
+            
+            # Apply environmental multipliers
+            for factor, value in conditions.items():
+                if factor in self.environmental_factors:
+                    multiplier *= self.environmental_factors[factor].get(value, 1.0)
+            
+            # Update effective error rate
+            self.biological_error_rates[error_type] = base_rate * multiplier
     
     def encode_with_error_correction(self, dna_sequence: str, redundancy_level: int = 3) -> str:
         """
@@ -579,5 +631,335 @@ class BiologicalErrorCorrection:
             },
             'biological_error_rates': {etype.value: rate for etype, rate in self.biological_error_rates.items()},
             'context_error_rates': self.context_errors,
-            'correction_matrices_count': sum(len(matrix) for matrix in self.correction_matrices.values())
+            'correction_matrices_count': sum(len(matrix) for matrix in self.correction_matrices.values()),
+            'hamming_enabled': self.hamming_enabled,
+            'error_statistics': {etype.value: count for etype, count in self.error_statistics.items()},
+            'total_errors_detected': sum(self.error_statistics.values()),
+            'environmental_conditions': getattr(self, 'current_conditions', {})
+        }
+    
+    def encode_with_hamming(self, dna_sequence: str) -> str:
+        """
+        Apply Hamming error correction encoding optimized for biological storage
+        
+        Args:
+            dna_sequence: Input DNA sequence
+            
+        Returns:
+            Hamming-encoded DNA sequence
+        """
+        if not self.hamming_enabled:
+            return dna_sequence
+            
+        encoded_sequence = []
+        
+        # Process in 4-nucleotide blocks (data bits)
+        for i in range(0, len(dna_sequence), self.hamming_data_bits):
+            data_block = dna_sequence[i:i + self.hamming_data_bits]
+            
+            # Pad if necessary
+            while len(data_block) < self.hamming_data_bits:
+                data_block += 'A'
+            
+            # Convert to binary
+            data_bits = []
+            for nucleotide in data_block:
+                nuc_value = self._nucleotide_to_int(nucleotide)
+                data_bits.extend([nuc_value >> 1, nuc_value & 1])
+            
+            # Calculate parity bits
+            parity_bits = self._calculate_hamming_parity(data_bits)
+            
+            # Combine data and parity
+            hamming_block = data_bits + parity_bits
+            
+            # Convert back to DNA
+            block_dna = ""
+            for j in range(0, len(hamming_block), 2):
+                if j + 1 < len(hamming_block):
+                    nuc_value = (hamming_block[j] << 1) | hamming_block[j + 1]
+                    block_dna += self._int_to_nucleotide(nuc_value)
+            
+            encoded_sequence.append(block_dna)
+        
+        return ''.join(encoded_sequence)
+    
+    def decode_with_hamming(self, encoded_sequence: str) -> Tuple[str, List[ErrorPattern]]:
+        """
+        Decode Hamming-encoded sequence and correct single-bit errors
+        
+        Args:
+            encoded_sequence: Hamming-encoded DNA sequence
+            
+        Returns:
+            Tuple of (decoded_sequence, detected_errors)
+        """
+        if not self.hamming_enabled:
+            return encoded_sequence, []
+            
+        decoded_sequence = []
+        detected_errors = []
+        
+        # Calculate block size (data + parity bits converted to nucleotides)
+        total_bits = (self.hamming_data_bits * 2) + self.hamming_parity_bits
+        block_size = (total_bits + 1) // 2  # Round up to nucleotides
+        
+        for i in range(0, len(encoded_sequence), block_size):
+            block = encoded_sequence[i:i + block_size]
+            
+            if len(block) < block_size:
+                # Handle partial block
+                decoded_sequence.append(block)
+                continue
+                
+            # Convert to binary
+            block_bits = []
+            for nucleotide in block:
+                nuc_value = self._nucleotide_to_int(nucleotide)
+                block_bits.extend([nuc_value >> 1, nuc_value & 1])
+            
+            # Extract data and parity bits
+            data_bits = block_bits[:self.hamming_data_bits * 2]
+            received_parity = block_bits[self.hamming_data_bits * 2:self.hamming_data_bits * 2 + self.hamming_parity_bits]
+            
+            # Calculate expected parity
+            expected_parity = self._calculate_hamming_parity(data_bits)
+            
+            # Detect and correct errors
+            error_syndrome = 0
+            for j in range(min(len(received_parity), len(expected_parity))):
+                if received_parity[j] != expected_parity[j]:
+                    error_syndrome |= (1 << j)
+            
+            # Correct single-bit error if detected
+            if error_syndrome != 0 and error_syndrome <= len(data_bits):
+                error_position = error_syndrome - 1
+                if 0 <= error_position < len(data_bits):
+                    original_bit = data_bits[error_position]
+                    data_bits[error_position] = 1 - data_bits[error_position]  # Flip bit
+                    
+                    error = ErrorPattern(
+                        error_type=ErrorType.SUBSTITUTION,
+                        position=i + error_position // 2,
+                        original=str(original_bit),
+                        corrected=str(data_bits[error_position]),
+                        confidence=0.95
+                    )
+                    detected_errors.append(error)
+                    self.error_statistics[ErrorType.SUBSTITUTION] += 1
+            
+            # Convert data bits back to nucleotides
+            block_dna = ""
+            for j in range(0, len(data_bits), 2):
+                if j + 1 < len(data_bits):
+                    nuc_value = (data_bits[j] << 1) | data_bits[j + 1]
+                    block_dna += self._int_to_nucleotide(nuc_value)
+            
+            decoded_sequence.append(block_dna)
+        
+        return ''.join(decoded_sequence).rstrip('A'), detected_errors
+    
+    def _calculate_hamming_parity(self, data_bits: List[int]) -> List[int]:
+        """Calculate Hamming parity bits for given data bits"""
+        parity_bits = []
+        
+        # P1: covers bits 1, 3, 5, 7 (odd positions)
+        p1 = 0
+        for i in range(0, len(data_bits), 2):
+            p1 ^= data_bits[i]
+        parity_bits.append(p1)
+        
+        # P2: covers bits 2, 3, 6, 7
+        p2 = 0
+        for i in range(1, len(data_bits), 4):
+            for j in range(2):
+                if i + j < len(data_bits):
+                    p2 ^= data_bits[i + j]
+        parity_bits.append(p2)
+        
+        # P4: covers bits 4, 5, 6, 7
+        p4 = 0
+        if len(data_bits) > 3:
+            for i in range(3, min(7, len(data_bits))):
+                p4 ^= data_bits[i]
+        parity_bits.append(p4)
+        
+        return parity_bits
+    
+    def simulate_biological_mutations(self, dna_sequence: str, 
+                                    conditions: Optional[Dict[str, str]] = None) -> Tuple[str, List[ErrorPattern]]:
+        """
+        Simulate realistic biological mutations based on environmental conditions
+        
+        Args:
+            dna_sequence: Input DNA sequence
+            conditions: Environmental conditions affecting mutation rates
+            
+        Returns:
+            Tuple of (mutated_sequence, mutation_patterns)
+        """
+        if conditions:
+            self.set_environmental_conditions(conditions)
+            
+        mutated_sequence = list(dna_sequence)
+        mutation_patterns = []
+        
+        for i, nucleotide in enumerate(dna_sequence):
+            # Check each mutation type
+            for error_type, base_rate in self.biological_error_rates.items():
+                if random.random() < base_rate:
+                    mutation = self._apply_specific_mutation(nucleotide, error_type, i)
+                    if mutation:
+                        mutated_sequence[i] = mutation['new_nucleotide']
+                        
+                        pattern = ErrorPattern(
+                            error_type=error_type,
+                            position=i,
+                            original=nucleotide,
+                            corrected=mutation['new_nucleotide'],
+                            confidence=mutation['confidence']
+                        )
+                        mutation_patterns.append(pattern)
+                        self.error_statistics[error_type] += 1
+                        break  # Only one mutation per position
+        
+        # Add to error history
+        self.error_history.extend(mutation_patterns)
+        
+        return ''.join(mutated_sequence), mutation_patterns
+    
+    def _apply_specific_mutation(self, nucleotide: str, error_type: ErrorType, 
+                               position: int) -> Optional[Dict[str, Any]]:
+        """Apply specific type of biological mutation"""
+        mutations = {
+            ErrorType.UV_DAMAGE: self._simulate_uv_damage,
+            ErrorType.OXIDATIVE_DAMAGE: self._simulate_oxidative_damage,
+            ErrorType.THERMAL_DEGRADATION: self._simulate_thermal_damage,
+            ErrorType.HYDROLYSIS: self._simulate_hydrolysis,
+            ErrorType.CROSSLINKING: self._simulate_crosslinking,
+            ErrorType.SUBSTITUTION: self._simulate_substitution,
+            ErrorType.INSERTION: self._simulate_insertion,
+            ErrorType.DELETION: self._simulate_deletion,
+        }
+        
+        if error_type in mutations:
+            return mutations[error_type](nucleotide, position)
+        
+        return None
+    
+    def _simulate_uv_damage(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate UV-induced damage (primarily affects pyrimidines)"""
+        # UV damage primarily creates thymine dimers and cytosine damage
+        if nucleotide in ['U', 'C']:  # Pyrimidines more susceptible
+            # Simulate formation of modified bases
+            damaged_bases = {'U': 'C', 'C': 'U'}  # Simplified damage model
+            return {
+                'new_nucleotide': damaged_bases.get(nucleotide, nucleotide),
+                'confidence': 0.8,
+                'mechanism': 'uv_induced_dimer'
+            }
+        return {'new_nucleotide': nucleotide, 'confidence': 0.1, 'mechanism': 'uv_resistant'}
+    
+    def _simulate_oxidative_damage(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate oxidative stress damage"""
+        # Guanine is most susceptible to oxidative damage
+        if nucleotide == 'G':
+            return {
+                'new_nucleotide': random.choice(['A', 'U', 'C']),
+                'confidence': 0.9,
+                'mechanism': 'oxidative_lesion'
+            }
+        return {'new_nucleotide': nucleotide, 'confidence': 0.3, 'mechanism': 'oxidative_resistant'}
+    
+    def _simulate_thermal_damage(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate thermal degradation"""
+        # Heat causes depurination and deamination
+        damage_prob = {'A': 0.7, 'G': 0.8, 'C': 0.5, 'U': 0.4}  # Purines more susceptible
+        if random.random() < damage_prob.get(nucleotide, 0.5):
+            return {
+                'new_nucleotide': random.choice(['A', 'U', 'C', 'G']),
+                'confidence': 0.6,
+                'mechanism': 'thermal_denaturation'
+            }
+        return {'new_nucleotide': nucleotide, 'confidence': 0.4, 'mechanism': 'thermally_stable'}
+    
+    def _simulate_hydrolysis(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate hydrolytic damage"""
+        # Hydrolysis affects all bases but with different rates
+        hydrolysis_rates = {'A': 0.3, 'G': 0.25, 'C': 0.8, 'U': 0.9}  # Cytosine and uracil more susceptible
+        if random.random() < hydrolysis_rates.get(nucleotide, 0.5):
+            return {
+                'new_nucleotide': random.choice(['A', 'G']),  # Often results in purines
+                'confidence': 0.7,
+                'mechanism': 'hydrolytic_deamination'
+            }
+        return {'new_nucleotide': nucleotide, 'confidence': 0.3, 'mechanism': 'hydrolysis_resistant'}
+    
+    def _simulate_crosslinking(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate chemical crosslinking damage"""
+        # Crosslinking can cause various modifications
+        if random.random() < 0.5:
+            return {
+                'new_nucleotide': self._get_complement(nucleotide),
+                'confidence': 0.5,
+                'mechanism': 'crosslink_induced_change'
+            }
+        return {'new_nucleotide': nucleotide, 'confidence': 0.5, 'mechanism': 'crosslink_stable'}
+    
+    def _simulate_substitution(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate simple substitution mutation"""
+        alternatives = [n for n in self.nucleotides if n != nucleotide]
+        return {
+            'new_nucleotide': random.choice(alternatives),
+            'confidence': 0.8,
+            'mechanism': 'point_mutation'
+        }
+    
+    def _simulate_insertion(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate insertion mutation (simplified as duplication)"""
+        return {
+            'new_nucleotide': nucleotide + random.choice(self.nucleotides),
+            'confidence': 0.6,
+            'mechanism': 'insertion_event'
+        }
+    
+    def _simulate_deletion(self, nucleotide: str, position: int) -> Dict[str, Any]:
+        """Simulate deletion mutation (simplified as empty)"""
+        return {
+            'new_nucleotide': '',
+            'confidence': 0.7,
+            'mechanism': 'deletion_event'
+        }
+    
+    def monitor_error_patterns(self) -> Dict[str, Any]:
+        """Monitor and analyze error patterns over time"""
+        if not self.error_history:
+            return {'status': 'no_errors_recorded'}
+        
+        # Analyze error frequency by type
+        error_counts = {}
+        position_hotspots = {}
+        
+        for error in self.error_history:
+            error_type = error.error_type.value
+            error_counts[error_type] = error_counts.get(error_type, 0) + 1
+            
+            position = error.position
+            position_hotspots[position] = position_hotspots.get(position, 0) + 1
+        
+        # Find hotspots (positions with multiple errors)
+        hotspots = [(pos, count) for pos, count in position_hotspots.items() if count > 1]
+        hotspots.sort(key=lambda x: x[1], reverse=True)
+        
+        # Calculate error rates
+        total_errors = len(self.error_history)
+        error_rates = {error_type: count / total_errors for error_type, count in error_counts.items()}
+        
+        return {
+            'total_errors': total_errors,
+            'error_counts': error_counts,
+            'error_rates': error_rates,
+            'hotspots': hotspots[:10],  # Top 10 hotspots
+            'most_common_error': max(error_counts.items(), key=lambda x: x[1]) if error_counts else None,
+            'average_confidence': sum(error.confidence for error in self.error_history) / total_errors
         }
