@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the Bioartlan DNA Programming Language will be documented in this file.
+All notable changes to the Bioart DNA Programming Language will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -243,12 +243,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for information on how to contribute to t
 
 ## Links and References
 
-- **Homepage**: [GitHub Repository](https://github.com/V1B3hR/bioartlan)
+- **Homepage**: [GitHub Repository](https://github.com/V1B3hR/bioart)
 - **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/V1B3hR/bioartlan/issues)
-- **Releases**: [GitHub Releases](https://github.com/V1B3hR/bioartlan/releases)
+- **Issues**: [GitHub Issues](https://github.com/V1B3hR/bioart/issues)
+- **Releases**: [GitHub Releases](https://github.com/V1B3hR/bioart/releases)
 - **License**: See [LICENSE](LICENSE) file
 
 ---
 
-*This changelog is maintained by the Bioartlan development team and follows the Keep a Changelog format for consistency and clarity.*
+*This changelog is maintained by the Bioart development team and follows the Keep a Changelog format for consistency and clarity.*

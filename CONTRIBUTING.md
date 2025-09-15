@@ -1,6 +1,6 @@
-# Contributing to Bioartlan DNA Programming Language
+# Contributing to Bioart DNA Programming Language
 
-Thank you for your interest in contributing to the Bioartlan DNA Programming Language! This document provides guidelines and information for contributors to help ensure smooth collaboration and maintain high code quality.
+Thank you for your interest in contributing to the Bioart DNA Programming Language! This document provides guidelines and information for contributors to help ensure smooth collaboration and maintain high code quality.
 
 ## Table of Contents
 
@@ -30,8 +30,8 @@ Thank you for your interest in contributing to the Bioartlan DNA Programming Lan
    ```bash
    # Fork the repository on GitHub
    # Clone your fork locally
-   git clone https://github.com/YOUR_USERNAME/bioartlan.git
-   cd bioartlan
+   git clone https://github.com/YOUR_USERNAME/bioart.git
+   cd bioart
    ```
 
 2. **Verify Installation**
@@ -59,7 +59,7 @@ Thank you for your interest in contributing to the Bioartlan DNA Programming Lan
 ### Project Structure
 
 ```
-bioartlan/
+bioart/
 ├── src/                    # Source code
 │   ├── core/              # Core encoding/decoding
 │   ├── vm/                # Virtual machine implementation
@@ -93,7 +93,7 @@ python test_repo.py
 
 ```bash
 # Run the interpreter
-python src/bioartlan.py
+python src/bioart.py
 
 # Interactive demo
 python examples/dna_demo.py
@@ -131,10 +131,10 @@ import sys
 
 class DNAProcessor:
     """
-    Processes DNA sequences for the Bioartlan language.
+    Processes DNA sequences for the Bioart language.
 
     This class handles encoding, decoding, and validation of DNA sequences
-    according to the Bioartlan 2-bit encoding specification.
+    according to the Bioart 2-bit encoding specification.
     """
 
     def __init__(self, encoding_version: str = "1.0") -> None:
@@ -583,6 +583,6 @@ By contributing to this project, you agree that your contributions will be licen
 
 ---
 
-**Thank you for contributing to the Bioartlan DNA Programming Language!** Your contributions help advance the field of biological computing and make this technology accessible to researchers and developers worldwide.
+**Thank you for contributing to the Bioart DNA Programming Language!** Your contributions help advance the field of biological computing and make this technology accessible to researchers and developers worldwide.
 
 *For questions about contributing, please open an issue or contact the maintainers directly.*
