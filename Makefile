@@ -81,7 +81,7 @@ example: ## Test the example DNA program (Load 42, Add 8, Print 50, Halt)
 	@echo "Program: AAAU ACCC AAAG AACA AAUG AAGA"
 	@echo "Expected: Load 42, Add 8, Print 50, Halt"
 	@echo ""
-	@$(PYTHON) -c "import sys; sys.path.insert(0, 'src'); from bioartlan import Bioart; dna = Bioart(); bytecode = dna.compile_dna_to_bytecode('AAAU ACCC AAAG AACA AAUG AAGA'); print('Bytecode:', ' '.join(f'{b:02X}' for b in bytecode)); print('Output:', end=' '); dna.execute_bytecode(bytecode)"
+	@$(PYTHON) -c "import sys; sys.path.insert(0, 'src'); from bioart import Bioart; dna = Bioart(); bytecode = dna.compile_dna_to_bytecode('AAAU ACCC AAAG AACA AAUG AAGA'); print('Bytecode:', ' '.join(f'{b:02X}' for b in bytecode)); print('Output:', end=' '); dna.execute_bytecode(bytecode)"
 	@echo ""
 	@echo "$(GREEN)✅ Example program test completed!$(NC)"
 
