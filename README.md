@@ -286,6 +286,7 @@ Comprehensive documentation is available to guide development, usage, and contri
 - `docs/readme.txt` - Complete technical documentation
 - `docs/comprehensive_test_summary.txt` - Full test analysis and results
 - `docs/automated_testing_guide.md` - Testing framework documentation
+- **`docs/AI_POC_VALIDATION_GUIDE.md`** - Comprehensive AI PoC validation methodology
 - Various test result files and performance metrics
 
 ## 🎯 Status
