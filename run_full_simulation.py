@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bioartlan DNA Programming Language - Full Simulation Script
+Bioart DNA Programming Language - Full Simulation Script
 Master script that executes all demonstrations and tests in sequence
 """
 
@@ -57,9 +57,9 @@ def test_example_dna_program():
     # (Load 42, Add 8, Print 50, Halt)
     try:
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-        from bioartlan import Bioartlan
+        from bioart import Bioart
         
-        dna = Bioartlan()
+        dna = Bioart()
         program = "AAAU ACCC AAAG AACA AAUG AAGA"
         
         print(f"DNA Program: {program}")
@@ -117,7 +117,7 @@ def print_system_specs():
 
 def main():
     """Main simulation function"""
-    print("🧬 BIOARTLAN DNA PROGRAMMING LANGUAGE")
+    print("🧬 BIOART DNA PROGRAMMING LANGUAGE")
     print("=" * 60)
     print("FULL SIMULATION AND TEST EXECUTION")
     print("=" * 60)
@@ -137,7 +137,7 @@ def main():
     # Define the simulation sequence
     simulation_steps = [
         ("Interactive Demonstration", [sys.executable, "examples/dna_demo.py"]),
-        ("Virtual Machine Interpreter", [sys.executable, "src/bioartlan.py"]),
+        ("Virtual Machine Interpreter", [sys.executable, "src/bioart.py"]),
         ("Comprehensive Test Suite", [sys.executable, "tests/advanced_tests.py"]),
         ("Stress Tests with Extreme Conditions", [sys.executable, "tests/stress_tests.py"])
     ]

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Bioartlan Programming Language - Enhanced Main Module
-Integrated high-performance bioartlan programming language with advanced biological features
+Bioart Programming Language - Enhanced Main Module
+Integrated high-performance bioart programming language with advanced biological features
 """
 
 import os
@@ -26,14 +26,14 @@ from .parallel.dna_threading import DNAThreadManager
 from .parallel.parallel_executor import ParallelDNAExecutor, ExecutionStrategy
 from .parallel.distributed_computing import DistributedDNAComputer, NodeType
 
-class BioartlanLanguage:
+class BioartLanguage:
     """
-    Enhanced Bioartlan Programming Language Interface
+    Enhanced Bioart Programming Language Interface
     Provides comprehensive API for DNA-based computing with biological integration
     """
     
     def __init__(self, memory_size: int = 256, register_count: int = 4):
-        """Initialize enhanced Bioartlan Language system"""
+        """Initialize enhanced Bioart Language system"""
         # Core components
         self.encoder = DNAEncoder()
         self.instruction_set = DNAInstructionSet()
@@ -401,7 +401,7 @@ class BioartlanLanguage:
     
     def shutdown_system(self):
         """Gracefully shutdown all system components"""
-        print("Shutting down Bioartlan Language System...")
+        print("Shutting down Bioart Language System...")
         
         # Shutdown parallel components
         self.thread_manager.shutdown()
@@ -416,9 +416,9 @@ class BioartlanLanguage:
         print("System shutdown complete.")
 
 # Convenience function for quick system creation
-def create_bioartlan_system(memory_size: int = 256, enable_all_features: bool = True) -> BioartlanLanguage:
-    """Create a new Bioartlan Language system with optional feature configuration"""
-    system = BioartlanLanguage(memory_size=memory_size)
+def create_bioart_system(memory_size: int = 256, enable_all_features: bool = True) -> BioartLanguage:
+    """Create a new Bioart Language system with optional feature configuration"""
+    system = BioartLanguage(memory_size=memory_size)
     
     if enable_all_features:
         system.config.update({
@@ -693,21 +693,21 @@ def create_bioartlan_system(memory_size: int = 256, enable_all_features: bool = 
 
 
 # Convenience functions for direct use
-def create_bioartlan_language(memory_size: int = 256, registers: int = 4) -> BioartlanLanguage:
-    """Create a new Bioartlan Language instance"""
-    return BioartlanLanguage(memory_size, registers)
+def create_bioart_language(memory_size: int = 256, registers: int = 4) -> BioartLanguage:
+    """Create a new Bioart Language instance"""
+    return BioartLanguage(memory_size, registers)
 
 def quick_execute(dna_program: str) -> Dict[str, Any]:
     """Quick execution of DNA program"""
-    dna_lang = BioartlanLanguage()
+    dna_lang = BioartLanguage()
     return dna_lang.execute_dna_program(dna_program)
 
 def quick_encode(data: str) -> str:
     """Quick encoding of text to DNA"""
-    dna_lang = BioartlanLanguage()
+    dna_lang = BioartLanguage()
     return dna_lang.encode_string(data)
 
 def quick_decode(dna_sequence: str) -> str:
     """Quick decoding of DNA to text"""
-    dna_lang = BioartlanLanguage()
+    dna_lang = BioartLanguage()
     return dna_lang.decode_string(dna_sequence)

@@ -1,10 +1,10 @@
-# Bioartlan Programming Language
+# Bioart Programming Language
 
 A revolutionary programming language that uses biological DNA sequences as code, implementing 2-bit encoding for maximum efficiency and direct binary compatibility.
 
 ## 🧬 Overview
 
-This project demonstrates how biological DNA sequences can serve as a complete digital storage and programming medium using the Bioartlan system. Using a 2-bit encoding scheme (A=00, U=01, C=10, G=11), any computer data can be stored as DNA sequences and executed as programs.
+This project demonstrates how biological DNA sequences can serve as a complete digital storage and programming medium using the Bioart system. Using a 2-bit encoding scheme (A=00, U=01, C=10, G=11), any computer data can be stored as DNA sequences and executed as programs.
 
 ## ✨ Features
 
@@ -59,9 +59,9 @@ print(f'Job ID: {job_id}')
 ## 📁 Repository Structure
 
 ```
-bioartlan/
+bioart/
 ├── src/
-│   └── bioartlan.py          # Main interpreter and virtual machine
+│   └── bioart.py          # Main interpreter and virtual machine
 ├── examples/
 │   ├── dna_demo.py          # Interactive demonstration
 │   └── program.dna          # Example compiled DNA program
@@ -152,7 +152,7 @@ python examples/dna_demo.py
 make demo
 
 # Virtual machine interpreter
-python src/bioartlan.py
+python src/bioart.py
 make interpreter
 
 # Advanced test suite

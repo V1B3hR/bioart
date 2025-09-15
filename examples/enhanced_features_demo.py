@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced Bioartlan Features Demonstration
+Enhanced Bioart Features Demonstration
 Shows biological error correction, complex instruction set, and DNA synthesis integration
 """
 
@@ -350,7 +350,7 @@ def demo_integration_workflow():
 
 def main():
     """Run complete enhanced features demonstration"""
-    print("🧬 BIOARTLAN ENHANCED FEATURES DEMONSTRATION")
+    print("🧬 BIOART ENHANCED FEATURES DEMONSTRATION")
     print("=" * 70)
     print("Biological Error Correction + Complex Instructions + DNA Synthesis")
     print("=" * 70)
@@ -364,7 +364,7 @@ def main():
         
         print("\n\n🎉 DEMONSTRATION COMPLETE!")
         print("=" * 70)
-        print("Enhanced Bioartlan Features Successfully Demonstrated:")
+        print("Enhanced Bioart Features Successfully Demonstrated:")
         print("✅ Advanced biological error correction with environmental modeling")
         print("✅ Extended instruction set with complex algorithmic operations")
         print("✅ Real-world DNA synthesis integration with cost optimization")

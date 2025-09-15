@@ -1,8 +1,8 @@
-# Bioartlan Programming Language - Architecture Overview
+# Bioart Programming Language - Architecture Overview
 
 ## System Architecture
 
-The Bioartlan DNA programming language implements a layered architecture that transforms biological DNA sequences into executable programs through a sophisticated encoding, compilation, and execution pipeline.
+The Bioart DNA programming language implements a layered architecture that transforms biological DNA sequences into executable programs through a sophisticated encoding, compilation, and execution pipeline.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -390,7 +390,7 @@ DNA Program → Interpreter → Execution Results
 
 ---
 
-*This architecture overview provides a comprehensive understanding of the Bioartlan system design. For implementation details, refer to the source code and API documentation.*
+*This architecture overview provides a comprehensive understanding of the Bioart system design. For implementation details, refer to the source code and API documentation.*
 
 **Last Updated**: 2024
 **Document Version**: 1.0

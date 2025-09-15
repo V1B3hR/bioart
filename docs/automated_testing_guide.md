@@ -1,8 +1,8 @@
-# Bioartlan DNA Programming Language - Automated Testing Guide
+# Bioart DNA Programming Language - Automated Testing Guide
 
 ## Overview
 
-The Bioartlan DNA Programming Language now includes a comprehensive automated testing system with three main components:
+The Bioart DNA Programming Language now includes a comprehensive automated testing system with three main components:
 
 1. **`run_tests.py`** - Dedicated test runner with detailed progress reporting
 2. **`run_full_simulation.py`** - Master script for complete system validation
@@ -48,7 +48,7 @@ make test
 
 ### Sample Output
 ```
-🧬 BIOARTLAN DNA PROGRAMMING LANGUAGE
+🧬 BIOART DNA PROGRAMMING LANGUAGE
 ============================================================
 COMPREHENSIVE TEST EXECUTION
 ============================================================
@@ -86,7 +86,7 @@ make all
 1. **Virtual Machine Specifications** - Display system capabilities
 2. **Example DNA Program Test** - Validate reference program
 3. **Interactive Demonstration** - Run examples/dna_demo.py
-4. **Virtual Machine Interpreter** - Execute src/bioartlan.py
+4. **Virtual Machine Interpreter** - Execute src/bioart.py
 5. **Comprehensive Test Suite** - Run tests/advanced_tests.py
 6. **Stress Tests** - Execute tests/stress_tests.py
 
@@ -229,7 +229,7 @@ The automated test system provides detailed error reporting:
 
 ## Conclusion
 
-The automated testing system ensures the Bioartlan DNA Programming Language maintains:
+The automated testing system ensures the Bioart DNA Programming Language maintains:
 - **100% accuracy** across all test scenarios
 - **Production-ready reliability** through comprehensive validation
 - **Performance benchmarks** meeting specification requirements
