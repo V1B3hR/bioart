@@ -4,7 +4,7 @@ DNA Encoding Core Module
 High-performance DNA sequence encoding/decoding with optimizations
 """
 
-from typing import Union, List, Iterator
+from typing import Union, List, Iterator, Tuple
 import struct
 
 class DNAEncoder:
@@ -157,7 +157,7 @@ class DNAEncoder:
             'reversible': True
         }
     
-    def validate_dna_sequence(self, dna_sequence: str) -> tuple[bool, str]:
+    def validate_dna_sequence(self, dna_sequence: str) -> Tuple[bool, str]:
         """Validate DNA sequence format and content"""
         try:
             clean_dna = ''.join(dna_sequence.split()).upper()
