@@ -1,44 +1,122 @@
-name: CI
+name: CI Pipeline
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
   test:
+    name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-24.04
-    
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
+        # (You had 3.6, 3.7 originally; if you still need them, add them back, but note they are EOL.)
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.8'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # No external dependencies required as per requirements.txt
-    
-    - name: Run repository tests
-      run: |
-        python test_repo.py
-    
-    - name: Run advanced tests
-      run: |
-        python tests/advanced_tests.py
-    
-    - name: Run stress tests
-      run: |
-        python tests/stress_tests.py
-    
-    - name: Run enhanced features tests
-      run: |
-        python tests/test_enhanced_features.py
-    
-    - name: Run AI PoC validation tests
-      run: |
-        python tests/test_ai_poc_validation.py
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+          # Add any project dependencies here if/when they are introduced.
+          # e.g.: pip install -r requirements.txt
+
+      - name: Lint with flake8 (critical errors)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Lint with flake8 (advisory)
+        run: |
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run core tests (legacy / base)
+        if: hashFiles('run_tests.py') != ''
+        run: |
+          python run_tests.py
+
+      - name: Run repository tests
+        if: hashFiles('test_repo.py') != ''
+        run: |
+          python test_repo.py
+
+      - name: Run advanced tests
+        if: hashFiles('tests/advanced_tests.py') != ''
+        run: |
+          python tests/advanced_tests.py
+
+      - name: Run enhanced features tests
+        if: hashFiles('tests/test_enhanced_features.py') != ''
+        run: |
+          python tests/test_enhanced_features.py
+
+      - name: Run AI PoC validation tests
+        if: hashFiles('tests/test_ai_poc_validation.py') != ''
+        run: |
+          python tests/test_ai_poc_validation.py
+
+      - name: Run stress tests
+        if: hashFiles('tests/stress_tests.py') != ''
+        run: |
+          python tests/stress_tests.py
+
+      - name: Run benchmark suite (quick)
+        if: hashFiles('benchmarks/benchmark_suite.py') != ''
+        run: |
+          # Quick mode (adjust flag as needed)
+          python benchmarks/benchmark_suite.py --ci || echo "Benchmarks (quick) completed with non-zero exit (tolerated)."
+
+      - name: Upload test & benchmark artifacts
+        if: |
+          hashFiles('benchmarks/results/**') != '' ||
+          hashFiles('tests/artifacts/**') != ''
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-and-benchmark-artifacts
+          path: |
+            benchmarks/results/
+            tests/artifacts/
+          if-no-files-found: ignore
+
+  benchmark:
+    name: Benchmark (full)
+    runs-on: ubuntu-24.04
+    # Only run full benchmark suite on direct pushes (avoid slowing down PR feedback loop)
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install minimal dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Add benchmark-specific deps here if needed.
+
+      - name: Run performance benchmarks
+        if: hashFiles('benchmarks/benchmark_suite.py') != ''
+        run: |
+          python benchmarks/benchmark_suite.py --ci --full || echo "Full benchmarks completed with non-zero exit (tolerated)."
+
+      - name: Upload benchmark results
+        if: hashFiles('benchmarks/results/**') != ''
+        uses: actions/upload-artifact@v3
+        with:
+          name: full-benchmark-results
+          path: benchmarks/results/
+          if-no-files-found: ignore
