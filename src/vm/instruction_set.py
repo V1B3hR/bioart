@@ -6,7 +6,7 @@ Refactored instruction architecture with extensibility and performance
 
 from enum import Enum, auto
 from dataclasses import dataclass
-from typing import Dict, Callable, Any, Optional
+from typing import Dict, Callable, Any, Optional, Tuple
 import struct
 
 class InstructionType(Enum):
@@ -285,7 +285,7 @@ class DNAInstructionSet:
             'instruction_types': list(type_counts.keys())
         }
     
-    def validate_program(self, dna_program: str) -> tuple[bool, list]:
+    def validate_program(self, dna_program: str) -> Tuple[bool, list]:
         """Validate a DNA program against the instruction set"""
         errors = []
         sequences = dna_program.replace(' ', '').replace('\n', '')
@@ -319,7 +319,7 @@ class DNAInstructionSet:
         
         return bytes(bytecode)
     
-    def disassemble_instruction(self, bytecode: bytes, offset: int = 0) -> tuple[Optional[str], int]:
+    def disassemble_instruction(self, bytecode: bytes, offset: int = 0) -> Tuple[Optional[str], int]:
         """Disassemble single instruction from bytecode"""
         if offset >= len(bytecode):
             return None, offset
