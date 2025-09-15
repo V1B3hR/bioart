@@ -510,7 +510,7 @@ class TestIntegrationFeatures(unittest.TestCase):
 
 def run_enhanced_tests():
     """Run all enhanced feature tests"""
-    print("🧬 ENHANCED BIOARTLAN FEATURES TEST SUITE")
+    print("🧬 ENHANCED BIOART FEATURES TEST SUITE")
     print("=" * 60)
     
     # Create test suite

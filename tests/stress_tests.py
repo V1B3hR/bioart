@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bioartlan Programming Language - Specialized Stress Tests
+Bioart Programming Language - Specialized Stress Tests
 Testing limits, memory usage, and extreme conditions
 """
 
@@ -11,14 +11,14 @@ import gc
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from bioartlan import Bioartlan
+from bioart import Bioart
 
 def test_extreme_data_sizes():
     """Test with very large data sets"""
     print("💪 Extreme Data Size Tests")
     print("=" * 50)
     
-    dna = Bioartlan()
+    dna = Bioart()
     
     # Test different data sizes
     sizes = [1024, 10240, 102400]  # 1KB, 10KB, 100KB
@@ -62,7 +62,7 @@ def test_all_byte_patterns():
     print("\n🔍 Comprehensive Byte Pattern Test")
     print("=" * 50)
     
-    dna = Bioartlan()
+    dna = Bioart()
     
     print("Testing all 256 possible byte values...")
     
@@ -98,7 +98,7 @@ def test_dna_sequence_patterns():
     print("\n🧬 DNA Sequence Pattern Tests")
     print("=" * 50)
     
-    dna = Bioartlan()
+    dna = Bioart()
     
     # Test specific patterns
     patterns = {
@@ -128,7 +128,7 @@ def test_program_complexity():
     print("\n💻 Complex Program Tests")
     print("=" * 50)
     
-    dna = Bioartlan()
+    dna = Bioart()
     
     # Test 1: Long program
     print("1. Long program test...")
@@ -170,7 +170,7 @@ def test_file_operations():
     print("\n📁 File Operations Stress Test")
     print("=" * 50)
     
-    dna = Bioartlan()
+    dna = Bioart()
     
     # Test multiple file operations
     test_files = []

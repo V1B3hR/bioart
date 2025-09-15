@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bioartlan DNA Programming Language - Dedicated Test Runner
+Bioart DNA Programming Language - Dedicated Test Runner
 Runs all 24 major test categories systematically with detailed progress reporting
 """
 
@@ -12,7 +12,7 @@ import subprocess
 from typing import List, Tuple, Dict, Any
 
 class TestRunner:
-    """Comprehensive test runner for Bioartlan DNA Programming Language"""
+    """Comprehensive test runner for Bioart DNA Programming Language"""
     
     def __init__(self):
         self.test_results = []
@@ -121,9 +121,9 @@ class TestRunner:
         try:
             # Import bioartlan module
             sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-            from bioartlan import Bioartlan
+            from bioart import Bioart
             
-            dna = Bioartlan()
+            dna = Bioart()
             all_passed = True
             
             # Test 1: DNA Encoding
@@ -253,7 +253,7 @@ class TestRunner:
     
     def run_all_tests(self):
         """Run all test categories systematically"""
-        print("🧬 BIOARTLAN DNA PROGRAMMING LANGUAGE")
+        print("🧬 BIOART DNA PROGRAMMING LANGUAGE")
         print("=" * 60)
         print("COMPREHENSIVE TEST EXECUTION")
         print("=" * 60)

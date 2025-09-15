@@ -1,4 +1,4 @@
-# Bioartlan DNA Programming Language - Build Automation Makefile
+# Bioart DNA Programming Language - Build Automation Makefile
 # Provides targets for running demonstrations, tests, and full simulation
 
 .PHONY: demo test stress all clean help
@@ -21,7 +21,7 @@ EXAMPLES_DIR := examples
 DOCS_DIR := docs
 
 help: ## Show this help message
-	@echo "$(BOLD)🧬 Bioartlan DNA Programming Language - Build System$(NC)"
+	@echo "$(BOLD)🧬 Bioart DNA Programming Language - Build System$(NC)"
 	@echo "$(BOLD)============================================================$(NC)"
 	@echo ""
 	@echo "$(BOLD)Available targets:$(NC)"
@@ -43,7 +43,7 @@ demo: ## Run interactive demonstration
 interpreter: ## Run virtual machine interpreter
 	@echo "$(BOLD)🤖 Running Virtual Machine Interpreter$(NC)"
 	@echo "$(BOLD)======================================$(NC)"
-	@$(PYTHON) $(SRC_DIR)/bioartlan.py
+	@$(PYTHON) $(SRC_DIR)/bioart.py
 	@echo ""
 	@echo "$(GREEN)✅ Interpreter execution completed!$(NC)"
 
@@ -81,7 +81,7 @@ example: ## Test the example DNA program (Load 42, Add 8, Print 50, Halt)
 	@echo "Program: AAAU ACCC AAAG AACA AAUG AAGA"
 	@echo "Expected: Load 42, Add 8, Print 50, Halt"
 	@echo ""
-	@$(PYTHON) -c "import sys; sys.path.insert(0, 'src'); from bioartlan import Bioartlan; dna = Bioartlan(); bytecode = dna.compile_dna_to_bytecode('AAAU ACCC AAAG AACA AAUG AAGA'); print('Bytecode:', ' '.join(f'{b:02X}' for b in bytecode)); print('Output:', end=' '); dna.execute_bytecode(bytecode)"
+	@$(PYTHON) -c "import sys; sys.path.insert(0, 'src'); from bioartlan import Bioart; dna = Bioart(); bytecode = dna.compile_dna_to_bytecode('AAAU ACCC AAAG AACA AAUG AAGA'); print('Bytecode:', ' '.join(f'{b:02X}' for b in bytecode)); print('Output:', end=' '); dna.execute_bytecode(bytecode)"
 	@echo ""
 	@echo "$(GREEN)✅ Example program test completed!$(NC)"
 
@@ -93,7 +93,7 @@ validate: ## Validate repository structure and setup
 	@echo "$(GREEN)✅ Repository validation completed!$(NC)"
 
 specs: ## Show virtual machine specifications
-	@echo "$(BOLD)📋 Bioartlan Virtual Machine Specifications$(NC)"
+	@echo "$(BOLD)📋 Bioart Virtual Machine Specifications$(NC)"
 	@echo "$(BOLD)============================================$(NC)"
 	@echo "• Memory: 256 bytes"
 	@echo "• Registers: 4 (A, B, C, D)"
@@ -136,7 +136,7 @@ clean: ## Clean up generated files
 install: ## Install dependencies (none required for this project)
 	@echo "$(BOLD)📦 Installing Dependencies$(NC)"
 	@echo "$(BOLD)===========================$(NC)"
-	@echo "$(YELLOW)ℹ️  No external dependencies required for Bioartlan!$(NC)"
+	@echo "$(YELLOW)ℹ️  No external dependencies required for Bioart!$(NC)"
 	@echo "$(GREEN)✅ This project uses only Python standard library$(NC)"
 
 check: ## Run all validation checks
@@ -149,7 +149,7 @@ check: ## Run all validation checks
 	@echo "$(GREEN)🏆 All validation checks completed!$(NC)"
 
 info: ## Show project information
-	@echo "$(BOLD)🧬 Bioartlan DNA Programming Language$(NC)"
+	@echo "$(BOLD)🧬 Bioart DNA Programming Language$(NC)"
 	@echo "$(BOLD)=====================================$(NC)"
 	@echo "Version: 1.0 (Production Ready)"
 	@echo "Language: Python 3.6+"
