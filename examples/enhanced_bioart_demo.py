@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enhanced Bioartlan Programming Language Demonstration
+Enhanced Bioart Programming Language Demonstration
 Showcases all 6 major enhancements from the problem statement
 """
 
@@ -12,21 +12,21 @@ import json
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from bioartlan_language import create_bioartlan_system
+from bioart_language import create_bioart_system
 from parallel.parallel_executor import ExecutionStrategy
 from biological.genetic_tools import ModificationType, ToolType
 
 def main():
-    """Comprehensive demonstration of enhanced Bioartlan features"""
+    """Comprehensive demonstration of enhanced Bioart features"""
     
     print("🧬" * 20)
-    print("ENHANCED BIOARTLAN PROGRAMMING LANGUAGE")
+    print("ENHANCED BIOART PROGRAMMING LANGUAGE")
     print("🧬" * 20)
     print()
     
     # Create enhanced system
-    print("1. Creating Enhanced Bioartlan System...")
-    system = create_bioartlan_system(memory_size=512, enable_all_features=True)
+    print("1. Creating Enhanced Bioart System...")
+    system = create_bioart_system(memory_size=512, enable_all_features=True)
     
     # Display system capabilities
     capabilities = system.get_system_capabilities()
@@ -258,7 +258,7 @@ def main():
     print()
     print("🎉 ALL 6 ENHANCEMENTS SUCCESSFULLY IMPLEMENTED!")
     print()
-    print("The Enhanced Bioartlan Programming Language now supports:")
+    print("The Enhanced Bioart Programming Language now supports:")
     print("• Complex mathematical, biological, and cryptographic operations")
     print("• Real-world DNA synthesis integration with validation")
     print("• Biological storage with degradation simulation")

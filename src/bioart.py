@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bioartlan Programming Language - Option 1 Implementation
+Bioart Programming Language - Option 1 Implementation
 2-bit encoding: A=00, U=01, C=10, G=11
 Maximum efficiency: 4 nucleotides per byte
 Direct binary compatibility with existing systems
@@ -10,7 +10,7 @@ import sys
 import struct
 from typing import List, Dict, Any
 
-class Bioartlan:
+class Bioart:
     def __init__(self):
         # 2-bit encoding mapping
         self.dna_to_bits = {'A': '00', 'U': '01', 'C': '10', 'G': '11'}
@@ -153,9 +153,9 @@ class Bioartlan:
         return '\n'.join(result)
 
 def main():
-    dna = Bioartlan()
+    dna = Bioart()
     
-    print("Bioartlan Programming Language - Option 1 (2-bit encoding)")
+    print("Bioart Programming Language - Option 1 (2-bit encoding)")
     print("=" * 50)
     
     # Example DNA program: Load 42, Add 8, Print result, Halt
