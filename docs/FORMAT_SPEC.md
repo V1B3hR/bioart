@@ -1,8 +1,8 @@
-# Bioartlan DNA Programming Language - Format Specification
+# Bioart DNA Programming Language - Format Specification
 
 ## Overview
 
-This document defines the container format specifications for Bioartlan DNA programs, covering the current implicit format (v1) and the planned future container format (v2) for enhanced metadata, error correction, and biological compatibility.
+This document defines the container format specifications for Bioart DNA programs, covering the current implicit format (v1) and the planned future container format (v2) for enhanced metadata, error correction, and biological compatibility.
 
 **Current Version**: 1.0 (Implicit Format)
 **Planned Version**: 2.0 (Container Format)
@@ -14,7 +14,7 @@ This document defines the container format specifications for Bioartlan DNA prog
 
 ### Structure
 
-The current Bioartlan format uses a simple, implicit structure without explicit headers or metadata. Programs are stored as pure DNA sequences with instruction boundaries inferred from the 4-nucleotide instruction length.
+The current Bioart format uses a simple, implicit structure without explicit headers or metadata. Programs are stored as pure DNA sequences with instruction boundaries inferred from the 4-nucleotide instruction length.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -75,7 +75,7 @@ Example: AAAU = 00000001 = 0x01 (LOAD instruction)
 
 ```
 ┌───────────────────────────────────────────────────────────────────┐
-│                        Bioartlan Container v2.0                  │
+│                        Bioart Container v2.0                  │
 ├───────────────────────────────────────────────────────────────────┤
 │                                                                   │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐   │
@@ -365,7 +365,7 @@ def validate_format(data: str, version: FormatVersion) -> ValidationResult:
 
 #### Container Manipulation
 ```python
-class BioartlanContainer:
+class BioartContainer:
     def __init__(self, version: FormatVersion = FormatVersion.V2_0):
         """Create new container with specified format version"""
 
@@ -451,9 +451,9 @@ def extract_v1_instructions(v2_data: str) -> str:
 
 ---
 
-*This format specification serves as the authoritative reference for Bioartlan container formats and migration strategies.*
+*This format specification serves as the authoritative reference for Bioart container formats and migration strategies.*
 
 **Specification Version**: 1.0
 **Last Updated**: 2024
-**Format Authority**: Bioartlan Architecture Team
+**Format Authority**: Bioart Architecture Team
 **Implementation Status**: v2.0 in development

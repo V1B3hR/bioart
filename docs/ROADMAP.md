@@ -1,8 +1,8 @@
-# Bioartlan Programming Language - Development Roadmap
+# Bioart Programming Language - Development Roadmap
 
 ## Overview
 
-This roadmap outlines the strategic development phases for the Bioartlan DNA programming language, from the current stable foundation to advanced biological integration and real-world applications.
+This roadmap outlines the strategic development phases for the Bioart DNA programming language, from the current stable foundation to advanced biological integration and real-world applications.
 
 **Current Status**: Phase 0 Complete (v1.0 - Production Ready)
 **Next Milestone**: Phase 1 - Developer Experience Enhancement
@@ -290,4 +290,4 @@ This roadmap outlines the strategic development phases for the Bioartlan DNA pro
 
 **Last Updated**: 2024
 **Next Review**: Q1 2025
-**Document Owner**: Bioartlan Development Team
+**Document Owner**: Bioart Development Team
