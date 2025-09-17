@@ -1,0 +1,74 @@
+# Model Configuration for BioArt Learning Process
+
+# DNA Embedding Model (Non-functional)
+dna_embedding:
+  model_type: "kmer_transformer"  # Type of embedding model
+  kmer_size: 6  # K-mer size for tokenization
+  vocab_size: 4096  # Maximum vocabulary size (4^k)
+  embedding_dim: 256  # Embedding dimension
+  max_length: 1024  # Maximum sequence length
+  
+  # Model architecture
+  transformer:
+    num_layers: 4
+    num_heads: 8
+    hidden_dim: 512
+    dropout: 0.1
+    
+  # Training parameters
+  training:
+    batch_size: 32
+    learning_rate: 1e-4
+    num_epochs: 10
+    warmup_steps: 1000
+    weight_decay: 0.01
+
+# LoRA Diffusion Model for Microbe Textures
+diffusion_lora:
+  base_model: "runwayml/stable-diffusion-v1-5"  # Base diffusion model
+  
+  # LoRA parameters
+  lora:
+    rank: 4  # LoRA rank (keep low for efficiency)
+    alpha: 32  # LoRA alpha parameter
+    dropout: 0.1
+    target_modules: ["to_q", "to_v", "to_k", "to_out.0"]  # Which modules to adapt
+    
+  # Training parameters
+  training:
+    batch_size: 4  # Small batch size for memory efficiency
+    learning_rate: 1e-5
+    num_epochs: 5  # Few epochs for LoRA fine-tuning
+    gradient_accumulation_steps: 4
+    mixed_precision: "fp16"  # Use mixed precision for efficiency
+    
+  # Generation parameters
+  generation:
+    num_inference_steps: 20  # Faster generation
+    guidance_scale: 7.5
+    image_size: 512
+
+# Feature Mapping Models
+feature_mapping:
+  palette_generator:
+    method: "interpolation"  # How to map features to colors
+    color_spaces: ["HSV", "LAB"]  # Color spaces to work in
+    smoothing: 0.1  # Smoothing factor for color transitions
+    
+  prompt_generator:
+    template_based: true  # Use template-based prompt generation
+    max_prompt_length: 75  # Maximum prompt length for diffusion
+    style_keywords: ["bioart", "organic", "cellular", "microscopic"]
+
+# Model storage and caching
+storage:
+  model_cache_dir: "models/cache"
+  checkpoint_dir: "models/checkpoints"
+  save_every_n_epochs: 5
+  keep_last_n_checkpoints: 3
+
+# Hardware settings
+hardware:
+  device: "auto"  # "auto", "cpu", "cuda", "mps"
+  mixed_precision: true
+  compile_models: false  # PyTorch 2.0 compilation (experimental)

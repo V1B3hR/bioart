@@ -1,0 +1,56 @@
+# Data Configuration for BioArt Learning Process
+
+# Kaggle dataset information
+datasets:
+  grch38_genome:
+    name: "aliabedimadiseh/grch38-human-genome-dna"
+    url: "https://www.kaggle.com/datasets/aliabedimadiseh/grch38-human-genome-dna"
+    local_path: "data/raw/grch38_genome"
+    description: "GRCh38 Human Genome DNA sequences"
+    
+  microbes:
+    name: "sayansh001/microbes-dataset"
+    url: "https://www.kaggle.com/datasets/sayansh001/microbes-dataset"
+    local_path: "data/raw/microbes"
+    description: "Microbe images for texture training"
+    
+  y_dna_haplogroups:
+    name: "mariusc/y-dna-haplogroups-by-ethnic-group"
+    url: "https://www.kaggle.com/datasets/mariusc/y-dna-haplogroups-by-ethnic-group"
+    local_path: "data/raw/y_dna_haplogroups"
+    description: "Y-DNA haplogroups by ethnic group metadata"
+    
+  human_dna:
+    name: "neelvasani/humandnadata"
+    url: "https://www.kaggle.com/datasets/neelvasani/humandnadata"
+    local_path: "data/raw/human_dna"
+    description: "Human DNA samples"
+
+# Feature extraction parameters
+feature_extraction:
+  dna_sequences:
+    kmer_size: [3, 4, 5, 6]  # k-mer sizes to analyze
+    max_sequence_length: 10000  # Maximum sequence length to process
+    gc_content_bins: 50  # Number of bins for GC content distribution
+    
+  microbe_images:
+    image_size: [224, 224]  # Resize images to this size
+    color_spaces: ["RGB", "HSV", "LAB"]  # Color spaces to analyze
+    texture_features: true  # Extract texture features
+    
+  haplogroup_metadata:
+    categorical_encoding: "one_hot"  # How to encode categorical variables
+    population_threshold: 10  # Minimum population size to include
+
+# Data processing settings
+processing:
+  chunk_size: 1000  # Process data in chunks of this size
+  n_jobs: -1  # Number of parallel jobs (-1 = use all cores)
+  random_seed: 42  # For reproducible results
+  validation_split: 0.2  # Fraction of data for validation
+
+# Output paths
+output_paths:
+  processed_data: "data/processed"
+  extracted_features: "data/features"
+  visualizations: "data/visualizations"

@@ -143,3 +143,35 @@ dmypy.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Bioart-specific ignores
+# Kaggle datasets (can be large, should be downloaded via scripts)
+data/raw/**
+!data/raw/.gitkeep
+
+# Generated art outputs
+outputs/
+generated_art/
+*.png
+*.jpg
+*.jpeg
+!examples/*.png
+!examples/*.jpg
+!examples/*.jpeg
+
+# Model checkpoints and weights
+models/checkpoints/
+*.pth
+*.ckpt
+*.safetensors
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Kaggle API credentials
+.kaggle/
+kaggle.json
+
+# Generated configuration files
+config_local.yaml
+local_*.yaml

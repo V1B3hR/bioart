@@ -1,0 +1,84 @@
+# Art Generation Configuration for BioArt Learning Process
+
+# Color palette generation
+palettes:
+  gc_content_mapping:
+    low_gc: [0.2, 0.4]  # GC content range considered "low"
+    medium_gc: [0.4, 0.6]  # GC content range considered "medium"  
+    high_gc: [0.6, 0.8]  # GC content range considered "high"
+    
+    # Color mappings (HSV values)
+    colors:
+      low_gc: [240, 0.7, 0.9]    # Blue tones for AT-rich regions
+      medium_gc: [120, 0.6, 0.8]  # Green tones for balanced regions
+      high_gc: [0, 0.8, 0.9]      # Red tones for GC-rich regions
+      
+  kmer_diversity_mapping:
+    method: "entropy_based"  # Map k-mer diversity to saturation
+    saturation_range: [0.3, 1.0]  # Range of saturation values
+    
+  haplogroup_mapping:
+    # Map haplogroup categories to color variations
+    categorical_offset: 30  # Hue offset between categories (degrees)
+    preserve_base_mapping: true  # Keep GC content as primary mapping
+
+# Texture generation
+textures:
+  microbe_based:
+    style_strength: 0.7  # How strongly to apply microbe textures
+    blend_mode: "overlay"  # How to blend textures with base colors
+    scale_factors: [0.5, 1.0, 1.5]  # Different texture scales to try
+    
+  prompt_templates:
+    - "microscopic {organism} texture, organic patterns, scientific illustration"
+    - "cellular structure of {organism}, bioart style, detailed"
+    - "{organism} colony morphology, artistic interpretation"
+    - "biological texture inspired by {organism}, abstract art"
+
+# Composition rules
+composition:
+  layout:
+    grid_based: true  # Use grid-based layouts
+    grid_sizes: [2, 3, 4]  # Possible grid dimensions
+    overlap_allowed: false  # Whether grid cells can overlap
+    
+  haplogroup_influence:
+    # How haplogroup metadata influences composition
+    symmetry_mapping:
+      "R1a": "radial"  # Example: R1a haplogroup -> radial symmetry
+      "R1b": "bilateral"  # R1b -> bilateral symmetry
+      "default": "random"  # Default for unmapped haplogroups
+      
+    rhythm_patterns:
+      method: "frequency_based"  # Base rhythm on data frequencies
+      tempo_range: [0.5, 2.0]  # Relative tempo multipliers
+
+# Output settings
+output:
+  formats: ["PNG", "JPEG", "SVG"]  # Output image formats
+  resolutions:
+    preview: [512, 512]    # Quick preview resolution
+    medium: [1024, 1024]   # Medium quality
+    high: [2048, 2048]     # High quality
+    print: [4096, 4096]    # Print quality
+    
+  metadata:
+    embed_source_info: true  # Embed data source info in image metadata
+    include_parameters: true  # Include generation parameters
+    copyright_notice: "Generated bioart - educational/artistic use only"
+
+# Generation parameters
+generation:
+  batch_size: 4  # How many images to generate at once
+  variations_per_input: 3  # Number of variations for each input
+  random_seed: null  # null for random, or specific seed for reproducibility
+  
+  quality_control:
+    min_diversity_threshold: 0.1  # Minimum visual diversity between variations
+    aesthetic_filters: ["brightness", "contrast", "color_balance"]
+
+# Experimental features (advanced users)
+experimental:
+  multi_modal_fusion: false  # Combine multiple data modalities
+  dynamic_composition: false  # Adaptive composition based on data
+  interactive_generation: false  # Enable interactive parameter adjustment
