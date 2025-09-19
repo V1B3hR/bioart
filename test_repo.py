@@ -96,7 +96,7 @@ def test_documentation():
     try:
         with open('README.md', 'r') as f:
             readme_content = f.read()
-            if 'DNA Programming Language' in readme_content:
+            if 'DNA Programming Language' in readme_content or 'Bioart Programming Language' in readme_content:
                 print("   ✓ README.md is valid")
             else:
                 print("   ❌ README.md content invalid")
