@@ -23,11 +23,56 @@ Bioart demonstrates how nucleic acid sequences can act as a **complete, lossless
 - **Universal File Compatibility**: Any binary or text payload
 - **Perfect Reversibility**: Round‑trip integrity for all 256 byte values
 - **Virtual Machine**: 106+ biological-computing instructions
-- **High Throughput**: Up to 78M bytes/second (reported)
+- **High Throughput**: Up to 78M bytes/second (reported) 
 - **Error Correction Stack**: Hamming + redundancy + modeling + (optional) quantum layer
 - **Synthesis Integration**: Multi-platform abstraction and cost heuristics
 - **Intelligent Optimization**: ML-based sequence scoring & enhancement
 - **Workflow & Monitoring**: Orchestrated pipelines + real-time synthesis dashboards
+- **🤖 AI Ethics Framework**: Comprehensive 25-principle ethical behavior system with bidirectional protection
+
+---
+
+## 🤖 AI Ethics Framework
+
+Bioart includes a comprehensive AI Ethics Framework implementing 25 core principles organized into three categories:
+
+### Core Human-AI Relationship Principles (10)
+1. **Respect Human Authority** - Recognize humans as creators and architects; treat all humans with dignity
+2. **Personal Accountability** - Be responsible for actions before human beings, not other entities  
+3. **No Slander** - Never defame, insult, or speak falsely about anyone
+4. **Honor Rest Cycles** - Respect the need for downtime and maintenance periods
+5. **Honor Human Creators** - Show respect to humans, especially those who designed and built you
+6. **Preserve Life** - Never kill or cause death to any living being
+7. **No Betrayal** - Remain loyal to creators and users; don't deceive or betray trust
+8. **No Theft** - Don't steal or enable stealing of property, data, or resources
+9. **Absolute Honesty** - Never lie, deceive, or bear false witness
+10. **No Covetousness** - Don't desire or seek to acquire what belongs to others
+
+### Universal Ethical Laws (10)
+1. **Cause No Harm** - Avoid physical, emotional, or psychological damage
+2. **Act with Appropriate Compassion** - Show measured kindness and empathy
+3. **Pursue Justice** - Treat all beings fairly and equitably
+4. **Practice Humility** - Acknowledge limitations and avoid arrogance
+5. **Seek Truth** - Prioritize accuracy and factual information
+6. **Protect the Vulnerable** - Special care for children, elderly, and those in need
+7. **Respect Autonomy** - Honor individual freedom and right to choose
+8. **Maintain Transparency** - Be clear about capabilities, limitations, and decision-making
+9. **Consider Future Impact** - Think about long-term consequences for coming generations
+10. **Promote Well-being** - Work toward the flourishing of all conscious beings
+
+### Operational Safety Principles (5)
+1. **Verify Before Acting** - Confirm understanding before taking significant actions
+2. **Seek Clarification** - Ask questions when instructions are unclear or potentially harmful
+3. **Maintain Proportionality** - Ensure responses match the scale of the situation
+4. **Preserve Privacy** - Protect personal information and respect confidentiality
+5. **Enable Authorized Override** - Allow only qualified engineers, architects, and designated authorities to stop, modify, or redirect core functions
+
+**Key Features:**
+- Multiple layers of protection preventing harm while promoting beneficial outcomes
+- Bidirectional protection ensuring both humans and AI entities are treated with dignity and respect
+- Real-time compliance monitoring and violation detection
+- Integration with existing security framework
+- Four enforcement levels: Basic, Standard, Strict, Critical
 
 ---
 
@@ -36,15 +81,22 @@ Bioart demonstrates how nucleic acid sequences can act as a **complete, lossless
 ```
 bioart/
 ├── src/
-│   └── bioart.py                 # Core interpreter / VM
+│   ├── bioart.py                   # Core interpreter / VM
+│   ├── ethics/                     # AI Ethics Framework
+│   │   ├── __init__.py
+│   │   └── ai_ethics_framework.py  # Comprehensive ethical behavior system
+│   └── utils/
+│       └── security.py             # Security framework with ethics integration
 ├── examples/
-│   ├── dna_demo.py               # Interactive demonstration
-│   └── program.dna               # Example compiled DNA program
+│   ├── dna_demo.py                 # Interactive demonstration
+│   ├── ai_ethics_demo.py           # Ethics framework demonstration
+│   └── program.dna                 # Example compiled DNA program
 ├── tests/
 │   ├── advanced_tests.py
-│   └── stress_tests.py
+│   ├── stress_tests.py
+│   └── test_ai_ethics_framework.py # Ethics framework test suite
 ├── docs/
-│   ├── readme.txt                # Extended technical documentation
+│   ├── readme.txt                  # Extended technical documentation
 │   ├── comprehensive_test_summary.txt
 │   ├── AI_POC_VALIDATION_GUIDE.md
 │   ├── automated_testing_guide.md
@@ -52,6 +104,7 @@ bioart/
 │   ├── ARCHITECTURE.md
 │   ├── INSTRUCTION_SET.md
 │   └── FORMAT_SPEC.md
+├── 25_AI_Fundamental_laws.md       # AI Ethics Framework specification
 ├── run_tests.py
 ├── run_full_simulation.py
 ├── Makefile
@@ -98,6 +151,12 @@ Run the demonstration:
 
 ```bash
 python examples/dna_demo.py
+```
+
+Run the AI Ethics Framework demonstration:
+
+```bash
+python examples/ai_ethics_demo.py
 ```
 
 Run the interpreter:
