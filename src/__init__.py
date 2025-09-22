@@ -25,6 +25,13 @@ from .parallel.dna_threading import DNAThreadManager
 from .parallel.parallel_executor import ParallelDNAExecutor, ExecutionStrategy
 from .parallel.distributed_computing import DistributedDNAComputer, NodeType
 
+# AI Ethics Framework
+try:
+    from .ethics.ai_ethics_framework import EthicsFramework, EthicsLevel, EthicsViolationError
+    ETHICS_AVAILABLE = True
+except ImportError:
+    ETHICS_AVAILABLE = False
+
 # Version information
 VERSION_INFO = {
     'version': __version__,
@@ -39,7 +46,8 @@ VERSION_INFO = {
         'Multi-threading and parallel execution support',
         'Distributed computing capabilities', 
         'Advanced error correction for biological environments',
-        'Real-time biological constraint simulation'
+        'Real-time biological constraint simulation',
+        'Comprehensive AI Ethics Framework integration'
     ],
     'improvements': [
         'Biological synthesis systems integration',
@@ -49,7 +57,8 @@ VERSION_INFO = {
         'Interface with genetic engineering tools',
         'Extended instruction set for complex operations',
         'Advanced biological constraint simulation',
-        'Distributed computing framework'
+        'Distributed computing framework',
+        'AI Ethics Framework with 25 principles and laws'
     ]
 }
 
@@ -124,10 +133,21 @@ __all__ = [
     'DistributedDNAComputer',
     'NodeType',
     
+    # AI Ethics Framework (if available)
+    'ETHICS_AVAILABLE',
+    
     # Utility functions
     'get_version_info',
     
     # Version info
     '__version__',
     'VERSION_INFO'
-] 
+]
+
+# Add ethics framework exports if available
+if ETHICS_AVAILABLE:
+    __all__.extend([
+        'EthicsFramework',
+        'EthicsLevel', 
+        'EthicsViolationError'
+    ])

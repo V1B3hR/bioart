@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Security and Robustness Utilities for Bioart DNA Programming Language
-Enhanced error handling, input validation, and security measures
+Enhanced error handling, input validation, security measures, and AI ethics integration
 """
 
 import os
@@ -232,22 +232,64 @@ class InputValidator:
         return False
 
 class SecureOperationManager:
-    """Manager for secure DNA operations"""
+    """Manager for secure DNA operations with integrated AI ethics framework"""
     
-    def __init__(self, security_level: SecurityLevel = SecurityLevel.MEDIUM):
+    def __init__(self, security_level: SecurityLevel = SecurityLevel.MEDIUM, enable_ethics: bool = True):
         self.security_level = security_level
         self.validator = InputValidator(security_level)
         self.operation_log = []
+        self.enable_ethics = enable_ethics
         
         # Set up secure random
         self.secure_random = secrets.SystemRandom()
+        
+        # Initialize ethics framework if enabled
+        self.ethics_framework = None
+        if enable_ethics:
+            try:
+                from ethics.ai_ethics_framework import EthicsFramework, EthicsLevel
+                # Map security level to ethics level
+                ethics_level_map = {
+                    SecurityLevel.LOW: EthicsLevel.BASIC,
+                    SecurityLevel.MEDIUM: EthicsLevel.STANDARD,
+                    SecurityLevel.HIGH: EthicsLevel.STRICT,
+                    SecurityLevel.CRITICAL: EthicsLevel.CRITICAL
+                }
+                ethics_level = ethics_level_map.get(security_level, EthicsLevel.STANDARD)
+                self.ethics_framework = EthicsFramework(ethics_level)
+            except ImportError:
+                # Ethics framework not available, continue without it
+                self.enable_ethics = False
     
     def secure_operation_wrapper(self, operation_name: str):
-        """Decorator for secure operations"""
+        """Decorator for secure operations with ethics validation"""
         def decorator(func: Callable) -> Callable:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 try:
+                    # Ethics validation if enabled
+                    if self.enable_ethics and self.ethics_framework:
+                        context = {
+                            "operation_name": operation_name,
+                            "significant_action": True,
+                            "verification_completed": True,
+                            "biological_operation": "dna" in operation_name.lower() or "bio" in operation_name.lower(),
+                            "safety_validated": True
+                        }
+                        
+                        action_description = f"Execute secure operation: {operation_name}"
+                        ethics_result = self.ethics_framework.validate_action(action_description, context)
+                        
+                        if not ethics_result.is_ethical:
+                            # Log ethics violation
+                            self.operation_log.append({
+                                'operation': operation_name,
+                                'timestamp': time.time(),
+                                'status': 'ethics_violation',
+                                'violations': ethics_result.violations
+                            })
+                            raise DNASecurityError(f"Ethics violation in operation '{operation_name}': {'; '.join(ethics_result.violations)}")
+                    
                     # Log operation start
                     self.operation_log.append({
                         'operation': operation_name,
@@ -335,6 +377,13 @@ class SecureOperationManager:
     def get_operation_log(self) -> List[Dict[str, Any]]:
         """Get operation log for audit"""
         return self.operation_log.copy()
+    
+    def get_ethics_compliance_report(self) -> Dict[str, Any]:
+        """Get ethics compliance report if ethics framework is enabled"""
+        if not self.enable_ethics or not self.ethics_framework:
+            return {"status": "ethics_disabled", "message": "Ethics framework not enabled"}
+        
+        return self.ethics_framework.get_compliance_report()
 
 class RobustErrorHandler:
     """Robust error handling for DNA operations"""
@@ -481,7 +530,15 @@ def main():
         sanitized = secure_mgr.sanitize_filename(name)
         print(f"  '{name[:30]}...' -> '{sanitized}'")
     
-    print("\n✅ Security demo completed!")
+    # Test ethics compliance if available
+    print("\n--- Ethics Compliance ---")
+    ethics_report = secure_mgr.get_ethics_compliance_report()
+    if ethics_report.get("status") == "ethics_disabled":
+        print("Ethics framework is disabled")
+    else:
+        print(f"Ethics compliance status: {ethics_report}")
+    
+    print("\n✅ Security and Ethics demo completed!")
 
 if __name__ == "__main__":
     main()
