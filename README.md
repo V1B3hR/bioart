@@ -147,7 +147,34 @@ python -m venv .venv && source .venv/bin/activate
 
 ## ⚡ Quick Start
 
-Run the demonstration:
+### Using the Translator (Real-World Ready)
+
+```bash
+# Command-line interface
+python bioart_cli.py encode --text "Hello, World!"
+python bioart_cli.py decode --dna "UACAUCUUUCGAUCGAUCG..."
+python bioart_cli.py verify --text "Test data"
+
+# Interactive mode
+python bioart_cli.py interactive
+
+# Run comprehensive demo
+python examples/translator_demo.py
+```
+
+### Python API
+
+```python
+from src.translator import BioartTranslator
+
+translator = BioartTranslator()
+dna = translator.text_to_dna("Hello, World!")
+text = translator.dna_to_text(dna)
+```
+
+### Other Demos
+
+Run the DNA encoding demonstration:
 
 ```bash
 python examples/dna_demo.py
@@ -310,6 +337,7 @@ make example
 ## 📚 Documentation Hub
 
 Core:
+- **[Translator Guide](docs/TRANSLATOR_GUIDE.md)** - Comprehensive translator documentation
 - [Project Roadmap](docs/ROADMAP.md)
 - [Architecture Overview](docs/ARCHITECTURE.md)
 - [Instruction Set Specification](docs/INSTRUCTION_SET.md)

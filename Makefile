@@ -185,3 +185,22 @@ quick: ## Quick validation (demo + basic tests)
 	@$(MAKE) example
 	@echo ""
 	@echo "$(GREEN)✅ Quick validation completed!$(NC)"
+
+translator: ## Run translator demo
+	@echo "$(BOLD)🧬 Running Translator Demo$(NC)"
+	@echo "$(BOLD)===========================$(NC)"
+	@$(PYTHON) $(EXAMPLES_DIR)/translator_demo.py
+	@echo ""
+	@echo "$(GREEN)✅ Translator demo completed!$(NC)"
+
+translator-test: ## Run translator tests
+	@echo "$(BOLD)🧪 Running Translator Tests$(NC)"
+	@echo "$(BOLD)============================$(NC)"
+	@$(PYTHON) $(TESTS_DIR)/test_translator.py
+	@echo ""
+	@echo "$(GREEN)✅ Translator tests completed!$(NC)"
+
+cli: ## Show CLI help
+	@echo "$(BOLD)🖥️  Bioart CLI Help$(NC)"
+	@echo "$(BOLD)===================$(NC)"
+	@$(PYTHON) bioart_cli.py --help
