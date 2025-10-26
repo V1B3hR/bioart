@@ -6,7 +6,7 @@ Implements M2 requirement: "Instrument cost/time per iteration; budgets; anomaly
 
 import time
 import threading
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
@@ -57,7 +57,7 @@ class CostTracker:
         self._operations: List[OperationCost] = []
         self._lock = threading.RLock()
         self._budgets: Dict[str, CostBudget] = {}
-        self._alert_callbacks: List[callable] = []
+        self._alert_callbacks: List[Callable[[str, CostBudget, float, float], None]] = []
 
     def track_operation(
         self,
@@ -116,26 +116,26 @@ class CostTracker:
         Get total cost across all or filtered operations.
 
         Args:
-            operation_filter: Filter by operation name prefix
+            operation_filter: Filter by operation name prefix (uses startswith match)
 
         Returns:
             Total cost in units
         """
         with self._lock:
-            operations = self._operations
             if operation_filter:
-                operations = [
-                    op for op in operations
+                return sum(
+                    op.cost_units
+                    for op in self._operations
                     if op.operation_name.startswith(operation_filter)
-                ]
-            return sum(op.cost_units for op in operations)
+                )
+            return sum(op.cost_units for op in self._operations)
 
     def get_operation_count(self, operation_filter: Optional[str] = None) -> int:
         """
         Get count of tracked operations.
 
         Args:
-            operation_filter: Filter by operation name prefix
+            operation_filter: Filter by operation name prefix (uses startswith match)
 
         Returns:
             Operation count
@@ -153,7 +153,7 @@ class CostTracker:
         Calculate cost per 100 jobs.
 
         Args:
-            operation_filter: Filter by operation name prefix
+            operation_filter: Filter by operation name prefix (uses startswith match)
 
         Returns:
             Cost per 100 jobs
@@ -226,12 +226,16 @@ class CostTracker:
             except Exception as e:
                 logger.error(f"Alert callback failed: {e}")
 
-    def register_alert_callback(self, callback: callable) -> None:
+    def register_alert_callback(
+        self,
+        callback: Callable[[str, CostBudget, float, float], None]
+    ) -> None:
         """
         Register callback for budget alerts.
 
         Args:
-            callback: Function(level, budget, current_cost, percent_used)
+            callback: Function with signature (level: str, budget: CostBudget,
+                     current_cost: float, percent_used: float) -> None
         """
         self._alert_callbacks.append(callback)
 
