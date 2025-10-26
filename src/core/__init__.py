@@ -1,7 +1,8 @@
 """
 Core modules for Bioart DNA programming language.
 
-Provides centralized configuration, structured logging, caching, and core encoding functionality.
+Provides centralized configuration, structured logging, caching, cost tracking,
+and core encoding functionality.
 """
 
 from .config import (
@@ -39,6 +40,13 @@ from .cache import (
     get_transform_cache,
 )
 
+from .cost import (
+    CostTracker,
+    CostBudget,
+    OperationCost,
+    get_cost_tracker,
+)
+
 __all__ = [
     # Config
     "BioartConfig",
@@ -69,5 +77,10 @@ __all__ = [
     "cached",
     "get_sequence_cache",
     "get_transform_cache",
+    # Cost
+    "CostTracker",
+    "CostBudget",
+    "OperationCost",
+    "get_cost_tracker",
 ]
 
