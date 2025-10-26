@@ -1,105 +1,105 @@
-# 🛣️ Highway Map — bioart (krytyczna ścieżka)
+# 🛣️ Highway Map — bioart (critical path)
 
-Highway = minimalna, najszybsza i mierzalna ścieżka dowiezienia wartości od PoC do pierwszego publicznego wydania, z jasno zdefiniowanymi bramkami (Go/No‑Go).
+Highway = the minimal, fastest, and measurable path to deliver value from PoC to the first public release, with clearly defined gates (Go/No‑Go).
 
-Powiązane dokumenty:
+Related documents:
 - Vision/strategy: [roadmap.md](./roadmap.md)
-- Execution details: [pathwaymap.md](./pathwaymap.md) (szczegółowe checklisty, SLO, DoD)
+- Execution details: [pathwaymap.md](./pathwaymap.md) (detailed checklists, SLO, DoD)
 
-## 1) Cele „Highway” i ograniczenia
+## 1) “Highway” goals and constraints
 
-- Cel release R1:
-  - Dostarczyć stabilny rdzeń (VM + I/O), podstawowy interfejs (CLI lub proste API), oraz jeden działający adapter „sandbox” do symulowanej/safe integracji.
-- Ograniczenia (SLO/SLA minimalne):
-  - Współczynnik sukcesu ≥ 99% dla ścieżki krytycznej
-  - MTTR ≤ 30 min (na podstawie runbooków)
-  - Koszt/100 zleceń ≤ ustalony próg (TBD w pathwaymap.md)
-- Zakres R1 (co wchodzi):
-  - Packaging (biblioteka + CLI), podstawowa dokumentacja i quickstart
-  - Telemetria bazowa (logi strukturalne, metryki czasu i błędów)
-  - Adapter „sandbox” + testy E2E
-- Poza zakresem R1 (przesunięte):
-  - Integracje produkcyjne z wet‑lab, pełny GUI/playground, akceleratory (FPGA), zaawansowane ECC/ML
+- R1 release goal:
+  - Deliver a stable core (VM + I/O), a basic interface (CLI or simple API), and one working “sandbox” adapter for simulated/safe integration.
+- Constraints (minimum SLO/SLA):
+  - Success rate ≥ 99% for the critical path
+  - MTTR ≤ 30 minutes (based on runbooks)
+  - Cost per 100 jobs ≤ defined threshold (TBD in pathwaymap.md)
+- R1 scope (included):
+  - Packaging (library + CLI), basic docs and quickstart
+  - Baseline telemetry (structured logs, timing and error metrics)
+  - “Sandbox” adapter + E2E tests
+- Out of scope for R1 (deferred):
+  - Production wet‑lab integrations, full GUI/playground, accelerators (FPGA), advanced ECC/ML
 
-## 2) Krytyczna ścieżka (kamienie milowe i zależności)
+## 2) Critical path (milestones and dependencies)
 
-- M0: Hardening PoC i repo
-  - Deliverables: format/lint/CI, test harness, walidacja konfiguracji, logi strukturalne
-  - Zależności: brak
-  - Go/No‑Go: „zielone” CI, ≥60% pokrycia w modułach kluczowych, reprodukowalne dev‑setup
-- M1: Profilowanie i pierwsze optymalizacje
-  - Deliverables: profil hot‑path, eliminacja top‑N wąskich gardeł, cache (z TTL)
-  - Zależności: M0
-  - Go/No‑Go: ≥30% skrócenia czasu ścieżki krytycznej
-- M2: Telemetria kosztów i guardraile
-  - Deliverables: instrumentacja kosztów/iterację, budżety i alerty anomalii
-  - Zależności: M0
-  - Go/No‑Go: raport kosztów/100 zleceń w dopuszczalnym progu
-- M3: Porty/adaptery + „sandbox” E2E
-  - Deliverables: interfejsy (porty), mock + adapter sandbox, testy kontraktów i E2E
-  - Zależności: M0, M1 (stabilność), M2 (limity)
-  - Go/No‑Go: pełny, audytowalny trace zlecenia w sandboxie
-- M4: Niezawodność i odporność
-  - Deliverables: retry/backoff + jitter, idempotencja, circuit‑breaker, limity równoległości
-  - Zależności: M3
-  - Go/No‑Go: testy awaryjne/chaos ≥95% pass
-- M5: Dystrybucja (R1)
-  - Deliverables: pakiet (PyPI lub inny), CLI, dokumentacja (README, Quickstart, Runbook), SBOM, release notes
-  - Zależności: M3–M4
-  - Go/No‑Go: instalacja „od zera” <15 min, smoke E2E zielone, SLO spełnione
-- M6: Stabilizacja po release
-  - Deliverables: triage feedbacku, bugfixy, uzupełnienie docs, metryki użycia
-  - Zależności: M5
-  - Go/No‑Go: brak blockerów P0/P1 przez 7 dni
+- M0: PoC and repo hardening
+  - Deliverables: formatting/lint/CI, test harness, configuration validation, structured logs
+  - Dependencies: none
+  - Go/No‑Go: “green” CI, ≥60% coverage in key modules, reproducible dev setup
+- M1: Profiling and first optimizations
+  - Deliverables: hot‑path profile, eliminate top‑N bottlenecks, cache (with TTL)
+  - Dependencies: M0
+  - Go/No‑Go: ≥30% reduction in critical‑path latency
+- M2: Cost telemetry and guardrails
+  - Deliverables: cost instrumentation per iteration, budgets and anomaly alerts
+  - Dependencies: M0
+  - Go/No‑Go: cost/100 jobs report within the allowed threshold
+- M3: Ports/adapters + “sandbox” E2E
+  - Deliverables: interfaces (ports), mock + sandbox adapter, contract tests and E2E
+  - Dependencies: M0, M1 (stability), M2 (limits)
+  - Go/No‑Go: full, auditable job trace in the sandbox
+- M4: Reliability and resilience
+  - Deliverables: retry/backoff + jitter, idempotency, circuit breaker, concurrency limits
+  - Dependencies: M3
+  - Go/No‑Go: fault/chaos tests ≥95% pass
+- M5: Distribution (R1)
+  - Deliverables: package (PyPI or other), CLI, documentation (README, Quickstart, Runbook), SBOM, release notes
+  - Dependencies: M3–M4
+  - Go/No‑Go: fresh install < 15 min, E2E smoke green, SLOs met
+- M6: Post‑release stabilization
+  - Deliverables: feedback triage, bugfixes, docs enhancements, usage metrics
+  - Dependencies: M5
+  - Go/No‑Go: no P0/P1 blockers for 7 days
 
-Viz. zależności (D = dependency chain):
+Dependencies overview (D = dependency chain):
 - D1: M0 → M1 → M3 → M4 → M5 → M6
-- D2 (równoległe): M2 może biec po M0 i przed M3 (włącza limity i raporty)
+- D2 (parallel): M2 can run after M0 and before M3 (enables limits and reporting)
 
-## 3) Minimalny zakres PR‑ów na „Highway”
+## 3) Minimal PR set for the “Highway”
 
-- PR‑01: Infrastruktura repo (format/lint/CI, CODEOWNERS, SECURITY, CONTRIBUTING)
-- PR‑02: Test harness + pierwsze testy ścieżki krytycznej
-- PR‑03: Logi strukturalne + metryki bazowe
-- PR‑04: Profilowanie + optymalizacje hot‑path (1/2)
-- PR‑05: Instrumentacja kosztów + budżety + alerty
-- PR‑06: Porty/adaptery: interfejsy + mock + testy kontraktów
-- PR‑07: Adapter „sandbox” + E2E + retry/backoff + limits
-- PR‑08: Packaging + CLI + dokumentacja użytkownika + release pipeline
-- PR‑09: Stabilizacja po R1 (bugfixy + feedback)
+- PR‑01: Repo infrastructure (format/lint/CI, CODEOWNERS, SECURITY, CONTRIBUTING)
+- PR‑02: Test harness + first critical‑path tests
+- PR‑03: Structured logs + baseline metrics
+- PR‑04: Profiling + hot‑path optimizations (1/2)
+- PR‑05: Cost instrumentation + budgets + alerts
+- PR‑06: Ports/adapters: interfaces + mock + contract tests
+- PR‑07: Sandbox adapter + E2E + retry/backoff + limits
+- PR‑08: Packaging + CLI + user docs + release pipeline
+- PR‑09: Post‑R1 stabilization (bugfixes + feedback)
 
-Zasady:
-- Jedna zmiana logiczna na PR; testy i docs w tym samym PR.
-- Rozmiar PR ukierunkowany na szybki review (<30 min).
-- Każdy PR referencją do tracking issue „Highway R1”.
+Guidelines:
+- One logical change per PR; tests and docs in the same PR.
+- PR size optimized for quick review (< 30 min).
+- Every PR references the “Highway R1” tracking issue.
 
-## 4) Kryteria jakości (skrót)
+## 4) Quality criteria (summary)
 
-- Wydajność: skrócenie latencji ścieżki krytycznej o ≥30% vs baseline
-- Niezawodność: sukces ≥99%, chaos tests ≥95% pass
-- Koszt: koszt/100 zleceń ≤ próg (def. w pathwaymap.md)
-- Obserwowalność: logi strukturalne + metryki czasu/błędów, podstawowy tracing
-- Bezpieczeństwo: zarządzanie sekretami, least privilege, audit trail dla operacji zewnętrznych
+- Performance: ≥30% reduction in critical‑path latency vs baseline
+- Reliability: success ≥99%, chaos tests ≥95% pass
+- Cost: cost/100 jobs ≤ threshold (defined in pathwaymap.md)
+- Observability: structured logs + timing/error metrics, basic tracing
+- Security: secrets management, least privilege, audit trail for external operations
 
-## 5) Ryzyka o wysokim wpływie i mitigacje
+## 5) High‑impact risks and mitigations
 
-- Eskalujący koszt przy wolumenie → cache/batching, budżety, alerty anomalii
-- Niestabilność API zewnętrznych → adapter pattern, feature flags, circuit‑breaker, sandbox
-- Nieprzewidywalne formaty danych → kontrakty i walidacja schematów, testy kontraktowe
-- Rozjechane środowiska dev → kontenery/lockfile, pinned wersje, reproducible builds
+- Escalating cost with volume → cache/batching, budgets, anomaly alerts
+- Unstable external APIs → adapter pattern, feature flags, circuit breaker, sandbox
+- Unpredictable data formats → contracts and schema validation, contract tests
+- Divergent dev environments → containers/lockfiles, pinned versions, reproducible builds
 
-## 6) Mechanika egzekucji
+## 6) Execution mechanics
 
-- Tracking: 1 epic/issue „Highway R1” + board (todo/in‑progress/review/done)
-- Cadence: krótkie PR‑y, częste merge, release candidate przed R1
-- Dokumentacja decyzji: ADR w `docs/adr/` dla kluczowych wyborów
-- Runbooki: `docs/runbooks/` (incident response, release, rollback)
+- Tracking: 1 epic/issue “Highway R1” + board (todo/in‑progress/review/done)
+- Cadence: small PRs, frequent merges, release candidate before R1
+- Decision docs: ADRs in `docs/adr/` for key choices
+- Runbooks: `docs/runbooks/` (incident response, release, rollback)
 
-## 7) Linki i źródła
+## 7) Links and sources
 
 - Vision: [roadmap.md](./roadmap.md)
 - Execution: [pathwaymap.md](./pathwaymap.md)
 
-## 8) Historia zmian
+## 8) Changelog
 
-- v0.1 — pierwsza wersja Highway Map (niniejsza)
+- v0.1 — first version of the Highway Map (this document)
