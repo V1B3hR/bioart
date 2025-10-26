@@ -1,7 +1,7 @@
 """
 Core modules for Bioart DNA programming language.
 
-Provides centralized configuration, structured logging, and core encoding functionality.
+Provides centralized configuration, structured logging, caching, and core encoding functionality.
 """
 
 from .config import (
@@ -31,6 +31,14 @@ from .logging import (
     reset_error_counters,
 )
 
+from .cache import (
+    BoundedTTLCache,
+    CachedFunction,
+    cached,
+    get_sequence_cache,
+    get_transform_cache,
+)
+
 __all__ = [
     # Config
     "BioartConfig",
@@ -55,5 +63,11 @@ __all__ = [
     "increment_error_counter",
     "get_error_counters",
     "reset_error_counters",
+    # Cache
+    "BoundedTTLCache",
+    "CachedFunction",
+    "cached",
+    "get_sequence_cache",
+    "get_transform_cache",
 ]
 
