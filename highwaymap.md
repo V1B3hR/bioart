@@ -3,8 +3,8 @@
 Highway = the minimal, fastest, and measurable path to deliver value from PoC to the first public release, with clearly defined gates (Go/No‑Go).
 
 Related documents:
-- Vision/strategy: [roadmap.md](./roadmap.md)
-- Execution details: [pathwaymap.md](./pathwaymap.md) (detailed checklists, SLO, DoD)
+- Vision/strategy: [ROADMAP.md](./docs/ROADMAP.md)
+- Execution details: pathwaymap.md (planned - detailed checklists, SLO, DoD)
 
 ## 1) “Highway” goals and constraints
 
@@ -13,7 +13,7 @@ Related documents:
 - Constraints (minimum SLO/SLA):
   - Success rate ≥ 99% for the critical path
   - MTTR ≤ 30 minutes (based on runbooks)
-  - Cost per 100 jobs ≤ defined threshold (TBD in pathwaymap.md)
+  - Cost per 100 jobs ≤ defined threshold (TBD - to be defined in planned pathwaymap.md)
 - R1 scope (included):
   - Packaging (library + CLI), basic docs and quickstart
   - Baseline telemetry (structured logs, timing and error metrics)
@@ -77,7 +77,7 @@ Guidelines:
 
 - Performance: ≥30% reduction in critical‑path latency vs baseline
 - Reliability: success ≥99%, chaos tests ≥95% pass
-- Cost: cost/100 jobs ≤ threshold (defined in pathwaymap.md)
+- Cost: cost/100 jobs ≤ threshold (to be defined in planned pathwaymap.md)
 - Observability: structured logs + timing/error metrics, basic tracing
 - Security: secrets management, least privilege, audit trail for external operations
 
@@ -97,8 +97,8 @@ Guidelines:
 
 ## 7) Links and sources
 
-- Vision: [roadmap.md](./roadmap.md)
-- Execution: [pathwaymap.md](./pathwaymap.md)
+- Vision: [ROADMAP.md](./docs/ROADMAP.md)
+- Execution: pathwaymap.md (planned)
 
 ## 8) Changelog
 
