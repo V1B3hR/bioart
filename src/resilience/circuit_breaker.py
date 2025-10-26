@@ -10,7 +10,7 @@ import logging
 import threading
 import time
 from enum import Enum
-from typing import Any, Callable, Optional, TypeVar
+from typing import Any, Callable, Optional, TypeVar, Type
 
 logger = logging.getLogger(__name__)
 
