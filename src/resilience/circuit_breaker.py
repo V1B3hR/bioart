@@ -71,7 +71,7 @@ class CircuitBreaker:
         self.failure_threshold = failure_threshold
         self.success_threshold = success_threshold
         self.timeout_seconds = timeout_seconds
-        self.expected_exceptions = expected_exceptions or (Exception,)
+        expected_exceptions: Optional[tuple[Type[Exception], ...]] = None,
         
         self._state = CircuitState.CLOSED
         self._failure_count = 0
