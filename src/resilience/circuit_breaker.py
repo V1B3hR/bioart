@@ -10,7 +10,7 @@ import logging
 import threading
 import time
 from enum import Enum
-from typing import Any, Callable, Optional, TypeVar, Type
+from typing import Any, Callable, Optional, TypeVar, Type, Tuple, Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ class CircuitBreaker:
         failure_threshold: int = 5,
         success_threshold: int = 2,
         timeout_seconds: float = 60.0,
-        expected_exceptions: Optional[tuple[type[Exception], ...]] = None,
+        expected_exceptions: Optional[Tuple[Type[BaseException], ...]] = None,
     ):
         """
         Initialize circuit breaker.
@@ -71,7 +71,10 @@ class CircuitBreaker:
         self.failure_threshold = failure_threshold
         self.success_threshold = success_threshold
         self.timeout_seconds = timeout_seconds
-        expected_exceptions: Optional[tuple[Type[Exception], ...]] = None,
+        # Always keep a tuple of exception classes; default counts any Exception as failure
+        self.expected_exceptions: Tuple[Type[BaseException], ...] = (
+            expected_exceptions or (Exception,)
+        )
         
         self._state = CircuitState.CLOSED
         self._failure_count = 0
@@ -128,7 +131,7 @@ class CircuitBreaker:
             result = func(*args, **kwargs)
             self._on_success()
             return result
-        except self.expected_exceptions as e:
+        except self.expected_exceptions:
             self._on_failure()
             raise
     
@@ -186,7 +189,7 @@ class CircuitBreaker:
             self._success_count = 0
             self._last_failure_time = None
     
-    def get_stats(self) -> dict[str, Any]:
+    def get_stats(self) -> Dict[str, Any]:
         """Get circuit breaker statistics."""
         with self._lock:
             self._update_state()
@@ -206,8 +209,8 @@ def circuit_breaker(
     failure_threshold: int = 5,
     success_threshold: int = 2,
     timeout_seconds: float = 60.0,
-    expected_exceptions: Optional[tuple[type[Exception], ...]] = None,
-) -> Callable:
+    expected_exceptions: Optional[Tuple[Type[BaseException], ...]] = None,
+) -> Callable[..., T]:
     """
     Decorator to protect a function with a circuit breaker.
     
@@ -252,7 +255,7 @@ class CircuitBreakerRegistry:
     
     def __init__(self):
         """Initialize registry."""
-        self._breakers: dict[str, CircuitBreaker] = {}
+        self._breakers: Dict[str, CircuitBreaker] = {}
         self._lock = threading.Lock()
     
     def get_or_create(
@@ -261,7 +264,7 @@ class CircuitBreakerRegistry:
         failure_threshold: int = 5,
         success_threshold: int = 2,
         timeout_seconds: float = 60.0,
-        expected_exceptions: Optional[tuple[type[Exception], ...]] = None,
+        expected_exceptions: Optional[Tuple[Type[BaseException], ...]] = None,
     ) -> CircuitBreaker:
         """
         Get existing circuit breaker or create new one.
@@ -298,7 +301,7 @@ class CircuitBreakerRegistry:
             for breaker in self._breakers.values():
                 breaker.reset()
     
-    def get_all_stats(self) -> list[dict[str, Any]]:
+    def get_all_stats(self) -> List[Dict[str, Any]]:
         """Get statistics for all circuit breakers."""
         with self._lock:
             return [breaker.get_stats() for breaker in self._breakers.values()]
