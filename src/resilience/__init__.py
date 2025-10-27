@@ -16,6 +16,7 @@ from .retry import (
     IdempotencyKey,
     get_idempotency_tracker,
 )
+"""Resilience patterns for robust applications."""
 
 from .circuit_breaker import (
     CircuitBreaker,
@@ -57,4 +58,15 @@ __all__ = [
     "rate_limit",
     "GracefulShutdown",
     "get_shutdown_manager",
+    CircuitBreakerRegistry,
+    CircuitState,
+    circuit_breaker,
+)
+
+__all__ = [
+    "CircuitBreaker",
+    "CircuitBreakerError",
+    "CircuitBreakerRegistry",
+    "CircuitState",
+    "circuit_breaker",
 ]
