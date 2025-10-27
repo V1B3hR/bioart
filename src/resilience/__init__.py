@@ -1,4 +1,5 @@
 """Resilience patterns for robust applications."""
+
 from .circuit_breaker import (
     CircuitBreaker,
     CircuitBreakerError,
