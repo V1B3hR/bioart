@@ -1,26 +1,35 @@
 from typing import Any, Callable, Optional, TypeVar, Type, Tuple, Dict, List
+from enum import Enum
 import threading
 import time
 
 T = TypeVar("T")
 
-class CircuitBreakerOpen(Exception):
+class CircuitState(Enum):
+    """Enum representing circuit breaker states."""
+    CLOSED = "closed"
+    OPEN = "open"
+    HALF_OPEN = "half_open"
+
+class CircuitBreakerError(Exception):
     """Raised when the circuit breaker is open and cannot be called."""
     pass
 
 class CircuitBreaker:
     def __init__(
         self,
+        name: str = "default",
         failure_threshold: int = 5,
-        success_threshold: int = 2,
-        timeout_seconds: float = 60.0,
+        success_threshold: int = 1,
+        recovery_timeout: float = 60.0,
         expected_exceptions: Optional[Tuple[Type[Exception], ...]] = None,
     ):
+        self.name = name
         self.failure_threshold = failure_threshold
         self.success_threshold = success_threshold
-        self.timeout_seconds = timeout_seconds
+        self.recovery_timeout = recovery_timeout
         self.lock = threading.Lock()
-        self.state = "closed"
+        self.state = CircuitState.CLOSED
         self.failure_count = 0
         self.success_count = 0
         self.last_failure_time: Optional[float] = None
@@ -30,13 +39,13 @@ class CircuitBreaker:
 
     def call(self, func: Callable[..., T], *args, **kwargs) -> T:
         with self.lock:
-            if self.state == "open":
+            if self.state == CircuitState.OPEN:
                 now = time.time()
-                if self.last_failure_time and (now - self.last_failure_time) > self.timeout_seconds:
+                if self.last_failure_time and (now - self.last_failure_time) > self.recovery_timeout:
                     # Move to half-open
-                    self.state = "half-open"
+                    self.state = CircuitState.HALF_OPEN
                 else:
-                    raise CircuitBreakerOpen("Circuit breaker is open.")
+                    raise CircuitBreakerError(f"Circuit breaker '{self.name}' is OPEN.")
         try:
             result = func(*args, **kwargs)
         except self.expected_exceptions as e:
@@ -45,43 +54,46 @@ class CircuitBreaker:
                 self.success_count = 0
                 self.last_failure_time = time.time()
                 if self.failure_count >= self.failure_threshold:
-                    self.state = "open"
+                    self.state = CircuitState.OPEN
             raise
         else:
             with self.lock:
-                if self.state == "half-open":
+                if self.state == CircuitState.HALF_OPEN:
                     self.success_count += 1
                     if self.success_count >= self.success_threshold:
-                        self.state = "closed"
+                        self.state = CircuitState.CLOSED
                         self.failure_count = 0
                         self.success_count = 0
-                elif self.state == "closed":
+                elif self.state == CircuitState.CLOSED:
                     self.failure_count = 0
                     self.success_count = 0
             return result
 
     def get_stats(self) -> Dict[str, Any]:
         return {
-            "state": self.state,
+            "name": self.name,
+            "state": self.state.value,
             "failure_count": self.failure_count,
             "success_count": self.success_count,
             "last_failure_time": self.last_failure_time,
             "failure_threshold": self.failure_threshold,
             "success_threshold": self.success_threshold,
-            "timeout_seconds": self.timeout_seconds,
+            "recovery_timeout": self.recovery_timeout,
         }
 
 def circuit_breaker(
+    name: str = "default",
     failure_threshold: int = 5,
-    success_threshold: int = 2,
-    timeout_seconds: float = 60.0,
+    success_threshold: int = 1,
+    recovery_timeout: float = 60.0,
     expected_exceptions: Optional[Tuple[Type[Exception], ...]] = None,
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         breaker = CircuitBreaker(
+            name=name,
             failure_threshold=failure_threshold,
             success_threshold=success_threshold,
-            timeout_seconds=timeout_seconds,
+            recovery_timeout=recovery_timeout,
             expected_exceptions=expected_exceptions,
         )
         def wrapper(*args, **kwargs):
@@ -98,15 +110,16 @@ class CircuitBreakerRegistry:
         self,
         name: str,
         failure_threshold: int = 5,
-        success_threshold: int = 2,
-        timeout_seconds: float = 60.0,
+        success_threshold: int = 1,
+        recovery_timeout: float = 60.0,
         expected_exceptions: Optional[Tuple[Type[Exception], ...]] = None,
     ) -> CircuitBreaker:
         if name not in self._breakers:
             self._breakers[name] = CircuitBreaker(
+                name=name,
                 failure_threshold=failure_threshold,
                 success_threshold=success_threshold,
-                timeout_seconds=timeout_seconds,
+                recovery_timeout=recovery_timeout,
                 expected_exceptions=expected_exceptions,
             )
         return self._breakers[name]
