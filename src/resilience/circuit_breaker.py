@@ -19,16 +19,6 @@ class CircuitBreakerError(Exception):
 class CircuitBreaker:
     def __init__(
         self,
-        failure_threshold: int = 5,
-        success_threshold: int = 2,
-        timeout_seconds: float = 60.0,
-        expected_exceptions: Optional[Tuple[Type[Exception], ...]] = None,
-    ):
-        self.failure_threshold = failure_threshold
-        self.success_threshold = success_threshold
-        self.timeout_seconds = timeout_seconds
-        self.lock = threading.Lock()
-        self.state = "closed"
         name: str = "default",
         failure_threshold: int = 5,
         success_threshold: int = 1,
@@ -47,7 +37,7 @@ class CircuitBreaker:
         self.expected_exceptions: Tuple[Type[Exception], ...] = (
             expected_exceptions if expected_exceptions is not None else (Exception,)
         )
-
+        
     def call(self, func: Callable[..., T], *args, **kwargs) -> T:
         with self.lock:
             if self.state == "open":
