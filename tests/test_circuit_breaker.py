@@ -218,19 +218,18 @@ class TestCircuitBreakerRegistry:
         assert "test2" in names
 
 
-
     def test_decorator_basic(self):
-    call_count = {"n": 0}
+        call_count = {"n": 0}
 
-    @circuit_breaker(name="test_decorator", failure_threshold=2)
-    def test_func():
-        call_count["n"] += 1
-        return "success"
+        @circuit_breaker(name="test_decorator", failure_threshold=2)
+        def test_func():
+            call_count["n"] += 1
+            return "success"
 
-    result = test_func()
-    assert result == "success"
-    assert call_count["n"] == 1
-    
+        result = test_func()
+        assert result == "success"
+        assert call_count["n"] == 1
+        
     def test_decorator_with_exceptions(self):
         """Test decorator with exception handling."""
         call_count = 0
