@@ -61,7 +61,7 @@ __all__ = [
     CircuitBreakerRegistry,
     CircuitState,
     circuit_breaker,
-)
+]
 
 __all__ = [
     "CircuitBreaker",
