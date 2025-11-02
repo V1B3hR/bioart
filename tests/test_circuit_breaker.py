@@ -223,7 +223,7 @@ class TestCircuitBreakerDecorator:
     
     def test_decorator_basic(self):
         """Test basic decorator functionality."""
-        call_count = 0
+        call_count = {"n": 0}
         
         @circuit_breaker(name="test_decorator", failure_threshold=2)
         def test_func():
