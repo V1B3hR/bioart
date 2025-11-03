@@ -4,14 +4,13 @@ Bounded cache with TTL for performance optimization.
 Implements M1 requirement: "Introduce bounded caches (e.g., sequence scoring, transforms) with TTL"
 """
 
-import time
 import threading
-from typing import Any, Dict, Optional, Tuple, Callable
+import time
 from collections import OrderedDict
 from dataclasses import dataclass
+from typing import Any, Callable, Dict, Optional
 
 from src.core import get_logger
-
 
 logger = get_logger("cache")
 
@@ -19,6 +18,7 @@ logger = get_logger("cache")
 @dataclass
 class CacheEntry:
     """Cache entry with value and expiration time."""
+
     value: Any
     expires_at: float
 
@@ -203,10 +203,7 @@ class CachedFunction:
     """
 
     def __init__(
-        self,
-        max_size: int = 1000,
-        ttl_seconds: float = 300,
-        key_func: Optional[Callable] = None
+        self, max_size: int = 1000, ttl_seconds: float = 300, key_func: Optional[Callable] = None
     ):
         """
         Initialize cached function decorator.
@@ -228,6 +225,7 @@ class CachedFunction:
 
     def __call__(self, func: Callable) -> Callable:
         """Wrap function with caching."""
+
         def wrapper(*args, **kwargs):
             # Generate cache key
             cache_key = f"{func.__name__}:{self.key_func(*args, **kwargs)}"
@@ -268,10 +266,11 @@ def get_sequence_cache() -> BoundedTTLCache:
     global _sequence_cache
     if _sequence_cache is None:
         from src.core import get_config
+
         config = get_config()
         _sequence_cache = BoundedTTLCache(
             max_size=config.performance.cache_max_size,
-            ttl_seconds=config.performance.cache_ttl_seconds
+            ttl_seconds=config.performance.cache_ttl_seconds,
         )
     return _sequence_cache
 
@@ -286,19 +285,16 @@ def get_transform_cache() -> BoundedTTLCache:
     global _transform_cache
     if _transform_cache is None:
         from src.core import get_config
+
         config = get_config()
         _transform_cache = BoundedTTLCache(
             max_size=config.performance.cache_max_size,
-            ttl_seconds=config.performance.cache_ttl_seconds
+            ttl_seconds=config.performance.cache_ttl_seconds,
         )
     return _transform_cache
 
 
-def cached(
-    max_size: int = 1000,
-    ttl_seconds: float = 300,
-    key_func: Optional[Callable] = None
-):
+def cached(max_size: int = 1000, ttl_seconds: float = 300, key_func: Optional[Callable] = None):
     """
     Decorator for caching function results.
 

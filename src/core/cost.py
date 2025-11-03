@@ -4,14 +4,12 @@ Cost tracking and budget management for Bioart operations.
 Implements M2 requirement: "Instrument cost/time per iteration; budgets; anomaly alerts"
 """
 
-import time
 import threading
-from typing import Dict, List, Optional, Any, Callable
+import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from typing import Any, Callable, Dict, List, Optional
 
-from src.core import get_logger, get_config
-
+from src.core import get_config, get_logger
 
 logger = get_logger("cost")
 
@@ -19,6 +17,7 @@ logger = get_logger("cost")
 @dataclass
 class OperationCost:
     """Cost information for a single operation."""
+
     operation_name: str
     start_time: float
     end_time: float
@@ -35,6 +34,7 @@ class OperationCost:
 @dataclass
 class CostBudget:
     """Budget configuration for cost tracking."""
+
     name: str
     max_cost: float
     warning_threshold_percent: float = 80.0
@@ -64,7 +64,7 @@ class CostTracker:
         operation_name: str,
         duration_seconds: float,
         cost_units: float,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> OperationCost:
         """
         Track a completed operation.
@@ -85,7 +85,7 @@ class CostTracker:
             end_time=now,
             duration_seconds=duration_seconds,
             cost_units=cost_units,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         with self._lock:
@@ -95,7 +95,7 @@ class CostTracker:
             f"Tracked operation: {operation_name}",
             duration_ms=operation.duration_ms,
             cost_units=cost_units,
-            **metadata or {}
+            **metadata or {},
         )
 
         return operation
@@ -143,8 +143,7 @@ class CostTracker:
         with self._lock:
             if operation_filter:
                 return sum(
-                    1 for op in self._operations
-                    if op.operation_name.startswith(operation_filter)
+                    1 for op in self._operations if op.operation_name.startswith(operation_filter)
                 )
             return len(self._operations)
 
@@ -189,7 +188,7 @@ class CostTracker:
                 "current_cost": current_cost,
                 "percent_used": percent_used,
                 "remaining": budget.max_cost - current_cost,
-                "status": "ok"
+                "status": "ok",
             }
 
             # Check thresholds
@@ -203,11 +202,7 @@ class CostTracker:
             return status
 
     def _fire_alert(
-        self,
-        alert_level: str,
-        budget: CostBudget,
-        current_cost: float,
-        percent_used: float
+        self, alert_level: str, budget: CostBudget, current_cost: float, percent_used: float
     ) -> None:
         """Fire budget alert."""
         logger.warning(
@@ -216,7 +211,7 @@ class CostTracker:
             max_cost=budget.max_cost,
             current_cost=current_cost,
             percent_used=percent_used,
-            alert_level=alert_level
+            alert_level=alert_level,
         )
 
         # Call registered callbacks
@@ -227,8 +222,7 @@ class CostTracker:
                 logger.error(f"Alert callback failed: {e}")
 
     def register_alert_callback(
-        self,
-        callback: Callable[[str, CostBudget, float, float], None]
+        self, callback: Callable[[str, CostBudget, float, float], None]
     ) -> None:
         """
         Register callback for budget alerts.

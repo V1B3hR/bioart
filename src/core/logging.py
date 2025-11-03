@@ -9,15 +9,16 @@ Implements M0 requirement: "Logging: correlate job_id, step_id; timing and error
 
 import json
 import logging
+
+# Thread-local storage for correlation context
+import threading
 import time
 import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
 from functools import wraps
+from typing import Dict, Optional
 
-# Thread-local storage for correlation context
-import threading
 _context = threading.local()
 
 
@@ -229,7 +230,7 @@ def timed_operation(logger: CorrelationLogger, operation: str, **extra_fields):
             operation=operation,
             duration_ms=duration_ms,
             status="success",
-            **extra_fields
+            **extra_fields,
         )
     except Exception as e:
         duration_ms = (time.time() - start_time) * 1000
@@ -239,7 +240,7 @@ def timed_operation(logger: CorrelationLogger, operation: str, **extra_fields):
             duration_ms=duration_ms,
             status="error",
             error_type=type(e).__name__,
-            **extra_fields
+            **extra_fields,
         )
         raise
 
@@ -257,13 +258,16 @@ def timed(logger: CorrelationLogger, operation: Optional[str] = None):
         logger: Logger instance
         operation: Operation name (uses function name if None)
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             op_name = operation or func.__name__
             with timed_operation(logger, op_name):
                 return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
 
 

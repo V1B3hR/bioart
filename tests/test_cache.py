@@ -5,7 +5,9 @@ Tests bounded cache with TTL, LRU eviction, and statistics.
 """
 
 import time
+
 import pytest
+
 from src.core.cache import (
     BoundedTTLCache,
     cached,
@@ -210,6 +212,7 @@ def test_cached_decorator():
 
 def test_cached_decorator_with_kwargs():
     """Test @cached decorator with keyword arguments."""
+
     @cached(max_size=10, ttl_seconds=10)
     def func(x, y=10):
         return x + y
@@ -225,6 +228,7 @@ def test_cached_decorator_with_kwargs():
 
 def test_cached_decorator_cache_management():
     """Test cache management methods on decorated function."""
+
     @cached(max_size=10, ttl_seconds=10)
     def func(x):
         return x * 2

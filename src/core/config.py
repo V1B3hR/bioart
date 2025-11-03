@@ -16,6 +16,7 @@ from typing import Dict, Optional
 
 class LogLevel(str, Enum):
     """Logging levels."""
+
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -25,6 +26,7 @@ class LogLevel(str, Enum):
 
 class LogFormat(str, Enum):
     """Log output formats."""
+
     JSON = "json"
     TEXT = "text"
 
@@ -32,6 +34,7 @@ class LogFormat(str, Enum):
 @dataclass
 class LoggingConfig:
     """Logging configuration with structured output support."""
+
     level: LogLevel = LogLevel.INFO
     format: LogFormat = LogFormat.JSON
     include_correlation_id: bool = True
@@ -43,6 +46,7 @@ class LoggingConfig:
 @dataclass
 class PerformanceConfig:
     """Performance tuning and optimization settings."""
+
     enable_caching: bool = True
     cache_ttl_seconds: int = 300
     cache_max_size: int = 1000
@@ -53,6 +57,7 @@ class PerformanceConfig:
 @dataclass
 class VMConfig:
     """Virtual Machine configuration."""
+
     memory_size: int = 256
     max_execution_steps: int = 1_000_000
     enable_debug_mode: bool = False
@@ -62,6 +67,7 @@ class VMConfig:
 @dataclass
 class ErrorCorrectionConfig:
     """Error correction and reliability settings."""
+
     enable_hamming_code: bool = True
     enable_redundancy: bool = True
     redundancy_factor: int = 3
@@ -71,6 +77,7 @@ class ErrorCorrectionConfig:
 @dataclass
 class CostConfig:
     """Cost tracking and budget configuration."""
+
     enable_cost_tracking: bool = True
     cost_per_100_jobs_budget: Optional[float] = None
     enable_cost_alerts: bool = True
@@ -80,6 +87,7 @@ class CostConfig:
 @dataclass
 class AdapterConfig:
     """Adapter and integration configuration."""
+
     default_adapter: str = "sandbox"
     enable_circuit_breaker: bool = True
     circuit_breaker_threshold: int = 5
@@ -99,6 +107,7 @@ class BioartConfig:
     Provides centralized, validated configuration for all system components.
     Configuration can be loaded from environment variables with BIOART_ prefix.
     """
+
     logging: LoggingConfig = field(default_factory=LoggingConfig)
     performance: PerformanceConfig = field(default_factory=PerformanceConfig)
     vm: VMConfig = field(default_factory=VMConfig)
@@ -108,7 +117,9 @@ class BioartConfig:
 
     # Global settings
     environment: str = field(default_factory=lambda: os.getenv("BIOART_ENV", "development"))
-    debug: bool = field(default_factory=lambda: os.getenv("BIOART_DEBUG", "false").lower() == "true")
+    debug: bool = field(
+        default_factory=lambda: os.getenv("BIOART_DEBUG", "false").lower() == "true"
+    )
 
     def validate(self) -> None:
         """
@@ -136,7 +147,10 @@ class BioartConfig:
             raise ValueError("redundancy_factor must be at least 1")
 
         # Validate cost settings
-        if self.cost.cost_per_100_jobs_budget is not None and self.cost.cost_per_100_jobs_budget < 0:
+        if (
+            self.cost.cost_per_100_jobs_budget is not None
+            and self.cost.cost_per_100_jobs_budget < 0
+        ):
             raise ValueError("cost_per_100_jobs_budget must be non-negative")
         if not 0.0 <= self.cost.alert_threshold_percent <= 100.0:
             raise ValueError("alert_threshold_percent must be between 0 and 100")

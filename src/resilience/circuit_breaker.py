@@ -1,19 +1,24 @@
-from typing import Any, Callable, Optional, TypeVar, Type, Tuple, Dict, List
-from enum import Enum
 import threading
 import time
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple, Type, TypeVar
 
 T = TypeVar("T")
 
+
 class CircuitState(Enum):
     """Enum representing circuit breaker states."""
+
     CLOSED = "closed"
     OPEN = "open"
     HALF_OPEN = "half_open"
 
+
 class CircuitBreakerError(Exception):
     """Raised when the circuit breaker is open and cannot be called."""
+
     pass
+
 
 class CircuitBreaker:
     def __init__(
@@ -41,14 +46,17 @@ class CircuitBreaker:
         with self.lock:
             if self.state == CircuitState.OPEN:
                 now = time.time()
-                if self.last_failure_time and (now - self.last_failure_time) > self.recovery_timeout:
+                if (
+                    self.last_failure_time
+                    and (now - self.last_failure_time) > self.recovery_timeout
+                ):
                     # Move to half-open
                     self.state = CircuitState.HALF_OPEN
                 else:
                     raise CircuitBreakerError(f"Circuit breaker '{self.name}' is OPEN.")
         try:
             result = func(*args, **kwargs)
-        except self.expected_exceptions as e:
+        except self.expected_exceptions:
             with self.lock:
                 self.failure_count += 1
                 self.success_count = 0
@@ -81,6 +89,7 @@ class CircuitBreaker:
             "recovery_timeout": self.recovery_timeout,
         }
 
+
 def circuit_breaker(
     name: str = "default",
     failure_threshold: int = 5,
@@ -96,11 +105,15 @@ def circuit_breaker(
             recovery_timeout=recovery_timeout,
             expected_exceptions=expected_exceptions,
         )
+
         def wrapper(*args, **kwargs):
             return breaker.call(func, *args, **kwargs)
+
         wrapper._circuit_breaker = breaker  # type: ignore
         return wrapper
+
     return decorator
+
 
 class CircuitBreakerRegistry:
     def __init__(self):
