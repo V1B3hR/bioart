@@ -254,7 +254,7 @@ class ThreadSyncManager:
         try:
             acquired = self.locks[lock_id].acquire(timeout=timeout)
             return acquired
-        except:
+        except Exception:
             return False
 
     def release_lock(self, lock_id: str, thread_id: str) -> bool:
@@ -265,7 +265,7 @@ class ThreadSyncManager:
         try:
             self.locks[lock_id].release()
             return True
-        except:
+        except Exception:
             return False
 
     def create_barrier(self, barrier_id: str, party_count: int) -> bool:
@@ -288,7 +288,7 @@ class ThreadSyncManager:
             return True
         except threading.BrokenBarrierError:
             return False
-        except:
+        except Exception:
             return False
 
     def create_semaphore(self, sem_id: str, initial_value: int = 1) -> bool:
@@ -309,7 +309,7 @@ class ThreadSyncManager:
         try:
             acquired = self.semaphores[sem_id].acquire(timeout=timeout)
             return acquired
-        except:
+        except Exception:
             return False
 
     def release_semaphore(self, sem_id: str, thread_id: str) -> bool:
@@ -320,7 +320,7 @@ class ThreadSyncManager:
         try:
             self.semaphores[sem_id].release()
             return True
-        except:
+        except Exception:
             return False
 
     def create_shared_memory(self, mem_id: str, size: int) -> bool:

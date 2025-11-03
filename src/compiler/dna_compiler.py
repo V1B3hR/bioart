@@ -118,7 +118,7 @@ class DNACompiler:
                             try:
                                 operand_value = self.encoder.dna_to_byte(operand_seq)
                                 operands.append(operand_value)
-                            except:
+                            except Exception:
                                 # Invalid operand
                                 raise ValueError(f"Invalid operand sequence: {operand_seq}")
 
@@ -147,7 +147,7 @@ class DNACompiler:
                             }
                         )
                         i += 4
-                    except:
+                    except Exception:
                         raise ValueError(f"Invalid DNA sequence: {dna_seq}")
             else:
                 break

@@ -578,7 +578,7 @@ def create_bioart_system(
                 is_program_valid, errors = self.instruction_set.validate_program(dna_sequence)
                 result["valid_as_program"] = is_program_valid
                 result["program_errors"] = errors
-            except:
+            except Exception:
                 result["valid_as_program"] = False
                 result["program_errors"] = ["Failed to validate as program"]
 

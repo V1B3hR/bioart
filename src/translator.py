@@ -283,7 +283,7 @@ class BioartTranslator:
                     return False
             self.stats["validations"] += 1
             return True
-        except:
+        except Exception:
             return False
 
     def verify_reversibility(self, data: Union[str, bytes]) -> Dict[str, Any]:

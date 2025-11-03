@@ -445,7 +445,7 @@ class BiologicalStorageManager:
                     if quality > best_quality:
                         best_result = data
                         best_quality = quality
-            except:
+            except Exception:
                 continue
 
         return best_result
