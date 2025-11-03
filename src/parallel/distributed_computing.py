@@ -308,6 +308,8 @@ class DistributedDNAComputer:
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            # Note: Binding to 0.0.0.0 allows connections from any interface
+            # In production, consider using a specific host address for security
             self.server_socket.bind(("0.0.0.0", self.listen_port))
             self.server_socket.listen(10)
 
