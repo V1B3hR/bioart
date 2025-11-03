@@ -202,7 +202,7 @@ class DNACompiler:
 
             # Look for patterns to optimize
             if i + 1 < len(instructions):
-                next_instr = instructions[i + 1]
+                _ = instructions[i + 1]
 
                 # Pattern: LOAD followed by ADD -> could be optimized
                 # For now, just pass through (more complex optimizations could be added)

@@ -175,7 +175,7 @@ class DNAThread:
         if time.time() % 1000 < self.mutation_rate:
             # Simulate random mutation in program
             if len(self.program) > 0:
-                random_pos = int(time.time() * 1000) % len(self.program)
+                _ = int(time.time() * 1000) % len(self.program)
                 # This would modify the program but we'll just log it
                 pass
 

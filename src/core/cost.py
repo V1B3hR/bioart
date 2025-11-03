@@ -269,7 +269,7 @@ class CostTracker:
                 stats["total_duration"] += op.duration_seconds
 
             # Calculate averages per operation
-            for name, stats in by_operation.items():
+            for _, stats in by_operation.items():
                 stats["avg_cost"] = stats["total_cost"] / stats["count"]
                 stats["avg_duration"] = stats["total_duration"] / stats["count"]
 

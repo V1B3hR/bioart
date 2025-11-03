@@ -526,7 +526,7 @@ class TestAdvancedBiologicalFeatures:
 
         # Verify pipeline
         pipeline_workflow_status = orchestrator.get_workflow_status(pipeline_workflow_id)
-        pipeline_job_status = monitor2.get_job_status(pipeline_job.job_id)
+        _ = monitor2.get_job_status(pipeline_job.job_id)
 
         assert len(ml_result.optimized_sequence) == len(pipeline_sequence)
         assert len(qec_encoded) > len(ml_result.optimized_sequence)  # QEC overhead

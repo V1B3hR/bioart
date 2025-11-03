@@ -143,7 +143,7 @@ def demo_enhanced_instruction_set():
     fp_instructions = instruction_set.get_instructions_by_type(InstructionType.FLOATING_POINT)
     print(f"Floating point instructions: {len(fp_instructions)}")
 
-    for opcode, instr in list(fp_instructions.items())[:5]:
+    for _, instr in list(fp_instructions.items())[:5]:
         print(f"  {instr.name} ({instr.dna_sequence}): {instr.description}")
 
     # 4. Biological operations
@@ -153,7 +153,7 @@ def demo_enhanced_instruction_set():
     bio_instructions = instruction_set.get_instructions_by_type(InstructionType.BIOLOGICAL)
     print(f"Biological instructions: {len(bio_instructions)}")
 
-    for opcode, instr in bio_instructions.items():
+    for _, instr in bio_instructions.items():
         print(f"  {instr.name} ({instr.dna_sequence}): {instr.description}")
 
     # 5. Machine learning operations
@@ -161,7 +161,7 @@ def demo_enhanced_instruction_set():
     print("-" * 40)
 
     ml_instructions = instruction_set.get_instructions_by_type(InstructionType.MACHINE_LEARNING)
-    for opcode, instr in ml_instructions.items():
+    for _, instr in ml_instructions.items():
         print(f"  {instr.name}: {instr.description} ({instr.cycles} cycles)")
 
 

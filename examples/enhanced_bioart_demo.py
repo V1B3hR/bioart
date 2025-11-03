@@ -176,7 +176,7 @@ def main():
         print(f"   ✅ Parallel efficiency: {results.get('parallel_efficiency', 0):.2f}x")
 
         # Test biological simulation execution
-        bio_results = system.execute_parallel_tasks(
+        _ = system.execute_parallel_tasks(
             ExecutionStrategy.BIOLOGICAL_SIMULATION, max_concurrent=2
         )
         print("   ✅ Biological simulation completed")

@@ -358,7 +358,6 @@ class BiologicalStorageManager:
 
         # Simulate degradation over time
         original_sequence = entry.dna_sequence
-        current_sequence = original_sequence
 
         daily_results = []
 
@@ -382,7 +381,6 @@ class BiologicalStorageManager:
                 }
             )
 
-            current_sequence = degraded_sequence
             entry.storage_time = old_time  # Restore original time
 
         return {
@@ -427,7 +425,7 @@ class BiologicalStorageManager:
         backup_entries = []
 
         # Find all backup entries
-        for entry_id, entry in self.storage_entries.items():
+        for _, entry in self.storage_entries.items():
             if entry.metadata.get("backup_of") == original_entry_id:
                 backup_entries.append(entry)
 

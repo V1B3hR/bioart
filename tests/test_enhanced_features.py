@@ -353,7 +353,7 @@ class TestEnhancedSynthesisSystem(unittest.TestCase):
         platform_comparison = comparison["platform_comparison"]
         self.assertGreater(len(platform_comparison), 0)
 
-        for platform_name, details in platform_comparison.items():
+        for _, details in platform_comparison.items():
             self.assertIn("can_synthesize", details)
             if details["can_synthesize"]:
                 self.assertIn("estimated_cost", details)
@@ -384,9 +384,6 @@ class TestEnhancedSynthesisSystem(unittest.TestCase):
         self.assertIsInstance(has_structure, bool)
 
         # Test complementarity check with correct reverse complement
-        seq1 = "AUCG"
-        seq2 = "CGAU"  # This is actually the reverse of seq1, not complement
-
         # Let's test with actual complement
         seq1_test = "AUCG"
         seq2_complement = "UAGC"  # A->U, U->A, C->G, G->C
@@ -405,7 +402,7 @@ class TestEnhancedSynthesisSystem(unittest.TestCase):
             "GGCAUUCGAUAUCCGAUCCGAUCUCAUG",  # Different pattern
         ]
 
-        for i, seq in enumerate(test_sequences):
+        for _, seq in enumerate(test_sequences):
             self.synthesis_manager.submit_synthesis_job(
                 seq, priority=random.randint(1, 10), platform=random.choice(list(SynthesisPlatform))
             )

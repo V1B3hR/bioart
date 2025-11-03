@@ -98,7 +98,7 @@ Examples:
     info_group.add_argument("--file", type=str, help="File containing DNA sequence")
 
     # ===== INTERACTIVE command =====
-    interactive_parser = subparsers.add_parser("interactive", help="Interactive mode")
+    _ = subparsers.add_parser("interactive", help="Interactive mode")
 
     args = parser.parse_args()
 

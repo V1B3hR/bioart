@@ -273,8 +273,6 @@ class BiologicalErrorCorrection:
                 complement = sequence[i + 1]
                 repeat = sequence[i + 2]
 
-                expected_complement = self._get_complement(nucleotide)
-
                 # Majority voting
                 candidates = [nucleotide, self._get_complement(complement), repeat]
                 most_common = max(set(candidates), key=candidates.count)
@@ -611,7 +609,7 @@ class BiologicalErrorCorrection:
     def _calculate_dna_crc(self, sequence: str) -> int:
         """Calculate CRC-like checksum for DNA"""
         crc = 0
-        for i, nucleotide in enumerate(sequence):
+        for _, nucleotide in enumerate(sequence):
             value = self._nucleotide_to_int(nucleotide)
             crc = ((crc << 2) ^ value) & 0xFF  # 8-bit CRC
         return crc

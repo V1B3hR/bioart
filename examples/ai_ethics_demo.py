@@ -14,7 +14,6 @@ try:
     from ethics.ai_ethics_framework import (
         EthicsFramework,
         EthicsLevel,
-        EthicsViolationError,
         create_ethics_framework,
     )
     from utils.security import SecureOperationManager, SecurityLevel

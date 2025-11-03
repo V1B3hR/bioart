@@ -700,7 +700,7 @@ def create_bioart_system(
             "fibonacci": """
                 AAAU AAAA    # Load 0
                 AAAC AAAA    # Store at address 0
-                AAAU AAAU    # Load 1  
+                AAAU AAAU    # Load 1
                 AAAC AAAU    # Store at address 1
                 AAAU AAAC    # Load 2 (counter)
                 AAAC AAAC    # Store at address 2

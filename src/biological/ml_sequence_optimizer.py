@@ -504,7 +504,7 @@ class MLSequenceOptimizer:
         current_sequence = best_sequence
         current_score = best_score
 
-        for local_iter in range(20):  # Limited local search
+        for _ in range(20):  # Limited local search
             improved = False
 
             # Try single nucleotide changes

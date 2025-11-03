@@ -248,7 +248,7 @@ class TestRunner:
     def count_test_categories(self, results: Dict[str, Any]) -> int:
         """Count the number of test categories from results"""
         count = 0
-        for key, value in results.items():
+        for _, value in results.items():
             if isinstance(value, dict):
                 count += self.count_test_categories(value)
             else:
@@ -258,7 +258,7 @@ class TestRunner:
     def count_passed_tests(self, results: Dict[str, Any]) -> int:
         """Count the number of passed tests from results"""
         count = 0
-        for key, value in results.items():
+        for _, value in results.items():
             if isinstance(value, dict):
                 count += self.count_passed_tests(value)
             elif value == "PASSED":

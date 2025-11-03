@@ -63,7 +63,7 @@ def test_cost_per_100_jobs():
     tracker = CostTracker()
 
     # Add 10 operations with 1.0 cost each
-    for i in range(10):
+    for _ in range(10):
         tracker.track_operation("encode", 0.1, 1.0)
 
     cost_per_100 = tracker.get_cost_per_100_jobs()

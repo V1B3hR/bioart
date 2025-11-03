@@ -329,10 +329,10 @@ def main():
 
     try:
         # Individual feature demos
-        optimized_seq = demo_ml_sequence_optimizer()
-        encoded_seq = demo_quantum_error_correction()
-        workflow_id = demo_workflow_automation()
-        job_id = demo_realtime_monitoring()
+        _ = demo_ml_sequence_optimizer()
+        _ = demo_quantum_error_correction()
+        _ = demo_workflow_automation()
+        _ = demo_realtime_monitoring()
 
         # Integrated pipeline demo
         demo_integration_pipeline()

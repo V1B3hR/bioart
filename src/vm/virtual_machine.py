@@ -755,7 +755,7 @@ class DNAVirtualMachine:
         """Execute Reed-Solomon decoding (simplified)"""
         addr = self.registers[0]
         data_length = self.registers[1]
-        parity_length = self.registers[2]
+        _ = self.registers[2]
 
         # Simplified error detection
         calculated_parity = 0

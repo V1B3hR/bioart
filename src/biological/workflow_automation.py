@@ -571,7 +571,7 @@ class WorkflowOrchestrator:
 
     def _execute_quality_control(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute quality control task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate QC process
         qc_time = random.uniform(2.0, 8.0)  # Simulate overnight process
@@ -587,7 +587,7 @@ class WorkflowOrchestrator:
 
     def _execute_assembly(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute assembly task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate assembly process
         assembly_time = random.uniform(1.0, 4.0)
@@ -602,7 +602,7 @@ class WorkflowOrchestrator:
 
     def _execute_transformation(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute transformation task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate transformation
         time.sleep(random.uniform(0.5, 2.0))
@@ -635,7 +635,7 @@ class WorkflowOrchestrator:
 
     def _execute_validation(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute validation task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate validation experiments
         validation_time = random.uniform(1.0, 3.0)
@@ -650,7 +650,7 @@ class WorkflowOrchestrator:
 
     def _execute_data_analysis(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute data analysis task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate data analysis
         analysis_time = random.uniform(0.5, 2.0)
@@ -666,7 +666,7 @@ class WorkflowOrchestrator:
 
     def _execute_reporting(self, task: WorkflowTask) -> Dict[str, Any]:
         """Execute reporting task"""
-        inputs = task.inputs
+        _ = task.inputs
 
         # Simulate report generation
         time.sleep(random.uniform(0.2, 1.0))

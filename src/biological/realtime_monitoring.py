@@ -305,7 +305,7 @@ class RealTimeMonitor:
         """Collect metrics from all active synthesis jobs"""
         current_time = datetime.now()
 
-        for job_id, job in self.synthesis_jobs.items():
+        for _, job in self.synthesis_jobs.items():
             if job.current_phase not in [SynthesisPhase.COMPLETED, SynthesisPhase.FAILED]:
                 instrument = self.instruments.get(job.instrument_id)
                 if instrument:

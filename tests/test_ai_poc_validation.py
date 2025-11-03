@@ -17,7 +17,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", "examples"))
 
 try:
     import numpy as np
-    import pandas as pd
+    import pandas as pd  # noqa: F401
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.metrics import f1_score, precision_score, recall_score
     from sklearn.model_selection import train_test_split

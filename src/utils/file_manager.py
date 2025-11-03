@@ -337,7 +337,7 @@ class DNAFileManager:
             import shutil
 
             # Try both source and compiled directories
-            for program_type, directory, extension in [
+            for _, directory, extension in [
                 ("source", self.base_directory / "programs", self.SOURCE_EXTENSION),
                 ("compiled", self.base_directory / "compiled", self.DNA_EXTENSION),
             ]:

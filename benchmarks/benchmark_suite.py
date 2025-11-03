@@ -164,7 +164,7 @@ class BenchmarkSuite:
 
             # Measure decoding memory
             tracemalloc.reset_peak()
-            decoded_data = self.encoder.decode_dna(dna_sequence)
+            _ = self.encoder.decode_dna(dna_sequence)
             _, decoding_peak = tracemalloc.get_traced_memory()
 
             tracemalloc.stop()
@@ -204,7 +204,6 @@ class BenchmarkSuite:
             decoding_time = time.perf_counter() - start_time
 
             total_time = encoding_time + decoding_time
-            throughput = size / total_time if total_time > 0 else float("inf")
             accuracy = decoded_data == test_data
 
             results[f"{size_mb:.1f}MB"] = {
@@ -226,7 +225,7 @@ class BenchmarkSuite:
         # Test with different sequence lengths
         test_sequences = ["AUCG" * 10, "AUCG" * 100, "AUCG" * 1000]
 
-        for i, sequence in enumerate(test_sequences):
+        for _, sequence in enumerate(test_sequences):
             length = len(sequence)
 
             # Simulate error correction if available

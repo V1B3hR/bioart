@@ -82,7 +82,7 @@ def test_examples():
     try:
         # Test demo script
         sys.path.insert(0, "examples")
-        from dna_demo import bioart_encode_demo
+        from dna_demo import bioart_encode_demo  # noqa: F401
 
         print("   ✓ Demo script imports successfully")
         return True
@@ -140,7 +140,7 @@ def run_repository_tests():
     passed = 0
     total = len(tests)
 
-    for test_name, test_func in tests:
+    for _, test_func in tests:
         if test_func():
             passed += 1
 

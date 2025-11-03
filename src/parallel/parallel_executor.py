@@ -197,7 +197,6 @@ class ParallelDNAExecutor:
 
     def _execute_threaded(self, max_concurrent: int) -> Dict[str, Any]:
         """Execute tasks using threading"""
-        results = {}
         start_time = time.time()
 
         # Resolve dependencies
@@ -289,7 +288,6 @@ class ParallelDNAExecutor:
                 processes=min(max_concurrent, self.max_processes)
             )
 
-        results = {}
         start_time = time.time()
 
         try:
@@ -352,7 +350,6 @@ class ParallelDNAExecutor:
 
     def _execute_biological_simulation(self, max_concurrent: int) -> Dict[str, Any]:
         """Execute with biological process simulation"""
-        results = {}
         start_time = time.time()
 
         # Simulate biological parallel execution

@@ -29,10 +29,13 @@ warnings.filterwarnings("ignore")
 def ensure_sklearn_available():
     """Check if scikit-learn is available for the demo"""
     try:
-        from sklearn.datasets import make_classification
-        from sklearn.ensemble import RandomForestClassifier
-        from sklearn.metrics import classification_report, confusion_matrix
-        from sklearn.model_selection import train_test_split
+        from sklearn.datasets import make_classification  # noqa: F401
+        from sklearn.ensemble import RandomForestClassifier  # noqa: F401
+        from sklearn.metrics import (  # noqa: F401
+            classification_report,
+            confusion_matrix,
+        )
+        from sklearn.model_selection import train_test_split  # noqa: F401
 
         return True
     except ImportError:
@@ -371,7 +374,7 @@ def pillar_3_operational_validation(technical_results: Dict, strategic_results: 
             }
         )
 
-        edge_prediction = model.predict(edge_case)
+        _ = model.predict(edge_case)
         robustness_results["handles_edge_cases"] = True
         print("   • Edge cases: ✅ Model handles gracefully")
 
@@ -514,7 +517,7 @@ def main():
         operational_results = pillar_3_operational_validation(technical_results, strategic_results)
 
         # Final Recommendation
-        final_results = generate_final_recommendation(
+        _ = generate_final_recommendation(
             strategic_results, technical_results, operational_results
         )
 
