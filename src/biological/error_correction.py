@@ -658,8 +658,9 @@ class BiologicalErrorCorrection:
             data_block = dna_sequence[i:i + self.hamming_data_bits]
             
             # Pad if necessary
-            while len(data_block) < self.hamming_data_bits:
-                data_block += 'A'
+            padding_needed = self.hamming_data_bits - len(data_block)
+            if padding_needed > 0:
+                data_block += 'A' * padding_needed
             
             # Convert to binary
             data_bits = []

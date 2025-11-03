@@ -264,7 +264,7 @@ class DNAInstructionSet:
     
     def list_all_instructions(self) -> list:
         """Get list of all instructions with details"""
-        return [self.get_instruction_info(opcode) for opcode in sorted(self.INSTRUCTIONS.keys())]
+        return [self.get_instruction_info(opcode) for opcode in sorted(self.INSTRUCTIONS)]
     
     def get_instruction_statistics(self) -> dict:
         """Get instruction set statistics"""

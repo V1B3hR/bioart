@@ -68,8 +68,9 @@ class Bioart:
         clean_dna = ''.join(dna_program.split())
         
         # Ensure program length is multiple of 4
-        while len(clean_dna) % 4 != 0:
-            clean_dna += 'A'  # Pad with NOP
+        padding_needed = (4 - len(clean_dna) % 4) % 4
+        if padding_needed:
+            clean_dna += 'A' * padding_needed  # Pad with NOP
         
         bytecode = []
         for i in range(0, len(clean_dna), 4):

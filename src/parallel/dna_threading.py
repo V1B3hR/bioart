@@ -248,7 +248,7 @@ class ThreadSyncManager:
         try:
             acquired = self.locks[lock_id].acquire(timeout=timeout)
             return acquired
-        except:
+        except (RuntimeError, ValueError):
             return False
     
     def release_lock(self, lock_id: str, thread_id: str) -> bool:
@@ -259,7 +259,7 @@ class ThreadSyncManager:
         try:
             self.locks[lock_id].release()
             return True
-        except:
+        except (RuntimeError, ValueError):
             return False
     
     def create_barrier(self, barrier_id: str, party_count: int) -> bool:
@@ -280,7 +280,7 @@ class ThreadSyncManager:
             return True
         except threading.BrokenBarrierError:
             return False
-        except:
+        except (RuntimeError, ValueError):
             return False
     
     def create_semaphore(self, sem_id: str, initial_value: int = 1) -> bool:
@@ -299,7 +299,7 @@ class ThreadSyncManager:
         try:
             acquired = self.semaphores[sem_id].acquire(timeout=timeout)
             return acquired
-        except:
+        except (RuntimeError, ValueError):
             return False
     
     def release_semaphore(self, sem_id: str, thread_id: str) -> bool:
@@ -310,7 +310,7 @@ class ThreadSyncManager:
         try:
             self.semaphores[sem_id].release()
             return True
-        except:
+        except (RuntimeError, ValueError):
             return False
     
     def create_shared_memory(self, mem_id: str, size: int) -> bool:
@@ -468,14 +468,14 @@ class DNAThreadManager:
     
     def list_threads(self) -> List[Dict[str, Any]]:
         """List all threads"""
-        return [self.get_thread_status(tid) for tid in self.threads.keys()]
+        return [self.get_thread_status(tid) for tid in self.threads]
     
     def wait_for_all_threads(self, timeout: Optional[float] = None) -> Dict[str, Any]:
         """Wait for all threads to complete"""
         results = {}
         start_time = time.time()
         
-        for thread_id in list(self.threads.keys()):
+        for thread_id in list(self.threads):
             remaining_timeout = None
             if timeout is not None:
                 elapsed = time.time() - start_time
@@ -547,7 +547,7 @@ class DNAThreadManager:
         self.scheduler_running = False
         
         # Terminate all threads
-        for thread_id in list(self.threads.keys()):
+        for thread_id in list(self.threads):
             self.terminate_thread(thread_id)
         
         # Shutdown thread pool

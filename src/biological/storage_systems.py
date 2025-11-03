@@ -439,7 +439,7 @@ class BiologicalStorageManager:
                     if quality > best_quality:
                         best_result = data
                         best_quality = quality
-            except:
+            except (ValueError, AttributeError, KeyError):
                 continue
         
         return best_result

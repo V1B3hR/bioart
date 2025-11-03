@@ -135,8 +135,9 @@ class DNAStreamer:
             # Handle remaining nucleotides
             if buffer:
                 # Pad buffer to multiple of 4 if necessary
-                while len(buffer) % 4 != 0:
-                    buffer += 'A'  # Pad with A (00)
+                padding_needed = (4 - len(buffer) % 4) % 4
+                if padding_needed:
+                    buffer += 'A' * padding_needed  # Pad with A (00)
                 
                 if hasattr(self.encoder, 'decode_dna'):
                     byte_data = self.encoder.decode_dna(buffer)
@@ -244,8 +245,9 @@ class DNAStreamer:
                 chunk = clean_sequence[i:i + self.config.chunk_size]
                 
                 # Ensure chunk length is multiple of 4
-                while len(chunk) % 4 != 0:
-                    chunk += 'A'  # Pad with A
+                padding_needed = (4 - len(chunk) % 4) % 4
+                if padding_needed:
+                    chunk += 'A' * padding_needed  # Pad with A
                 
                 if hasattr(self.encoder, 'decode_dna'):
                     byte_data = self.encoder.decode_dna(chunk)

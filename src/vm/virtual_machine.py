@@ -218,7 +218,7 @@ class DNAVirtualMachine:
                 try:
                     byte_val = self.encoder.dna_to_byte(dna_seq)
                     bytecode.append(byte_val)
-                except:
+                except (ValueError, KeyError):
                     raise ValueError(f"Invalid DNA sequence: {dna_seq}")
         
         return bytes(bytecode)

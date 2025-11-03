@@ -546,9 +546,9 @@ def create_bioart_system(memory_size: int = 256, enable_all_features: bool = Tru
                 is_program_valid, errors = self.instruction_set.validate_program(dna_sequence)
                 result['valid_as_program'] = is_program_valid
                 result['program_errors'] = errors
-            except:
+            except (ValueError, AttributeError, TypeError) as e:
                 result['valid_as_program'] = False
-                result['program_errors'] = ['Failed to validate as program']
+                result['program_errors'] = [f'Failed to validate as program: {str(e)}']
         
         return result
     
