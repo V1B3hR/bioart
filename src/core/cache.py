@@ -13,8 +13,13 @@ from dataclasses import dataclass
 from src.core import get_logger
 
 
-logger = get_logger("cache")
-
+logger = None
+def get_logger_cached():
+    global logger
+    if logger is None:
+        from src.core import get_logger
+        logger = get_logger("cache")
+    return logger
 
 @dataclass
 class CacheEntry:
