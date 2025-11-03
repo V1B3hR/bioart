@@ -219,10 +219,9 @@ def main():
     print(f"As DNA: {dna_representation}")
     
     # Convert back to original data
-    restored_data = bytes([dna.dna_to_byte(dna_representation[i:i+4]) 
-                          for i in range(0, len(dna_representation), 4)])
+    restored_data = bytes([dna.dna_to_byte(dna_representation[i:i+4]) for i in range(0, len(dna_representation), 4)])
     print(f"Restored: {restored_data}")
     print(f"Perfect match: {test_data == restored_data}")
 
 if __name__ == "__main__":
-    main() 
+    main()
