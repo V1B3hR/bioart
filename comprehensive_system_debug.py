@@ -13,6 +13,17 @@ from typing import Dict, List, Any, Tuple
 # Ensure src is in path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
+# Constants
+KB = 1024
+TEST_DATA_SIZES = [KB, 10 * KB, 100 * KB]  # 1KB, 10KB, 100KB
+PERFORMANCE_THRESHOLD_BYTES_PER_SEC = 100_000  # Minimum acceptable performance
+ETHICS_PRINCIPLE_COUNTS = {
+    'human_ai': 10,
+    'universal': 10,
+    'safety': 5
+}
+TOTAL_ETHICS_PRINCIPLES = sum(ETHICS_PRINCIPLE_COUNTS.values())
+
 class BioartSystemDebugger:
     """Comprehensive debugger for Bioart system"""
     
@@ -111,9 +122,8 @@ class BioartSystemDebugger:
             
             # Test 3: Large data encoding
             print("\n3️⃣ Testing large data encoding...")
-            test_sizes = [1024, 10240, 102400]  # 1KB, 10KB, 100KB
             
-            for size in test_sizes:
+            for size in TEST_DATA_SIZES:
                 try:
                     test_data = bytes(range(256)) * (size // 256)
                     start_time = time.time()
@@ -130,8 +140,8 @@ class BioartSystemDebugger:
                         print(f"   ✅ {size:6d} bytes: {speed:.0f} bytes/sec (encode: {encode_time*1000:.2f}ms, decode: {decode_time*1000:.2f}ms)")
                         results['passed'] += 1
                         
-                        if speed < 100000:  # Less than 100KB/s
-                            self.optimizations.append(f"DNA encoding speed could be optimized: {speed:.0f} bytes/sec")
+                        if speed < PERFORMANCE_THRESHOLD_BYTES_PER_SEC:
+                            self.optimizations.append(f"DNA encoding speed could be optimized: {speed:.0f} bytes/sec (threshold: {PERFORMANCE_THRESHOLD_BYTES_PER_SEC})")
                     else:
                         print(f"   ❌ {size:6d} bytes: Data corruption detected")
                         results['failed'] += 1
@@ -203,13 +213,12 @@ class BioartSystemDebugger:
             try:
                 ethics = EthicsFramework()
                 # The framework uses component classes, not a principles list
-                principle_count = 10 + 10 + 5  # Human-AI + Universal + Safety
-                print(f"   ✅ Framework initialized with {principle_count} principles")
+                print(f"   ✅ Framework initialized with {TOTAL_ETHICS_PRINCIPLES} principles")
                 results['passed'] += 1
                 results['test_details'].append({
                     'test': 'Initialization',
                     'status': 'PASSED',
-                    'details': f'{principle_count} principles (10 Human-AI + 10 Universal + 5 Safety)'
+                    'details': f'{TOTAL_ETHICS_PRINCIPLES} principles ({ETHICS_PRINCIPLE_COUNTS["human_ai"]} Human-AI + {ETHICS_PRINCIPLE_COUNTS["universal"]} Universal + {ETHICS_PRINCIPLE_COUNTS["safety"]} Safety)'
                 })
             except Exception as e:
                 print(f"   ❌ Initialization failed: {e}")
