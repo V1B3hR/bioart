@@ -34,7 +34,6 @@ from .logging import (
 
 from .cache import (
     BoundedTTLCache,
-    CachedFunction,
     cached,
     get_sequence_cache,
     get_transform_cache,
@@ -73,7 +72,6 @@ __all__ = [
     "reset_error_counters",
     # Cache
     "BoundedTTLCache",
-    "CachedFunction",
     "cached",
     "get_sequence_cache",
     "get_transform_cache",

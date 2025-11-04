@@ -10,7 +10,7 @@ from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from src.core import get_logger, get_config
+from . import get_logger, get_config
 
 
 logger = get_logger("cost")
