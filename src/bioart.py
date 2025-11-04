@@ -8,7 +8,7 @@ Direct binary compatibility with existing systems
 
 import sys
 import struct
-from typing import List, Dict, Any
+from typing import List
 
 class Bioart:
     def __init__(self):

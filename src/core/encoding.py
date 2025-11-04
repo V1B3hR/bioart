@@ -4,8 +4,7 @@ DNA Encoding Core Module
 High-performance DNA sequence encoding/decoding with optimizations
 """
 
-from typing import Union, List, Iterator, Tuple
-import struct
+from typing import Union, List
 
 class DNAEncoder:
     """

@@ -4,8 +4,7 @@ Bioart Translator Module
 Complete, reversible translator for DNA-based encoding with real-world usability
 """
 
-from typing import Union, Optional, Dict, Any, List
-import sys
+from typing import Union, Dict, Any, List
 import os
 
 # Handle both relative and absolute imports
