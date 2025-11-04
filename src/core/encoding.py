@@ -41,11 +41,13 @@ class DNAEncoder:
                 cls.BYTE_TO_DNA_LUT[byte_val] = dna_seq
 
             # Precompute all DNA to byte mappings
-            for dna_seq, byte_val in ((dna, byte) for byte, dna in cls.BYTE_TO_DNA_LUT.items()):
-                cls.DNA_TO_BYTE_LUT[dna_seq] = byte_val
+            for byte, dna in cls.BYTE_TO_DNA_LUT.items():
+                cls.DNA_TO_BYTE_LUT[dna] = byte
                 # Add lowercase variants
                 cls.DNA_TO_BYTE_LUT[dna_seq.lower()] = byte_val
 
+                cls.DNA_TO_BYTE_LUT[dna.lower()] = byte
+    
     def __init__(self):
         """Initialize the DNA encoder with optimized lookup tables"""
         self._initialize_lookup_tables()
@@ -67,6 +69,8 @@ class DNAEncoder:
         Convert 4-nucleotide DNA sequence to byte value
         Optimized with lookup table for maximum performance
         """
+        if isinstance(dna_sequence, list):
+            dna_sequence = ''.join(dna_sequence)
         if len(dna_sequence) != 4:
             raise ValueError(f"DNA sequence must be exactly 4 nucleotides, got {len(dna_sequence)}")
 
@@ -122,6 +126,10 @@ class DNAEncoder:
         byte_data = []
         for i in range(0, len(clean_dna), 4):
             chunk = clean_dna[i : i + 4]
+            chunk = clean_dna[i:i+4]
+            # Ensure chunk is a string for lookup, not list
+            if isinstance(chunk, list):
+                chunk = ''.join(chunk)
             if chunk in self.DNA_TO_BYTE_LUT:
                 byte_data.append(self.DNA_TO_BYTE_LUT[chunk])
             else:
