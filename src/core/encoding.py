@@ -211,4 +211,4 @@ def encode_string(text: str) -> str:
 
 def decode_to_string(dna_sequence: str) -> str:
     """Decode DNA sequence to string"""
-    return dna_encoder.decode_to_string(dna_sequence) 
+    return dna_encoder.decode_to_string(dna_sequence)
