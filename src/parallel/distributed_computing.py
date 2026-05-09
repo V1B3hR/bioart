@@ -293,16 +293,21 @@ class DistributedDNAComputer:
             base_sock.bind(('0.0.0.0', self.listen_port))
             base_sock.listen(10)
             if self.ssl_certfile and self.ssl_keyfile:
-                context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+                # Use an explicit server TLS context and restrict to modern protocol versions.
+                if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
+                    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+                else:
+                    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+
                 # Enforce modern TLS versions only (TLS 1.2+)
                 if hasattr(context, "minimum_version") and hasattr(ssl, "TLSVersion"):
                     context.minimum_version = ssl.TLSVersion.TLSv1_2
-                else:
-                    # Fallback for older Python/SSL: disable TLSv1.0 and TLSv1.1 explicitly if available
-                    if hasattr(ssl, "OP_NO_TLSv1"):
-                        context.options |= ssl.OP_NO_TLSv1
-                    if hasattr(ssl, "OP_NO_TLSv1_1"):
-                        context.options |= ssl.OP_NO_TLSv1_1
+                # Defense in depth / compatibility fallback for older stacks
+                if hasattr(ssl, "OP_NO_TLSv1"):
+                    context.options |= ssl.OP_NO_TLSv1
+                if hasattr(ssl, "OP_NO_TLSv1_1"):
+                    context.options |= ssl.OP_NO_TLSv1_1
+
                 context.load_cert_chain(certfile=self.ssl_certfile, keyfile=self.ssl_keyfile)
                 self.server_socket = context.wrap_socket(base_sock, server_side=True)
             else:
