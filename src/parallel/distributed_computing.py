@@ -293,6 +293,10 @@ class DistributedDNAComputer:
             base_sock.bind(('127.0.0.1', self.listen_port))
             base_sock.listen(10)
             if self.ssl_certfile and self.ssl_keyfile:
+                  if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
+                    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+                else:
+                    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
                 context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
                 # Enforce modern TLS versions only (TLS 1.2+)
                 if hasattr(context, "minimum_version") and hasattr(ssl, "TLSVersion"):
