@@ -425,9 +425,9 @@ class DistributedDNAComputer:
 
     def _handle_task_result(self, message: Dict[str, Any]):
         task_id = message.get("task_id")
+        success = message.get("success")
         execution_time = None
         with self.conn_lock:
-            success = message.get("success")
             task = self.distributed_tasks.get(task_id)
             if task:
                 task.status = TaskStatus.COMPLETED if success else TaskStatus.FAILED
