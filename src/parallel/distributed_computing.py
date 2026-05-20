@@ -293,24 +293,13 @@ class DistributedDNAComputer:
             base_sock.bind(('127.0.0.1', self.listen_port))
             base_sock.listen(10)
             if self.ssl_certfile and self.ssl_keyfile:
-                # Use an explicit server TLS context and restrict to modern protocol versions.
                 if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
-                if hasattr(ssl, "PROTOCOL_TLSv1_2"):
-                    context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-                elif hasattr(ssl, "PROTOCOL_TLS_SERVER"):
                     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
                 else:
                     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
-                  if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
-                    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-                else:
-                    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-                context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-                # Enforce modern TLS versions only (TLS 1.2+)
                 if hasattr(context, "minimum_version") and hasattr(ssl, "TLSVersion"):
                     context.minimum_version = ssl.TLSVersion.TLSv1_2
-                # Defense in depth / compatibility fallback for older stacks
                 if hasattr(ssl, "OP_NO_TLSv1"):
                     context.options |= ssl.OP_NO_TLSv1
                 if hasattr(ssl, "OP_NO_TLSv1_1"):
