@@ -294,6 +294,7 @@ class DistributedDNAComputer:
             base_sock.listen(10)
             if self.ssl_certfile and self.ssl_keyfile:
                 # Use an explicit server TLS context and restrict to modern protocol versions.
+                if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
                 if hasattr(ssl, "PROTOCOL_TLSv1_2"):
                     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
                 elif hasattr(ssl, "PROTOCOL_TLS_SERVER"):
