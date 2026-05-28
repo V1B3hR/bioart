@@ -294,17 +294,11 @@ class DistributedDNAComputer:
             base_sock.bind(('127.0.0.1', self.listen_port))
             base_sock.listen(10)
             if self.ssl_certfile and self.ssl_keyfile:
-                if hasattr(ssl, "PROTOCOL_TLS_SERVER"):
-                    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-                else:
-                    context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-
+                context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
                 if hasattr(context, "minimum_version") and hasattr(ssl, "TLSVersion"):
                     context.minimum_version = ssl.TLSVersion.TLSv1_2
-                if hasattr(ssl, "OP_NO_TLSv1"):
-                    context.options |= ssl.OP_NO_TLSv1
-                if hasattr(ssl, "OP_NO_TLSv1_1"):
-                    context.options |= ssl.OP_NO_TLSv1_1
+                else:
+                    raise RuntimeError("TLS 1.2+ enforcement is not supported by this Python/OpenSSL runtime.")
 
                 context.load_cert_chain(certfile=self.ssl_certfile, keyfile=self.ssl_keyfile)
                 self.server_socket = context.wrap_socket(base_sock, server_side=True)
