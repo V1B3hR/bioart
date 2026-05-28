@@ -10,7 +10,7 @@ import socket
 import threading
 import ssl
 from typing import Dict, List, Optional, Any, Callable
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from enum import Enum
 import uuid
 import logging
@@ -179,8 +179,9 @@ class DistributedDNAComputer:
             raise ValueError("Priority must be in 1..10.")
 
         if task_id is None:
-            self.global_task_counter += 1
-            task_id = f"dtask_{self.global_task_counter:06d}_{int(time.time())}"
+            with self.conn_lock:
+                self.global_task_counter += 1
+                task_id = f"dtask_{self.global_task_counter:06d}_{int(time.time())}"
 
         task = DistributedTask(
             task_id=task_id,
@@ -277,8 +278,8 @@ class DistributedDNAComputer:
                 if len(serialized) > MAX_MESSAGE_SIZE:
                     logger.error(f"Message too long for node {node_id} ({len(serialized)} bytes)")
                     return False
-                conn.send(len(serialized).to_bytes(4, 'big'))
-                conn.send(serialized)
+                conn.sendall(len(serialized).to_bytes(4, 'big'))
+                conn.sendall(serialized)
                 with self.conn_lock:
                     self.stats['network_messages_sent'] += 1
                 return True
@@ -342,6 +343,9 @@ class DistributedDNAComputer:
             while self.running:
                 length_data = client_socket.recv(4)
                 if not length_data:
+                    break
+                if len(length_data) != 4:
+                    logger.warning(f"Incomplete frame header from {address} ({len(length_data)} bytes), closing.")
                     break
                 message_length = int.from_bytes(length_data, 'big')
                 if message_length > MAX_MESSAGE_SIZE:
@@ -421,25 +425,29 @@ class DistributedDNAComputer:
 
     def _handle_task_result(self, message: Dict[str, Any]):
         task_id = message.get("task_id")
+        success = message.get("success")
+        execution_time = None
         with self.conn_lock:
             task = self.distributed_tasks.get(task_id)
+            if task:
+                task.status = TaskStatus.COMPLETED if success else TaskStatus.FAILED
+                task.completed_time = time.time()
+                task.result = message.get("result", {})
+                if task.assigned_node in self.compute_nodes:
+                    node = self.compute_nodes[task.assigned_node]
+                    node.active_tasks = max(0, node.active_tasks - 1)
+                    if success:
+                        node.total_completed += 1
+                        self.stats['total_tasks_completed'] += 1
+                    else:
+                        node.total_failed += 1
+                        self.stats['total_tasks_failed'] += 1
+                if task.started_time:
+                    execution_time = task.completed_time - task.started_time
         if task:
-            task.status = TaskStatus.COMPLETED if message.get("success") else TaskStatus.FAILED
-            task.completed_time = time.time()
-            task.result = message.get("result", {})
-            if task.assigned_node in self.compute_nodes:
-                node = self.compute_nodes[task.assigned_node]
-                node.active_tasks = max(0, node.active_tasks - 1)
-                if message.get("success"):
-                    node.total_completed += 1
-                    self.stats['total_tasks_completed'] += 1
-                else:
-                    node.total_failed += 1
-                    self.stats['total_tasks_failed'] += 1
-            if task.started_time:
-                execution_time = task.completed_time - task.started_time
+            if execution_time is not None:
                 self._update_average_task_time(execution_time)
-            logger.info(f"Task {task_id} {'completed' if message.get('success') else 'failed'}")
+            logger.info(f"Task {task_id} {'completed' if success else 'failed'}")
 
     def _handle_heartbeat(self, message: Dict[str, Any]):
         node_id = message.get("node_id")
@@ -464,8 +472,8 @@ class DistributedDNAComputer:
             if len(serialized) > MAX_MESSAGE_SIZE:
                 logger.error("Response too large to send.")
                 return
-            client_socket.send(len(serialized).to_bytes(4, 'big'))
-            client_socket.send(serialized)
+            client_socket.sendall(len(serialized).to_bytes(4, 'big'))
+            client_socket.sendall(serialized)
             with self.conn_lock:
                 self.stats['network_messages_sent'] += 1
         except Exception as e:
@@ -550,7 +558,8 @@ class SimpleLoadBalancer:
             return None
         scored_nodes = []
         for node in available_nodes:
-            load_factor = node.active_tasks / node.max_concurrent_tasks
+            divisor = node.max_concurrent_tasks if node.max_concurrent_tasks > 0 else 1
+            load_factor = node.active_tasks / divisor
             memory_factor = 1.0
             if 'max_memory' in node.capabilities:
                 memory_factor = min(1.0, node.capabilities['max_memory'] / task.memory_requirements)
